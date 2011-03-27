@@ -1,0 +1,126 @@
+<% options = '&timescale=10' if options.blank? %>
+<div>
+	<h3><%= title %></h3>
+	<table class="FL MR60">
+		<tr>
+			<td><%= t(:title) %>:</td>
+			<td><input type="text" class="chart_options<%= index %>" id="title<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:chart_xaxis) %>:</td>
+			<td><input type="text" class="chart_options<%= index %>" id="xaxis<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:chart_yaxis) %>:</td>
+			<td><input type="text"  class="chart_options<%= index %>" id="yaxis<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:chart_color) %>:</td>
+			<td><input type="text" class="chart_options<%= index %>" id="color<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:chart_background_color) %>:</td>
+			<td><input type="text" class="chart_options<%= index %>" id="bgcolor<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:chart_type) %>:</td>
+			<td>
+				<select class="chart_options<%= index %>" id="type<%= index %>">
+					<option>line</option>
+					<option>bar</option>
+					<option>column</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="button" id="button<%= index %>" value="<%= t(:chart_update) %>" /></td>
+		</tr>
+	</table>
+
+	<table>
+		<tr>
+			<td><%= t(:days) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="days<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:timescale) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="timescale<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:average) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="average<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:median) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="median<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:sum) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="sum<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:chart_round) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="round<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:width) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="width<%= index %>" /></td>
+		</tr>
+		<tr>
+			<td><%= t(:height) %>:</td>
+			<td><input type="text" class="chart_options<%= index %> shortfield" id="height<%= index %>" /></td>
+		</tr>
+	</table>
+
+	<br class="CL" />
+
+	<iframe id="iframe<%= index %>" width="<%= width %>" height="<%= height %>" style="border: 1px solid #cccccc;" src="" default_src="<%= src %>"></iframe>
+
+	<br /><br />
+
+	<%= t(:chart_embed_code) %>:
+	<br />
+	<textarea id="embed<%= index %>" rows="5" cols="53">&lt;iframe width="<%= width %>" height="<%= height %>" style="border: 1px solid #cccccc;" src="<%= src %>">&lt;/iframe></textarea>
+</div>
+
+<br /><br /><br />
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		// set initial saved values
+		$.each(('<%= options.gsub(/'/, "%27") if options %>'.split('&amp;')), function(index, value) {
+			if (value.length > 0) {
+				$('#' + value.split('=')[0] + '<%= index %>').val(decodeURIComponent(value.split('=')[1]));
+			}
+		});
+	
+		// draw initial chart with saved options
+		updateChart(<%= index %>, false);
+	});
+
+	// event to capture unfocus of textbox
+	$('.chart_options<%= index %>').blur(function() {
+		// if value exists, update the chart
+		if ($(this).val().length > 0) {
+			updateChart(<%= index %>, true);
+		}
+	});
+
+	// event to capture enter key in textboxes
+	$('.chart_options<%= index %>').keyup(function(e) {
+		// if enter key
+		if (e.keyCode == 13) {
+			// if value exists, update the chart
+			if ($(this).val().length > 0) {
+				updateChart(<%= index %>, true);
+			}
+		}
+	});
+
+	// event to capture update button click
+	$('#button<%= index %>').click(function() {
+		updateChart(<%= index %>, true);
+	});
+</script>

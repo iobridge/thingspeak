@@ -1,0 +1,81 @@
+<% if current_user %>
+	<%= link_to t(:channel_edit), edit_channel_path(@channel.id) %>
+	<br />
+	<%= link_to t(:api_keys_manage), channel_api_keys_path(@channel) %>
+	<br />
+	<%= link_to "#{t(:channel_feed)} (json)", channel_feed_index_path(@channel, :key => @key, :format => :json) %>
+	<br />
+	<%= link_to "#{t(:channel_feed)} (xml)", channel_feed_index_path(@channel, :key => @key, :format => :xml) %>
+	<br />
+	<%= link_to "#{t(:channel_feed)} (csv)", channel_feed_index_path(@channel, :key => @key, :format => :csv) %>
+	<table>
+		<tr>
+			<td><%= t(:channel_name) %>:</td>
+			<td><%= @channel.name %></td>
+		</tr>
+		<tr>
+			<td><%= t(:api_key) %>:</td>
+			<td><%= @key %></td>
+		</tr>
+		<tr>
+			<td><%= t(:channel_description) %>:</td>
+			<td><%= @channel.description %></td>
+		</tr>
+		<tr>
+			<td><%= t(:created) %>:</td>
+			<td><%= l @channel.created_at, :format => :pretty %></td>
+		</tr>
+		<tr>
+			<td><%= t(:latitude) %>:</td>
+			<td><%= @channel.latitude %></td>
+		</tr>
+		<tr>
+			<td><%= t(:longitude) %>:</td>
+			<td><%= @channel.longitude %></td>
+		</tr>
+		<tr>
+			<td><%= t(:elevation) %>:</td>
+			<td><%= @channel.elevation %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 1:</td>
+			<td><%= @channel.field1 %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 2:</td>
+			<td><%= @channel.field2 %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 3:</td>
+			<td><%= @channel.field3 %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 4:</td>
+			<td><%= @channel.field4 %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 5:</td>
+			<td><%= @channel.field5 %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 6:</td>
+			<td><%= @channel.field6 %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 7:</td>
+			<td><%= @channel.field7 %></td>
+		</tr>
+		<tr>
+			<td><%= t(:field) %> 8:</td>
+			<td><%= @channel.field8 %></td>
+		</tr>
+	</table>
+<% else %>
+	<% if @channel.public_flag %>
+		<%= t(:channel_public) %>
+		<br />
+		<%= @channel.name %>
+	<% else %>
+		<%= t(:channel_not_public) %>
+	<% end %>
+<% end %>

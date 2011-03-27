@@ -1,0 +1,19 @@
+<h2><%= t(:account_info) %></h2>
+<table class="bigtable styletable">
+	<tr>
+		<td class="left"><%= t(:userid) %></td>
+		<td><%= @user.login %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= t(:email) %></td>
+		<td><%= @user.email %></td>
+	</tr>
+	<tr>
+		<td class="left"><%= t(:time_zone) %></td>
+		<td><%= @user.time_zone %></td>
+	</tr>
+</table>
+<br /><br />
+<div class="details">
+	<%= link_to t(:account_edit), edit_account_path %>
+</div>

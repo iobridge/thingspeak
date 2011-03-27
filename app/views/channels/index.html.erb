@@ -1,0 +1,9 @@
+<%= form_for :channel do |d| %>
+	<input name='userlogin' class='userlogin' />
+	<%= d.submit t(:channel_create) %>
+<% end %>
+<br />
+<% @channels.each do |d| %>
+	name: <%= link_to d.name, channel_path(d.id) %>
+	<br />
+<% end %> 

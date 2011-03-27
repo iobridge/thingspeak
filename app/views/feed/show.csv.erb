@@ -1,0 +1,2 @@
+<% if @success %><%= CSV.generate_line @csv_headers %><% row = [] %><% @csv_headers.each do |attr| %><% row.push(@feed.send(attr)) %><% end %><%= CSV.generate_line row %><% else %>-1<% end %>
+

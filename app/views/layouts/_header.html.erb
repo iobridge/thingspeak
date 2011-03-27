@@ -1,0 +1,12 @@
+<div id="options">
+	<% if current_user %>		
+		<span class="action"> <%= link_to t(:signout), logout_path %></span>	
+	<% else %>
+		<span class="action">
+			<%= link_to t(:signup), new_user_path %>
+		</span>
+		<span class="action"> <%= link_to t(:signin), login_path %></span>
+	<% end %>
+</div>
+
+<div id="logo"><%= link_to t(:application_name), root_path %></div>

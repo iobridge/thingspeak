@@ -1,0 +1,61 @@
+<h2><%= t(:account_edit) %></h2>
+<br />
+<%= form_for @user, :url => account_path do |f| %>
+  <%= error_messages_for 'user', :header_message => t(:try_again), :message => t(:account_error_edit) %>
+	<input name='userlogin' class='userlogin' />
+	<table class="bigtable">
+		<tr>
+			<td class="left">
+				<div class="vcenter"><%= f.label :login, t(:userid) %></div>
+			</td>
+			<td class="right">
+				<%= f.text_field :login %>
+			</td>
+		</tr>
+		<tr>
+			<td class="left">
+				<div class="vcenter"><%= f.label t(:email) %></div>
+			</td>
+			<td class="right">
+				<%= f.text_field :email %>
+			</td>
+		</tr>
+		<tr>
+			<td><%= t(:time_zone) %></td>
+			<td><%= time_zone_select 'user', 'time_zone', nil, :default => 'Eastern Time (US & Canada)' %></td>
+		</tr>
+		<tr>
+			<td class="left">
+				<div class="vcenter"><%= f.label :password, raw(t(:password_change_raw)) %></div>
+			</td>
+			<td class="right">
+				<%= f.password_field :password %>
+			</td>
+		<tr>
+			<td class="left">
+				<%= f.label :password_confirmation, raw(t(:password_confirmation_raw)) %>
+			</td>
+			<td class="right">
+				<%= f.password_field :password_confirmation %>
+			</td>
+		</tr>
+	</table>
+	<br /><br />
+	<h3><%= t(:account_changes) %></h3>
+	<table class="bigtable">
+		<tr>
+			<td class="left">
+				<%= raw(t(:password_current_raw)) %>
+			</td>
+			<td class="right">
+				<input name="password_current" type="password" />
+				<br />
+				<%= t(:account_security) %>
+			</td>
+		</tr>
+		<tr>
+			<td class="left"></td>
+			<td class="right"><%= f.submit t(:account_edit_submit) %></td>
+		</tr>
+	</table>
+<% end %>

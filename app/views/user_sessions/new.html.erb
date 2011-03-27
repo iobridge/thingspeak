@@ -1,0 +1,13 @@
+<div class="FL"><%= render :partial => 'users/login' %></div>
+<div class="DT PL30">
+	<% if @failed %>
+		<h2 class="rubyred"><%= t(:signin_failure) %></h2>
+			<%= t(:signin_try_again) %>
+	<% else %>
+		<div class="large">
+			<%= t(:signin_please) %>
+		</div>
+		<br />
+		<%= @mail_message %>
+	<% end %>
+</div>

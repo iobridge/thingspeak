@@ -1,0 +1,38 @@
+<%= form_for (@user_session = UserSession.new), :url => user_session_path, :html => { :id => 'loginform' } do |f| %>
+	<input name='userlogin' class='userlogin' />
+	<%= f.hidden_field :remember_me, :value => false %>
+	<table id="login" class="round">
+		<tr>
+			<td colspan="2" class="text_center">
+				<%= t(:secure_signin) %>
+			</td>
+		</tr>
+		<tr>
+			<td class="login_info"><%= t(:userid) %></td>
+			<td><%= f.text_field :login, :size => 15, :value => cookies['user_id'] %></td>
+		</tr>
+		<tr>
+			<td class="login_info"><%= t(:password) %></td>
+			<td><%= f.password_field :password, :size => 15 %></td>
+		</tr>
+		<tr>
+			<td class="login_info"><%= f.check_box :remember_id, :checked => true %></td>
+			<td class="small"><%= t(:remember_me) %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><%= link_to t(:forgot), forgot_password_path, :id => 'forgot_password' %></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><%= f.submit t(:signin) %></td>
+		</tr>
+	</table>
+<% end %>
+<script type="text/javascript">
+	var login = document.getElementById('user_session_login');
+	if (login.value.length == 0)
+		login.focus();
+	else
+		document.getElementById('user_session_password').focus();
+</script>

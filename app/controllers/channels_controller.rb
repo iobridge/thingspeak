@@ -9,6 +9,7 @@ class ChannelsController < ApplicationController
 
 	def show
 		@channel = Channel.find(params[:id]) if params[:id]
+		@domain = domain
 
 		# if owner of channel
 		get_channel_data if current_user and @channel.user_id == current_user.id
@@ -28,6 +29,10 @@ class ChannelsController < ApplicationController
 		@channel.update_attributes(params[:channel])
 		@channel.name = "#{t(:channel_default_name)} #{@channel.id}" if params[:channel][:name].empty?
 		@channel.save
+
+		# save tags
+		@channel.save_tags(params[:tags][:name])
+
 		redirect_to channel_path(@channel.id) and return
 	end
 
@@ -59,6 +64,20 @@ class ChannelsController < ApplicationController
 		redirect_to edit_channel_path(@channel.id)
 	end
 
+	# clear all data from a channel
+	def clear
+		channel = Channel.find(params[:id])
+		# make sure channel belongs to current user
+		check_permissions(channel)
+		
+		# do the delete
+		channel.feeds.each do |f|
+			f.delete
+		end
+
+		redirect_to channels_path
+	end
+
 	def destroy
 		@channel = Channel.find(params[:id])
 		# make sure channel belongs to current user
@@ -73,12 +92,15 @@ class ChannelsController < ApplicationController
 	def post_data
 		status = '0'
 		feed = Feed.new
-
+	
 		api_key = ApiKey.find_by_api_key(get_userkey)
 
 		# if write persmission, allow post
 		if (api_key && api_key.write_flag)
 			channel = Channel.find(api_key.channel_id)
+
+			# rate limit posts
+			render :text => '0' and return if (Time.now < channel.updated_at + 14.seconds)
 
 			# update entry_id for channel and feed
 			entry_id = channel.last_entry_id.nil? ? 1 : channel.last_entry_id + 1
@@ -88,15 +110,18 @@ class ChannelsController < ApplicationController
 			# try to get created_at datetime if appropriate
 			if params[:created_at]
 				begin
-					@feed.created_at = DateTime.parse(params[:created_at])
+					feed.created_at = DateTime.parse(params[:created_at])
 				# if invalid datetime, don't do anything--rails will set created_at
 				rescue
 				end
 			end
 		
-			# strip line feeds from end of parameters
+			# modify parameters
 			params.each do |key, value|
-				params[key] = value.sub(/\\n$/, '').sub(/\\r$/, '')
+				# strip line feeds from end of parameters
+				params[key] = value.sub(/\\n$/, '').sub(/\\r$/, '') if value
+				# use ip address if found
+				params[key] = request.remote_addr if value.upcase == 'IP_ADDRESS'
 			end
 	
 			# set feed details
@@ -111,6 +136,11 @@ class ChannelsController < ApplicationController
 			feed.field7 = params[:field7] if params[:field7]
 			feed.field8 = params[:field8] if params[:field8]
 			feed.status = params[:status] if params[:status]
+			feed.latitude = params[:lat] if params[:lat]
+			feed.latitude = params[:latitude] if params[:latitude]
+			feed.longitude = params[:long] if params[:long]
+			feed.longitude = params[:longitude] if params[:longitude]
+			feed.elevation = params[:elevation] if params[:elevation]
 
 			if channel.save && feed.save
 				status = entry_id

@@ -1,5 +1,6 @@
 class FeedController < ApplicationController
 	require 'csv'
+	layout 'application', :except => :index
 
 	def index
 		channel = Channel.find(params[:channel_id])
@@ -8,6 +9,7 @@ class FeedController < ApplicationController
 
 		# check for access
 		if @success
+
 			# create options hash
 			channel_options = { :only => channel_select_data(channel) }
 			select_options = feed_select_data(channel)
@@ -17,7 +19,7 @@ class FeedController < ApplicationController
 				:all,
 				:conditions => { :channel_id => channel.id, :created_at => get_date_range(params) },
 				:select => select_options,
-				:order => 'created_at'
+				:order => 'created_at desc'
 			)
 
 			# if a feed has data
@@ -159,6 +161,13 @@ class FeedController < ApplicationController
 			only += [:field8] unless channel.field8.blank? or (params[:field_id] and params[:field_id] != '8')
 			only += [:status] if params[:status] and params[:status].upcase == 'TRUE'
 
+			# add geolocation data if necessary
+			if params[:location] and params[:location].upcase == 'TRUE'
+				only += [:latitude]
+				only += [:longitude]
+				only += [:elevation]
+			end
+	
 			return only
 		end
 
@@ -171,6 +180,7 @@ class FeedController < ApplicationController
 				return false
 			end
 		end
+
 		# slice feed into timescales
 		def feeds_into_timescales(feeds)
 			# convert timescale (minutes) into seconds

@@ -31,14 +31,14 @@ ActiveRecord::Schema.define(:version => 20101210151518) do
     t.string   "description"
     t.decimal  "latitude",      :precision => 15, :scale => 10
     t.decimal  "longitude",     :precision => 15, :scale => 10
-    t.text     "field1"
-    t.text     "field2"
-    t.text     "field3"
-    t.text     "field4"
-    t.text     "field5"
-    t.text     "field6"
-    t.text     "field7"
-    t.text     "field8"
+    t.string   "field1"
+    t.string   "field2"
+    t.string   "field3"
+    t.string   "field4"
+    t.string   "field5"
+    t.string   "field6"
+    t.string   "field7"
+    t.string   "field8"
     t.integer  "scale1"
     t.integer  "scale2"
     t.integer  "scale3"
@@ -52,26 +52,38 @@ ActiveRecord::Schema.define(:version => 20101210151518) do
     t.string   "elevation"
     t.integer  "last_entry_id"
     t.boolean  "public_flag",                                   :default => false
+    t.string   "options1"
+    t.string   "options2"
+    t.string   "options3"
+    t.string   "options4"
+    t.string   "options5"
+    t.string   "options6"
+    t.string   "options7"
+    t.string   "options8"
   end
+
 
   create_table "feeds", :force => true do |t|
     t.integer  "channel_id"
     t.text     "raw_data"
-    t.text     "field1"
-    t.text     "field2"
-    t.text     "field3"
-    t.text     "field4"
-    t.text     "field5"
-    t.text     "field6"
-    t.text     "field7"
-    t.text     "field8"
+    t.string   "field1"
+    t.string   "field2"
+    t.string   "field3"
+    t.string   "field4"
+    t.string   "field5"
+    t.string   "field6"
+    t.string   "field7"
+    t.string   "field8"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "entry_id"
     t.string   "status"
+    t.decimal  "latitude",   :precision => 15, :scale => 10
+    t.decimal  "longitude",  :precision => 15, :scale => 10
+    t.string   "elevation"
   end
 
-  add_index "feeds", ["channel_id"], :name => "index_feeds_on_channel_id"
+  add_index "feeds", ["channel_id", "created_at"], :name => "index_feeds_on_channel_id_and_created_at"
 
   create_table "users", :force => true do |t|
     t.string   "login",             :null => false

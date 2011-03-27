@@ -1,0 +1,17 @@
+License
+
+OEMs (Original Equipment Manufacturers) and and other distributors that combine and distribute commercially licensed software with ThingSpeak and do not wish to distribute the source code for the commercially licensed software under version 3 of the GNU General Public License (the "GPL") must enter into a commercial license agreement with ioBridge, Inc.
+
+ThingSpeak is an open source “Internet of Things” project to store and retrieve data from things using HTTP Over the Internet or Local Area Network.
+
+Copyright (C) 2011  ioBridge, Inc.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Bundled Software
+
+HighCharts [Software] by Highslide Software / Torstein Hønsi [Licensor] is licensed by ioBridge, Inc. [Licensee] and all rights are reserved by the Licensor. The license type is OEM which allows the Licensee to modify the Software and distribute the Software with ThingSpeak. See <http://www.highcharts.com/license> for more information.

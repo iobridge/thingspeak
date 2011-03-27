@@ -11,9 +11,6 @@ class UsersController < ApplicationController
 		# protect against bots
 		render :text => '' and return if params[:userlogin].length > 0
 
-		# check for invite code
-		render :text => 'Sorry, you currently need an invite code to sign up.' and return if params[:invite] != '4224'
-
 		@user = User.new(params[:user])
 
 		# save user

@@ -1,0 +1,26 @@
+Before You Begin
+1. Install Ruby, RubyGems, Rails, git, and a database like MySQL
+2. Download the application using git
+3. Install the appropriate gems: sudo bundle install
+
+Configuration
+1. Set your database configuration file at config/database.yml (see config/database.yml.example for an example)
+2. Create the database: rake db:create
+3. Create the database tables: rake db:migrate
+
+Run The Application
+1. Start the server: rails server
+Your application will now be running at http://localhost:3000/ 
+
+
+Changing Application Text
+Make changes to config/locales/en.yml
+To avoid errors, please ensure your lines start with spaces, not tabs.
+Set your application name using the 'application_name' key.
+
+(Optional) HTTP GET Support
+By default the application will accept channel updates via GET or POST.  To only allow POSTs, change the value of GET_SUPPORT found in config/initializers/constants.rb
+
+(Optional) Email Setup
+Set your domain, user_name, and password in config/environment.rb
+Also set your password reset link in app/controllers/mailer.controller.rb line 14 (and uncomment the line)

@@ -30,9 +30,6 @@ class ChannelsController < ApplicationController
 		@channel.name = "#{t(:channel_default_name)} #{@channel.id}" if params[:channel][:name].empty?
 		@channel.save
 
-		# save tags
-		@channel.save_tags(params[:tags][:name])
-
 		redirect_to channel_path(@channel.id) and return
 	end
 

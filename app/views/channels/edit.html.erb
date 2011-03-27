@@ -70,6 +70,11 @@
 		</tr>
 	</table>
 <% end %>
+	
+<br /><br />
+
+<h2><%= t(:channel_clear_message) %></h2>
+<%= button_to t(:channel_clear), { :controller => 'channels', :action => 'clear', :id => @channel.id }, :confirm => t(:confirm_channel_clear) %>
 
 <br /><br />
 

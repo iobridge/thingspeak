@@ -6,6 +6,8 @@ In addition to storing and retrieving numeric and alphanumeric data, the ThingSp
 
 The ThingSpeak application also features time zone management, read/write API key management and JavaScript-based charts from Highslide Software / Torstein Hønsi.
 
+Support for ThingSpeak is available on the "ThingSpeak Community":http://community.thingspeak.com/ site which features a "Blog":http://community.thingspeak.com/, "Forum":http://community.thingspeak.com/forum/, "Documentation":http://community.thingspeak.com/documentation/, and "Tutorials":http://community.thingspeak.com/tutorials/.
+
 h3. Before You Begin
 
 1. Install Ruby, RubyGems, Rails, git, and a database like MySQL

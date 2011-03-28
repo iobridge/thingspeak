@@ -10,7 +10,7 @@ Support for ThingSpeak is available on the "ThingSpeak Community":http://communi
 
 h3. Before You Begin
 
-1. Install Ruby, RubyGems, Rails, git, and a database like MySQL
+1. Install Ruby, RubyGems, Rails 3, git, and a database like MySQL
 2. Download the application using git: git clone git@github.com:iobridge/thingspeak.git
 3. Change to the thingspeak directory and install the appropriate gems: sudo bundle install
 

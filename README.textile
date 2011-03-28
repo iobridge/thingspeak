@@ -16,7 +16,7 @@ h3. Configuration
 
 1. Set your database configuration file at config/database.yml (see config/database.yml.example for an example)
 2. Create the database: rake db:create
-3. Create the database tables: rake db:migrate
+3. Create the database tables: rake db:schema:load
 
 h3. Run The Application
 

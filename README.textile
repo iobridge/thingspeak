@@ -23,6 +23,7 @@ h3. Configuration
 h3. Run The Application
 
 1. Start the server: rails server
+
 Your application will now be running at http://localhost:3000/ 
 
 h2. Changing Application Text

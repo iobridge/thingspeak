@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.0.4' 
-gem 'mysql', '2.8.1'
+gem 'mysql2'
 gem 'authlogic'
 
 # Bundle gems for the local environment. Make sure to

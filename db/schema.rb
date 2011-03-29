@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101210151518) do
+ActiveRecord::Schema.define(:version => 20110329210210) do
 
   create_table "api_keys", :force => true do |t|
     t.string   "api_key",    :limit => 16
@@ -62,6 +62,19 @@ ActiveRecord::Schema.define(:version => 20101210151518) do
     t.string   "options8"
   end
 
+  create_table "devices", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "model"
+    t.string   "ip_address"
+    t.integer  "port"
+    t.string   "mac_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "devices", ["mac_address"], :name => "index_devices_on_mac_address"
+  add_index "devices", ["user_id"], :name => "index_devices_on_user_id"
 
   create_table "feeds", :force => true do |t|
     t.integer  "channel_id"
@@ -84,6 +97,80 @@ ActiveRecord::Schema.define(:version => 20101210151518) do
   end
 
   add_index "feeds", ["channel_id", "created_at"], :name => "index_feeds_on_channel_id_and_created_at"
+  add_index "feeds", ["channel_id", "entry_id"], :name => "index_feeds_on_channel_id_and_entry_id"
+
+  create_table "headers", :force => true do |t|
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "thinghttp_id"
+  end
+
+  create_table "plugins", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.text     "html"
+    t.text     "css"
+    t.text     "js"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "plugins", ["user_id"], :name => "index_plugins_on_user_id"
+
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "channel_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "taggings", ["channel_id"], :name => "index_taggings_on_channel_id"
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tags", ["name"], :name => "index_tags_on_name"
+
+  create_table "thinghttps", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "api_key",      :limit => 16
+    t.text     "url"
+    t.string   "auth_name"
+    t.string   "auth_pass"
+    t.string   "method"
+    t.string   "content_type"
+    t.string   "http_version"
+    t.string   "host"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.string   "parse"
+  end
+
+  add_index "thinghttps", ["api_key"], :name => "index_thinghttps_on_api_key"
+  add_index "thinghttps", ["user_id"], :name => "index_thinghttps_on_user_id"
+
+  create_table "twitters", :force => true do |t|
+    t.string   "screen_name"
+    t.integer  "user_id"
+    t.integer  "twitter_id"
+    t.string   "token"
+    t.string   "secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "api_key",     :limit => 16
+  end
+
+  add_index "twitters", ["api_key"], :name => "index_twitters_on_api_key"
+  add_index "twitters", ["twitter_id"], :name => "index_twitters_on_twitter_id"
+  add_index "twitters", ["user_id"], :name => "index_twitters_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "login",             :null => false

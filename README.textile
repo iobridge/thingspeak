@@ -43,7 +43,9 @@ Also set your password reset link in app/controllers/mailer.controller.rb line 1
 
 h1. Installation on clean install of Ubuntu 10.10
 
-Start Terminal in start in /home/(user)
+Start Terminal
+
+cd ~
 
 sudo apt-get install aptitude
 sudo aptitude update

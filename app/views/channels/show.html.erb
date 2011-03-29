@@ -8,6 +8,8 @@
 	<%= link_to "#{t(:channel_feed)} (xml)", channel_feed_index_path(@channel, :key => @key, :format => :xml) %>
 	<br />
 	<%= link_to "#{t(:channel_feed)} (csv)", channel_feed_index_path(@channel, :key => @key, :format => :csv) %>
+	<br />
+	<%= link_to "#{t(:charts_view)}", channel_charts_path(@channel) %>
 	<table>
 		<tr>
 			<td><%= t(:channel_name) %>:</td>

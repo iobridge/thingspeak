@@ -40,3 +40,39 @@ h2. (Optional) Email Setup
 
 Set your domain, user_name, and password in config/environment.rb
 Also set your password reset link in app/controllers/mailer.controller.rb line 14 (and uncomment the line)
+
+h1. Installation on clean install of Ubuntu 10.10
+
+Start Terminal in start in /home/(user)
+
+sudo apt-get install aptitude
+sudo aptitude update
+sudo aptitude install build-essential git-core curl
+
+bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
+echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc 
+
+. ~/.bashrc
+
+sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby
+sudo aptitude install libssl-dev libopenssl-ruby libxslt1.1 libxslt1-dev libxml2 libxml2-dev rubygems
+
+rvm install 1.9.2
+rvm --default use 1.9.2
+
+gem install rails
+
+git clone git://github.com/iobridge/thingspeak.git
+
+cd thingspeak
+
+gem update
+bundle install
+
+gedit config/database.yml.example
+      Note: Change database username and password for development, test, and production databases and save the file as database.yml
+
+rake db:create
+rake db:schema:load
+
+rails server

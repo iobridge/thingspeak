@@ -5,6 +5,7 @@ Thingspeak::Application.routes.draw do
 	# handle subdomain routes
 	match '/', :to => 'subdomains#index', :constraints => { :subdomain => 'api' }
 	match 'crossdomain', :to => 'subdomains#crossdomain', :constraints => { :subdomain => 'api' }
+	match 'crossdomain', :to => 'subdomains#crossdomain'
 
 	root :to => 'pages#home'
 

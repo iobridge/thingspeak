@@ -107,7 +107,7 @@ en:
   height: "Height"
   home: "Home"
   homepage: "ThingSpeak is an Open Internet of Things project by ioBridge."
-  homepage_logged_in: "Homepage for logged in user!"
+  homepage_logged_in: ""
   latitude: "Latitude"
   longitude: "Longitude"
   median: "Median"

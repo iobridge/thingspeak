@@ -1,35 +1,43 @@
-<h2><%= t(:api_key_write) %></h2>
-<%= button_to t(:api_key_write_new), channel_api_keys_path(@channel, :write => 1), :confirm => t(:confirm_new_api_key) %>
-<br />
+<h2>
+  <%= link_to t(:channels), channels_path %> &raquo;
+  <%= link_to channel_path(@channel.id) do %> <%= t(:channel) %> <%= @channel.id %><% end %> &raquo;
+  <%= t(:api_keys) %>
+</h2>
+   
+<h3><%= t(:api_key_write) %></h3>
 <%= @key %>
 
 <br /><br />
 
-<h2><%= t(:api_key_read) %></h2>
-<%= button_to t(:api_key_read_new), channel_api_keys_path(@channel, :write => 0), %>
-<br />
+<%= button_to t(:api_key_write_new), channel_api_keys_path(@channel, :write => 1), :confirm => t(:confirm_new_api_key) %>
 
+<br /><br />
+
+<h3><%= t(:api_key_read) %></h3>
 <% @read_keys.each do |read_key| %>
-		<table>
-			<tr>
-				<td><%= t(:api_key_key) %>:</td>
-				<td><%= read_key.api_key %></td>
-			</tr>
-			<tr>
-				<td class="VAT"><%= t(:note) %>:</td>
-				<td>
-					<%= form_for read_key, :as => :api_key, :url => { :controller => 'api_keys', :action => 'update' }, :html => {:method => 'put'} do |f| %>
-					<%= f.text_area :note, :cols => 30, :rows => 4 %>
-				</td>
-			</tr>
-			<tr>
-				<td><%= f.hidden_field :api_key, :value => read_key.api_key %></td>
-				<td>
-					<div class="FL"><%= f.submit t(:note_save) %></div>
-					<% end %>
-					<%= button_to t(:api_key_delete), :controller => 'api_keys', :action => 'destroy', :api_key => read_key.api_key %></td>
-			</tr>
-		</table>
-		<br /><br />
+        <table>
+            <tr>
+                <td><%= t(:api_key_key) %>:</td>
+                <td><%= read_key.api_key %></td>
+            </tr>
+            <tr>
+                <td class="VAT"><%= t(:note) %>:</td>
+                <td>
+                    <%= form_for read_key, :as => :api_key, :url => { :controller => 'api_keys', :action => 'update' }, :html => {:method => 'put'} do |f| %>
+                    <%= f.text_area :note, :cols => 30, :rows => 4 %>
+                </td>
+            </tr>
+            <tr>
+                <td><%= f.hidden_field :api_key, :value => read_key.api_key %></td>
+                <td>
+                    <div class="FL"><%= f.submit t(:note_save) %></div>
+                    <% end %>
+                    <%= button_to t(:api_key_delete), { :controller => 'api_keys', :action => 'destroy', :api_key => read_key.api_key}, :confirm => t(:confirm_read_key_delete) %></td>
+            </tr>
+        </table>
+        <br /><br />
 
 <% end %>
+
+<%= button_to t(:api_key_read_new), channel_api_keys_path(@channel, :write => 0), %>
+<br />

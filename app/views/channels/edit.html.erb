@@ -1,67 +1,71 @@
-<h2><%= t(:channel_edit) %></h2>
+<h2>
+  <%= link_to t(:channels), channels_path %> &raquo;
+	<%= link_to channel_path(@channel.id) do %> <%= t(:channel) %> <%= @channel.id %><% end %> &raquo;
+  <%= t(:edit) %>
+</h2>
 
 <%= form_for @channel, :html => {:method => 'put'} do |d| %>
   <%= error_messages_for 'channel', :header_message => t(:try_again), :message => t(:channel_error) %>
 	<input name='userlogin' class='userlogin' />
-	<table>
+	<table class="table_no_header">
 		<tr>
-			<td><%= t(:channel_name) %></td>
+			<td class="left"><%= t(:channel_name) %></td>
 			<td><%= d.text_field :name %></td>
 		</tr>
 		<tr>
-			<td><%= t(:channel_description) %></td>
+			<td class="left"><%= t(:channel_description) %></td>
 			<td><%= d.text_field :description %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:api_key) %></td>
+			<td class="left"><%= t(:api_key) %></td>
 			<td><%= @key %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:latitude) %></td>
+			<td class="left"><%= t(:latitude) %></td>
 			<td><%= d.text_field :latitude %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:longitude) %></td>
+			<td class="left"><%= t(:longitude) %></td>
 			<td><%= d.text_field :longitude %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:elevation) %></td>
+			<td class="left"><%= t(:elevation) %></td>
 			<td><%= d.text_field :elevation %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:public) %></td>
+			<td class="left"><%= t(:public) %></td>
 			<td><%= d.check_box :public_flag %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 1</td>
+			<td class="left"><%= t(:field) %> 1</td>
 			<td><%= d.text_field :field1, :class => 'field' %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 2</td>
+			<td class="left"><%= t(:field) %> 2</td>
 			<td><%= d.text_field :field2, :class => 'field' %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 3</td>
+			<td class="left"><%= t(:field) %> 3</td>
 			<td><%= d.text_field :field3, :class => 'field' %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 4</td>
+			<td class="left"><%= t(:field) %> 4</td>
 			<td><%= d.text_field :field4, :class => 'field' %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 5</td>
+			<td class="left"><%= t(:field) %> 5</td>
 			<td><%= d.text_field :field5, :class => 'field' %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 6</td>
+			<td class="left"><%= t(:field) %> 6</td>
 			<td><%= d.text_field :field6, :class => 'field' %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 7</td>
+			<td class="left"><%= t(:field) %> 7</td>
 			<td><%= d.text_field :field7, :class => 'field' %></td>		
 		</tr>
 		<tr>
-			<td><%= t(:field) %> 8</td>
+			<td class="left"><%= t(:field) %> 8</td>
 			<td><%= d.text_field :field8, :class => 'field' %></td>		
 		</tr>
 		<tr>

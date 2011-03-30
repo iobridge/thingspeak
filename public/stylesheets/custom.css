@@ -38,6 +38,9 @@ table										{ border-collapse: collapse; }
 .nicetable .header td		{ padding-top: 3px; }
 .nicetable td						{ padding: 2px 10px; border-bottom: 1px solid #bbbbbb; }
 .nicetable .stripe			{ background-color: #f9f9f9; }
+.table_no_header  			{ font-size: 14px; border: 1px solid #bbbbbb; }
+.table_no_header td			{ padding: 2px 10px; border-bottom: 1px solid #bbbbbb; }
+.table_no_header .left	{ font-weight: bold; }
 .pagination							{ font-size: 14px; }
 .centerme								{ display: table; margin: 0 auto; }
 .fixedwidth							{ width: 990px; display: table; margin: 0 auto; }

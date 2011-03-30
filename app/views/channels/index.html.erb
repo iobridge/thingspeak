@@ -1,9 +1,25 @@
-<%= form_for :channel do |d| %>
-	<input name='userlogin' class='userlogin' />
-	<%= d.submit t(:channel_create) %>
+<h2><%= t(:channels) %></h2>
+<% if @channels.length > 0 %>
+  <table class="nicetable">
+      <tr class="header TAC">
+          <td><%= t(:channel_id) %></td>
+          <td><%= t(:channel_name) %></td>
+      </tr>
+     
+      <% @channels.each do |d| %>
+      <tr>
+          <td class="left"><%= link_to d.id, channel_path(d.id) %></td>
+          <td><%= link_to d.name, channel_path(d.id) %></td>
+      </tr>
+      <% end %>
+ 
+  </table>
+ 
+  <br /><br />
+ 
 <% end %>
-<br />
-<% @channels.each do |d| %>
-	name: <%= link_to d.name, channel_path(d.id) %>
-	<br />
-<% end %> 
+ 
+<%= form_for :channel do |d| %>
+    <input name='userlogin' class='userlogin' />
+    <%= d.submit t(:channel_create) %>
+<% end %>

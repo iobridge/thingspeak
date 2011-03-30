@@ -2,8 +2,8 @@
 	<div id="menu" class="round">
 		<div<%= " class='selected'" if @menu == 'home' %>><%= link_to t(:home), root_path %></div>
 		<% if current_user %>
-			<div<%= " class='selected'" if @menu == 'account' %>><%= link_to t(:myaccount), account_path %></div>
 			<div<%= " class='selected'" if @menu == 'channels' %>><%= link_to t(:channels), channels_path %></div>
+			<div<%= " class='selected'" if @menu == 'account' %>><%= link_to t(:myaccount), account_path %></div>
 		<% end %>
 	</div>
 <% end %>

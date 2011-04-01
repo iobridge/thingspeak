@@ -32,6 +32,9 @@ Make changes to config/locales/en.yml
 To avoid errors, please ensure your lines start with spaces, not tabs.
 Set your application name using the 'application_name' key.
 
+h2. (Optional) Memcached Support and Rate Limiting
+
+Please see our "official memcached fork":https://github.com/llawlor/thingspeak
 h2. (Optional) HTTP GET Support
 
 By default the application will accept channel updates via GET or POST.  To only allow POSTs, change the value of GET_SUPPORT found in config/initializers/constants.rb

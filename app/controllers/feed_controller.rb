@@ -159,7 +159,6 @@ class FeedController < ApplicationController
 			only += [:field6] unless channel.field6.blank? or (params[:field_id] and params[:field_id] != '6')
 			only += [:field7] unless channel.field7.blank? or (params[:field_id] and params[:field_id] != '7')
 			only += [:field8] unless channel.field8.blank? or (params[:field_id] and params[:field_id] != '8')
-			only += [:status] if params[:status] and params[:status].upcase == 'TRUE'
 
 			# add geolocation data if necessary
 			if params[:location] and params[:location].upcase == 'TRUE'
@@ -168,6 +167,9 @@ class FeedController < ApplicationController
 				only += [:elevation]
 			end
 	
+			# add status if necessary
+			only += [:status] if params[:status] and params[:status].upcase == 'TRUE'
+
 			return only
 		end
 

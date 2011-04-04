@@ -1,5 +1,5 @@
-html, body							{ height: 100%; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; color: #333333; }
-img											{ border: 0; }
+html, body              { height: 100%; margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; color: #333333; }
+img                     { border: 0; }
 h2											{ margin-top: 5px; }
 h3											{ margin-top: 0; }
 a												{ color: #2565a5; text-decoration: none; }

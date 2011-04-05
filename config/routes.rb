@@ -14,8 +14,10 @@ Thingspeak::Application.routes.draw do
 	resources :users
 
 	# specific feeds
-	match 'channels/:channel_id/field/:field_id(.:format)' => 'feed#index'
-	match 'channels/:channel_id/feed/entry/:id(.:format)' => 'feed#show'
+  match 'channels/:channel_id/feed(s)(.:format)' => 'feed#index'
+	match 'channels/:channel_id/field(s)/:field_id(.:format)' => 'feed#index'
+	match 'channels/:channel_id/field(s)/:field_id/:id(.:format)' => 'feed#show'
+	match 'channels/:channel_id/feed(s)/entry/:id(.:format)' => 'feed#show'
 
 	# import
 	match 'channels/:channel_id/import' => 'channels#import', :as => 'channel_import'

@@ -152,15 +152,50 @@ class ApplicationController < ActionController::Base
 			return date_range
 		end
 
+
+		def is_a_number?(s)
+			s.to_s.gsub(/,/, '.').match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
+		end
+
 		def set_time_zone(params)
 			# set timezone correctly
 			if params[:offset]
-				Time.zone = params[:offset].to_i
+        # check for 0 offset first since it's the most common
+        if params[:offset] == '0'
+          Time.zone = 'UTC'
+        else
+				  Time.zone = set_timezone_from_offset(params[:offset])
+        end
 			elsif current_user
 				Time.zone = current_user.time_zone
 			else
-				Time.zone = 0
+				Time.zone = 'UTC'
 			end
 		end
+
+    # use the offset to find an appropriate timezone
+    def set_timezone_from_offset(offset)
+      offset = offset.to_i
+      # keep track of whether a match was found
+      found = false
+  
+      # loop through each timezone
+      ActiveSupport::TimeZone.zones_map.each do |z|
+        # set time zone
+        Time.zone = z[0]
+        timestring = Time.zone.now.to_s
+  
+        # if time zone matches the offset, leave it as the current timezone
+        if (timestring.slice(-5..-3).to_i == offset and timestring.slice(-2..-1).to_i == 0)
+          found = true
+          break
+        end
+      end
+  
+      # if no time zone found, set to utc
+      Time.zone = 'UTC' if !found
+  
+      return Time.zone
+    end
 
 end

@@ -7,6 +7,9 @@ class FeedController < ApplicationController
 		api_key = ApiKey.find_by_api_key(get_userkey)
 		@success = channel_permission?(channel, api_key)
 
+		# set timezone correctly
+		set_time_zone(params)
+
 		# check for access
 		if @success
 

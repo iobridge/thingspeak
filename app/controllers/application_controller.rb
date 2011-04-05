@@ -140,14 +140,17 @@ class ApplicationController < ActionController::Base
 			# set timezone correctly
 			set_time_zone(params)
 
-			start_date = Time.now - 1.day
+			# if results are specified without start or days parameters, allow start date to be larger
+			get_old_data = (params[:results] && params[:start].blank? and params[:days].blank?) ? true : false
+
+			start_date = (get_old_data) ? (Time.now - 1.year) : (Time.now - 1.day)
 			end_date = Time.now
 			start_date = (Time.now - params[:days].to_i.days) if params[:days]
 			start_date = DateTime.strptime(params[:start]) if params[:start]
 			end_date = DateTime.strptime(params[:end]) if params[:end]
 			date_range = (start_date..end_date)
 			# only get a maximum of 30 days worth of data
-			date_range = (end_date - 30.days..end_date) if (end_date - start_date) > 30.days
+			date_range = (end_date - 30.days..end_date) if ((end_date - start_date) > 30.days and !get_old_data)
 
 			return date_range
 		end

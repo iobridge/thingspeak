@@ -1,0 +1,16 @@
+<h2>
+  <%= link_to t(:channels), channels_path %> &raquo;
+  <%= link_to channel_path(@channel.id) do %> <%= t(:channel) %> <%= @channel.id %><% end %> &raquo;
+  <%= t(:import) %>
+</h2>
+
+<%= t(:upload_select) %>
+<br /><br />
+<%= form_for :upload, :url => {:controller => 'channels', :action => 'upload', :channel_id => params[:channel_id]}, :html => { :multipart => true } do |f| %>
+  <%= f.file_field :csv %>
+  <br /><br />
+  <%= t(:time_zone) %>
+  <%= time_zone_select 'feed', 'time_zone', nil, :default => 'UTC' %>
+  <br /><br />
+  <%= f.submit t(:upload), :disable_with => t(:uploading) %>
+<% end %>

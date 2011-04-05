@@ -4,13 +4,16 @@
 </h2>
 
 <% if current_user && current_user.id == @channel.user_id %>
-  <%= link_to t(:channel_edit), edit_channel_path(@channel.id) %> |
-  <%= link_to t(:api_keys_manage), channel_api_keys_path(@channel) %> |
-  <%= link_to "#{t(:charts_view)}", channel_charts_path(@channel) %> |
-	<%= link_to "#{t(:channel_feed)} (json)", channel_feed_index_path(@channel, :key => @key, :format => :json) %> |
-	<%= link_to "#{t(:channel_feed)} (xml)", channel_feed_index_path(@channel, :key => @key, :format => :xml) %> |
-	<%= link_to "#{t(:channel_feed)} (csv)", channel_feed_index_path(@channel, :key => @key, :format => :csv) %>
-  
+  <ul>
+    <li><%= link_to t(:channel_edit), edit_channel_path(@channel.id) %></li>
+    <li><%= link_to t(:api_keys_manage), channel_api_keys_path(@channel) %></li>
+    <li><%= link_to "#{t(:charts_view)}", channel_charts_path(@channel) %></li>
+    <li><%= link_to "#{t(:channel_feed)} (json)", channel_feed_index_path(@channel, :key => @key, :format => :json) %></li>
+    <li><%= link_to "#{t(:channel_feed)} (xml)", channel_feed_index_path(@channel, :key => @key, :format => :xml) %></li>
+    <li><%= link_to "#{t(:channel_feed)} (csv)", channel_feed_index_path(@channel, :key => @key, :format => :csv) %></li>
+		<li><%= link_to t(:import_data), channel_import_path(@channel) %></li>
+  </ul>  
+
   <br /><br />
 
 <table class="table_no_header">
@@ -29,6 +32,10 @@
   <tr>
     <td class="left"><%= t(:channel_description) %>:</td>
     <td><%= @channel.description %></td>
+  </tr>
+  <tr>
+    <td class="left"><%= t(:entries) %>:</td>
+    <td><%= (@channel.last_entry_id) ? @channel.last_entry_id : '0' %></td>
   </tr>
   <tr>
     <td class="left"><%= t(:created) %>:</td>

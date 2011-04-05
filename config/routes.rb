@@ -17,6 +17,10 @@ Thingspeak::Application.routes.draw do
 	match 'channels/:channel_id/field/:field_id(.:format)' => 'feed#index'
 	match 'channels/:channel_id/feed/entry/:id(.:format)' => 'feed#show'
 
+	# import
+	match 'channels/:channel_id/import' => 'channels#import', :as => 'channel_import'
+	match 'channels/:channel_id/upload' => 'channels#upload'
+
 	# nest feeds into channels
 	resources :channels do
 		resources :feed

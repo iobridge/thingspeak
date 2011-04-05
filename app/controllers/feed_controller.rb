@@ -10,6 +10,9 @@ class FeedController < ApplicationController
 		# set timezone correctly
 		set_time_zone(params)
 
+		# set limits
+		limit = params[:results].to_i if params[:results]
+
 		# check for access
 		if @success
 
@@ -22,7 +25,8 @@ class FeedController < ApplicationController
 				:all,
 				:conditions => { :channel_id => channel.id, :created_at => get_date_range(params) },
 				:select => select_options,
-				:order => 'created_at desc'
+				:order => 'created_at desc',
+				:limit => limit
 			)
 
 			# if a feed has data

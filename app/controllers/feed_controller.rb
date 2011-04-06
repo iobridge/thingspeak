@@ -29,6 +29,9 @@ class FeedController < ApplicationController
 				:limit => limit
 			)
 
+      # keep track of whether data has been rounded already
+      rounded = false
+
 			# if a feed has data
 			if !feeds.empty?
 				# convert to timescales if necessary
@@ -37,14 +40,22 @@ class FeedController < ApplicationController
 				# convert to sums if necessary
 				elsif timeparam_valid?(params[:sum])
 					feeds = feeds_into_sums(feeds)
+          rounded = true
 				# convert to averages if necessary
 				elsif timeparam_valid?(params[:average])
-					feeds = feeds_into_averages(feeds) 
+					feeds = feeds_into_averages(feeds)
+          rounded = true
 				# convert to medians if necessary
 				elsif timeparam_valid?(params[:median])
 					feeds = feeds_into_medians(feeds)
+          rounded = true
 				end
 			end
+
+      # if a feed needs to be rounded
+      if params[:round] and !rounded
+        feeds = object_round(feeds, params[:round].to_i)
+      end
 
 			# set output correctly
 			if params[:format] == 'xml'
@@ -101,6 +112,11 @@ class FeedController < ApplicationController
 			:select => feed_select_data(@channel)
 		)
 		@success = channel_permission?(@channel, @api_key)
+
+    # if a feed needs to be rounded
+    if params[:round]
+      @feed = item_round(@feed, params[:round].to_i)
+    end
 
 		# check for access
 		if @success
@@ -189,6 +205,39 @@ class FeedController < ApplicationController
 				return false
 			end
 		end
+
+    # applies rounding to an enumerable object
+    def object_round(object, round=nil, match='field')
+      object.each_with_index do |o, index|
+        object[index] = item_round(o, round, match)
+      end
+
+      return object
+    end
+
+    # applies rounding to a single item's attributes if necessary
+    def item_round(item, round=nil, match='field')
+      # for each attribute
+      item.attribute_names.each do |attr|
+        # only add non-null numeric fields
+        if attr.index(match) and !item[attr].nil? and is_a_number?(item[attr])
+          # keep track of whether the value contains commas
+          comma_flag = (item[attr].to_s.index(',')) ? true : false
+
+          # replace commas with decimals if appropriate
+          item[attr] = item[attr].to_s.gsub(/,/, '.') if comma_flag
+
+          # do the actual rounding
+		      item[attr] = sprintf "%.#{round}f", item[attr]
+
+          # replace decimals with commas if appropriate
+          item[attr] = item[attr].to_s.gsub(/\./, ',') if comma_flag
+        end
+      end
+
+      # output new item
+      return item
+    end
 
 		# slice feed into timescales
 		def feeds_into_timescales(feeds)

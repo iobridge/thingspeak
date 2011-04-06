@@ -26,8 +26,10 @@ Thingspeak::Application.routes.draw do
 	# nest feeds into channels
 	resources :channels do
 		resources :feed
+    resources :feeds, :to => 'feed'
 		resources :api_keys
 		resources :status
+    resources :statuses, :to => 'statuses'
 		resources :charts
 	end
 

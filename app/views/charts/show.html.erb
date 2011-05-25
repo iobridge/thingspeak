@@ -65,7 +65,9 @@
 							marker: {
 								radius: 3
 							},
-							animation: false
+							animation: true,
+              step: <%= params[:step] || 'false' %>,
+              borderWidth: 0
 						}
 					},
 					tooltip: {

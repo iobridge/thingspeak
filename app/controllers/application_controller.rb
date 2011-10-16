@@ -7,12 +7,20 @@ class ApplicationController < ActionController::Base
 	before_filter :set_variables
 
 	# set up some variables across the entire application
-	def set_variables
-		# hard code locale as english
-		I18n.locale = 'en'
-		# sets timezone for current user, all DateTime outputs will be automatically formatted
-		Time.zone = current_user.time_zone if current_user
-	end
+  def set_variables
+    @locale ||= get_locale
+    I18n.locale = ALLOWED_LOCALES.include?(@locale) ? @locale : I18n.default_locale
+    # sets timezone for current user, all DateTime outputs will be automatically formatted
+    Time.zone = current_user.time_zone if current_user
+  end
+  
+  # get the locale, but don't fail if header value doesn't exist
+  def get_locale
+    locale = get_header_value('HTTP_ACCEPT_LANGUAGE')
+    # only look for 'pt-br' as first 5 letters, can make more robust in future if other languages are needed
+    locale = locale[0..4].downcase if locale
+    return locale
+  end
 
   private
 

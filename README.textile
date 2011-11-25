@@ -45,7 +45,7 @@ h2. (Optional) Email Setup
 Set your domain, user_name, and password in config/environment.rb
 Also set your password reset link in app/controllers/mailer.controller.rb line 14 (and uncomment the line)
 
-h1. Installation on clean install of Ubuntu 10.10
+h1. Installation on clean install of Ubuntu 10.10 and 11.10
 
 Start Terminal
 
@@ -55,10 +55,10 @@ sudo apt-get install aptitude
 sudo aptitude update
 sudo aptitude install build-essential git-core curl
 
-bash < <( curl http://rvm.beginrescueend.com/releases/rvm-install-head )
-echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"' >> ~/.bashrc 
-
-. ~/.bashrc
+bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
+echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
+ 
+source .bash_profile
 
 sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby
 sudo aptitude install libssl-dev libopenssl-ruby libxslt1.1 libxslt1-dev libxml2 libxml2-dev rubygems

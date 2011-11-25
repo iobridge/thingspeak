@@ -64,7 +64,7 @@ sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby
 sudo aptitude install libssl-dev libopenssl-ruby libxslt1.1 libxslt1-dev libxml2 libxml2-dev rubygems
 
 rvm install 1.9.2
-rvm --default use 1.9.2
+rvm use 1.9.2
 
 gem install rails
 

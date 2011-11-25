@@ -74,6 +74,7 @@ cd thingspeak
 
 gem update
 bundle install
+bundle update rake
 
 gedit config/database.yml.example
       Note: Change database username and password for development, test, and production databases and save the file as database.yml

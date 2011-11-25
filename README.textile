@@ -51,35 +51,35 @@ Start Terminal
 
 <code>cd ~
 
-sudo apt-get install aptitude
-sudo aptitude update
-sudo aptitude install build-essential git-core curl
+<code>sudo apt-get install aptitude</code>
+<code>sudo aptitude update</code>
+<code>sudo aptitude install build-essential git-core curl</code>
 
-bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )
-echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile
+<code>bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )</code>
+<code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile</code>
  
-source .bash_profile
+<code>source .bash_profile</code>
 
-sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby</code>
+<code>sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby</code>
       Note: Enter and confirm a new MySQL password
 
-<code>sudo aptitude install libssl-dev libopenssl-ruby libxslt1.1 libxslt1-dev libxml2 libxml2-dev rubygems
+<code>sudo aptitude install libssl-dev libopenssl-ruby libxslt1.1 libxslt1-dev libxml2 libxml2-dev rubygems</code>
 
-rvm pkg install openssl
-rvm pkg install iconv
-rvm install 1.9.2 -C &#8211;&#8211;with-openssl-dir=$HOME/.rvm/usr,&#8211;&#8211;with-iconv-dir=$HOME/.rvm/usr
-rvm --default use 1.9.2
+<code>rvm pkg install openssl</code>
+<code>rvm pkg install iconv</code>
+<code>rvm install 1.9.2 -C --with-openssl-dir=$HOME/.rvm/usr,--with-iconv-dir=$HOME/.rvm/</code>
+<code>rvm --default use 1.9.2</code>
 
-git clone git://github.com/iobridge/thingspeak.git
+<code>git clone git://github.com/iobridge/thingspeak.git</code>
 
-cd thingspeak
+<code>cd thingspeak</code>
 
-bundle install
+<code>bundle install</code>
 
-gedit config/database.yml.example</code>
+<code>gedit config/database.yml.example</code>
       Note: Change database username and password for development, test, and production databases and save the file as database.yml
 
-<code>rake db:create
-rake db:schema:load
+<code>rake db:create</code>
+<code>rake db:schema:load</code>
 
-rails server</code>
+<code>rails server</code>

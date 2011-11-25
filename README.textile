@@ -67,7 +67,7 @@ sudo aptitude install libssl-dev libopenssl-ruby libxslt1.1 libxslt1-dev libxml2
 
 rvm pkg install openssl
 rvm pkg install iconv
-rvm install 1.9.2 \-C --with-openssl-dir=$HOME/.rvm/usr,--with-iconv-dir=$HOME/.rvm/usr
+rvm install 1.9.2 -C --with-openssl-dir=$HOME/.rvm/usr, --with-iconv-dir=$HOME/.rvm/usr
 rvm use 1.9.2
 
 git clone git://github.com/iobridge/thingspeak.git

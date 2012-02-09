@@ -1,7 +1,10 @@
 class Feed < ActiveRecord::Base
 	belongs_to :channel
 
-	self.include_root_in_json = false
+  self.include_root_in_json = false
+  
+  attr_readonly :created_at
+  attr_protected :channel_id
 end
 
 

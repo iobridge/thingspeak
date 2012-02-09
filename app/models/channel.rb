@@ -1,7 +1,40 @@
 class Channel < ActiveRecord::Base
-	belongs_to :user
+  include KeyUtilities
+  
+  belongs_to :user
 	has_many :feeds
 	has_many :api_keys
+
+  attr_readonly :created_at
+  attr_protected :user_id, :last_entry_id
+
+  after_create :set_initial_default_name
+  before_validation :set_default_name
+  
+  validates :name, :presence => true, :on => :update
+
+  def add_write_api_key
+    write_key = self.api_keys.new
+    write_key.user = self.user
+    write_key.write_flag = true
+    write_key.api_key = generate_api_key
+    write_key.save
+  end
+
+  def field_label(field_number)
+    self["field#{field_number}"]
+  end
+
+private
+
+  def set_default_name    
+    self.name = "#{I18n.t(:channel_default_name)} #{self.id}" if self.name.blank?
+  end
+
+  def set_initial_default_name
+    update_attribute(:name, "#{I18n.t(:channel_default_name)} #{self.id}")
+  end
+
 end
 
 

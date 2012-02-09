@@ -1,23 +1,22 @@
 class ApiKeysController < ApplicationController
+  include KeyUtilities
+
 	before_filter :require_user, :set_channels_menu
 
 	def index
-		get_channel_data
-		@read_keys = ApiKey.find(:all, :conditions => { :channel_id => @channel.id, :user_id => current_user.id, :write_flag => 0 })
+		@channel = current_user.channels.find(params[:channel_id])
+		@write_key = @channel.api_keys.write_keys.first
+		@read_keys = @channel.api_keys.read_keys
 	end
 
 	def destroy
-		@api_key = ApiKey.find_by_api_key(params[:api_key])
-		@api_key.delete if @api_key.user_id == current_user.id
+		current_user.api_keys.find_by_api_key(params[:id]).try(:destroy)
 		redirect_to :back
 	end
 
 	def create
-		@channel = Channel.find(params[:channel_id])
-		# make sure channel belongs to current user
-		check_permissions(@channel)
-
-		@api_key = ApiKey.find(:first, :conditions => { :channel_id => @channel.id, :user_id => current_user.id, :write_flag => 1 } )
+		@channel = current_user.channels.find(params[:channel_id])
+		@api_key = @channel.api_keys.write_keys.first
 
 		# if no api key found or read api key
 		if (@api_key.nil? or params[:write] == '0')
@@ -32,14 +31,12 @@ class ApiKeysController < ApplicationController
 		@api_key.save
 
 		# redirect
-		redirect_to channel_api_keys_path(@channel.id) and return
+		redirect_to channel_api_keys_path(@channel)
 	end
 
 	def update
-		@api_key = ApiKey.find_by_api_key(params[:api_key][:api_key])
-
-		@api_key.note = params[:api_key][:note]
-		@api_key.save if current_user.id == @api_key.user_id
-		redirect_to channel_api_keys_path(@api_key.channel)
+		@api_key = current_user.api_keys.find_by_api_key(params[:id])
+		@api_key.update_attributes(params[:api_key])
+		redirect_to :back
 	end
 end

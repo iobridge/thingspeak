@@ -78,12 +78,12 @@
 <br /><br />
 
 <h2><%= t(:channel_clear_message) %></h2>
-<%= button_to t(:channel_clear), { :controller => 'channels', :action => 'clear', :id => @channel.id }, :confirm => t(:confirm_channel_clear) %>
+<%= button_to t(:channel_clear), clear_channel_path(@channel), :confirm => t(:confirm_channel_clear) %>
 
 <br /><br />
 
 <h2><%= t(:channel_delete_message) %></h2>
-<%= button_to t(:channel_delete), channel_path(@channel.id), :method => 'delete', :confirm => t(:confirm_channel_delete) %>
+<%= button_to t(:channel_delete), channel_path(@channel), :method => 'delete', :confirm => t(:confirm_channel_delete) %>
 
 <script type="text/javascript">
 	// remember default field label

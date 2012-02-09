@@ -5,7 +5,7 @@
 </h2>
    
 <h3><%= t(:api_key_write) %></h3>
-<%= @key %>
+<%= @write_key %>
 
 <br /><br />
 
@@ -18,21 +18,21 @@
         <table>
             <tr>
                 <td><%= t(:api_key_key) %>:</td>
-                <td><%= read_key.api_key %></td>
+                <td><%= read_key %></td>
             </tr>
             <tr>
                 <td class="VAT"><%= t(:note) %>:</td>
                 <td>
-                    <%= form_for read_key, :as => :api_key, :url => { :controller => 'api_keys', :action => 'update' }, :html => {:method => 'put'} do |f| %>
+                    <%= form_for read_key, :as => :api_key, :url => channel_api_key_path(@channel, read_key), :html => {:method => 'put'} do |f| %>
                     <%= f.text_area :note, :cols => 30, :rows => 4 %>
                 </td>
             </tr>
             <tr>
-                <td><%= f.hidden_field :api_key, :value => read_key.api_key %></td>
+                <td></td>
                 <td>
                     <div class="FL"><%= f.submit t(:note_save) %></div>
                     <% end %>
-                    <%= button_to t(:api_key_delete), { :controller => 'api_keys', :action => 'destroy', :api_key => read_key.api_key}, :confirm => t(:confirm_read_key_delete) %></td>
+                    <%= button_to t(:api_key_delete), channel_api_key_path(@channel, read_key) , :method => 'delete', :confirm => t(:confirm_read_key_delete) %></td>
             </tr>
         </table>
         <br /><br />

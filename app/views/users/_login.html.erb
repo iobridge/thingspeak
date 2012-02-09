@@ -1,4 +1,4 @@
-<%= form_for (@user_session = UserSession.new), :url => user_session_path, :html => { :id => 'loginform' } do |f| %>
+<%= form_for @user_session, :url => user_session_path, :html => { :id => 'loginform' } do |f| %>
 	<input name='userlogin' class='userlogin' />
 	<%= f.hidden_field :remember_me, :value => false %>
 	<table id="login" class="round">
@@ -21,7 +21,7 @@
 		</tr>
 		<tr>
 			<td></td>
-			<td><%= link_to t(:forgot), forgot_password_path, :id => 'forgot_password' %></td>
+			<td><%= link_to t(:forgot), forgot_password_users_path, :id => 'forgot_password' %></td>
 		</tr>
 		<tr>
 			<td></td>

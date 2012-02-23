@@ -38,7 +38,7 @@ class ChannelsController < ApplicationController
   # clear all data from a channel
   def clear
     channel = current_user.channels.find(params[:id])
-    channel.feeds.delete_all
+    channel.delete_feeds
     channel.update_attribute(:last_entry_id, nil)
 
     redirect_to channels_path

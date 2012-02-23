@@ -10,6 +10,7 @@ class Channel < ActiveRecord::Base
 
   after_create :set_initial_default_name
   before_validation :set_default_name
+  after_destroy :delete_feeds
   
   validates :name, :presence => true, :on => :update
 
@@ -22,7 +23,11 @@ class Channel < ActiveRecord::Base
   end
 
   def field_label(field_number)
-    self["field#{field_number}"]
+    self.attributes["field#{field_number}"]
+  end
+  
+  def delete_feeds
+    Feed.delete_all(["channel_id = ?", self.id])    
   end
 
 private

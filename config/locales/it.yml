@@ -28,7 +28,7 @@ it:
   api_keys: "Chiavi API"
   api_keys_manage: "Gestione Chiavi API"
   application_name: "ThingSpeak"
-  apps: "Appicazioni"
+  apps: "Applicazioni"
   authorization: "Autorizzazione"
   average: "Media"
   back: "Indietro"

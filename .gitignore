@@ -2,3 +2,11 @@ database.yml
 *~
 .DS_store
 log/
+log/*.log
+tmp/**/*
+tmp/restart.txt
+config/database.yml
+.DS_Store
+db/*.sqlite3
+.bundle
+.bundle/*

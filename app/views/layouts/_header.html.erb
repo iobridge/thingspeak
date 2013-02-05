@@ -1,6 +1,6 @@
 <div id="options">
 	<% if current_user %>		
-		<span class="action"> <%= link_to t(:signout), logout_path %></span>	
+		<span class="action"> <%= link_to t(:signout), logout_path, :method => 'delete' %></span>	
 	<% else %>
 		<span class="action">
 			<%= link_to t(:signup), new_user_path %>

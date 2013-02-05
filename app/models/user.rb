@@ -1,11 +1,12 @@
 class User < ActiveRecord::Base
-	has_many :channels
+  has_many :channels
+  has_many :api_keys
 
-	acts_as_authentic
+  acts_as_authentic
 
-	def self.find_by_login_or_email(login)
-		User.find_by_login(login) || User.find_by_email(login)
-	end
+  def self.find_by_login_or_email(login)
+    User.find_by_login(login) || User.find_by_email(login)
+  end
 end
 
 

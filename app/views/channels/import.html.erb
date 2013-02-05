@@ -6,7 +6,7 @@
 
 <%= t(:upload_select) %>
 <br /><br />
-<%= form_for :upload, :url => {:controller => 'channels', :action => 'upload', :channel_id => params[:channel_id]}, :html => { :multipart => true } do |f| %>
+<%= form_for :upload, :url => upload_channel_path(@channel), :html => { :multipart => true } do |f| %>
   <%= f.file_field :csv %>
   <br /><br />
   <%= t(:time_zone) %>

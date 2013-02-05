@@ -3,4 +3,4 @@
 GET_SUPPORT = true
 
 # allow only these additional locales (use downcase, easier to parse)
-ALLOWED_LOCALES = ['pt-br']
+ALLOWED_LOCALES = ['pt-br','it']

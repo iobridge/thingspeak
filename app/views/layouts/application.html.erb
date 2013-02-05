@@ -2,10 +2,9 @@
 <html>
 <head>
   <title><%= @title.nil? ? (@menu.nil? ? t(:application_name) : @menu.capitalize + ' - ' + t(:application_name)) : @title + ' - ' + t(:application_name) %></title>
-  <%= stylesheet_link_tag :all %>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <%= csrf_meta_tag %>
-  
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tag %>  
 </head>
 <body>
 		<div id="wrapper">

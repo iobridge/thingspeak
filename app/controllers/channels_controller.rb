@@ -21,72 +21,33 @@ class ChannelsController < ApplicationController
 	end
 
 	def update
-		@channel = Channel.find(params[:id])
-		# make sure channel belongs to current user
-		check_permissions(@channel)
-		# protect against bots
-		render :text => '' and return if params[:userlogin].length > 0
-
+		@channel = current_user.channels.find(params[:id])
 		@channel.update_attributes(params[:channel])
-		@channel.name = "#{t(:channel_default_name)} #{@channel.id}" if params[:channel][:name].empty?
-		@channel.save
 
-		redirect_to channel_path(@channel.id) and return
+		redirect_to channel_path(@channel.id)
 	end
 
-	def create
-		# protect against bots
-		render :text => '' and return if params[:userlogin].length > 0
+  def create
+    channel = current_user.channels.create(:field1 => "#{t(:channel_default_field)} 1")
+    channel.add_write_api_key
+   
+    # redirect to edit the newly created channel 
+    redirect_to edit_channel_path(channel)
+  end
 
-		# get default name for field
-		@d = t(:channel_default_field)
+  # clear all data from a channel
+  def clear
+    channel = current_user.channels.find(params[:id])
+    channel.delete_feeds
+    channel.update_attribute(:last_entry_id, nil)
 
-		# add channel with defaults
-		@channel = Channel.new(:field1 => "#{@d}1")
-		@channel.user_id = current_user.id
-		@channel.save
-		
-		# now that the channel is saved, we can create the default name
-		@channel.name = "#{t(:channel_default_name)} #{@channel.id}"
-		@channel.save
-
-		# create an api key for this channel
-		@api_key = ApiKey.new
-		@api_key.channel_id = @channel.id
-		@api_key.user_id = current_user.id
-		@api_key.write_flag = 1
-		@api_key.api_key = generate_api_key
-		@api_key.save
-
-		# redirect to edit the newly created channel
-		redirect_to edit_channel_path(@channel.id)
-	end
-
-	# clear all data from a channel
-	def clear
-		channel = Channel.find(params[:id])
-		# make sure channel belongs to current user
-		check_permissions(channel)
-		
-		# do the delete
-		channel.feeds.each do |f|
-			f.delete
-		end
-
-		# set the channel's last_entry_id to nil
-		channel.last_entry_id = nil
-		channel.save
-
-		redirect_to channels_path
+    redirect_to channels_path
 	end
 
 	def destroy
-		@channel = Channel.find(params[:id])
-		# make sure channel belongs to current user
-		check_permissions(@channel)
-		
-		# do the delete
-		@channel.delete
+		channel = current_user.channels.find(params[:id])
+		channel.destroy
+
 		redirect_to channels_path
 	end
 
@@ -254,6 +215,9 @@ class ChannelsController < ApplicationController
 		# redirect 
 		redirect_to channel_path(channel.id)
 	end
+
+
+private
 
 	# determine if the date can be parsed
 	def date_parsable?(date)

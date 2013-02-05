@@ -1,7 +1,22 @@
 class ApiKey < ActiveRecord::Base
-	belongs_to :channel
+  belongs_to :channel
+  belongs_to :user
 
-	validates_uniqueness_of :api_key
+  validates_uniqueness_of :api_key
+
+  scope :write_keys, :conditions => { :write_flag => true }
+  scope :read_keys, :conditions => { :write_flag => false }
+
+  attr_readonly :created_at
+  attr_accessible :note
+
+  def to_s
+    api_key
+  end
+
+  def to_param
+    api_key
+  end
 end
 
 

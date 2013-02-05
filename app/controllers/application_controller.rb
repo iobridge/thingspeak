@@ -85,24 +85,19 @@ class ApplicationController < ActionController::Base
 
 		# get specified header value
 		def get_header_value(name)
-				value = nil
-				for header in request.env
-					value = header[1] if (header[0].upcase.index(name.upcase))
-				end
-				return value
-		end
+			value = nil
+			for header in request.env
+				value = header[1] if (header[0].upcase.index(name.upcase))
+			end
+			return value
+  	end
 
-		# gets the same data for showing or editing
-		def get_channel_data
-			@channel = Channel.find(params[:channel_id]) if params[:channel_id]
-			@channel = Channel.find(params[:id]) if @channel.nil? and params[:id]
-			@key = ''
-			# make sure channel belongs to current user
-			check_permissions(@channel)
-	
-			@api_key = ApiKey.find(:first, :conditions => { :channel_id => @channel.id, :user_id => current_user.id, :write_flag => 1 } )
-			@key = @api_key.api_key if @api_key
-		end
+    # gets the same data for showing or editing
+    def get_channel_data
+      @channel = current_user.channels.find(params[:channel_id]) if params[:channel_id]
+      @channel = current_user.channels.find(params[:id]) if @channel.nil? and params[:id]
+      @key = @channel.api_keys.write_keys.first.try(:api_key) || ""
+    end
 
 		def check_permissions(channel)
 			render :text => t(:channel_permission) and return if (current_user.nil? || (channel.user_id != current_user.id))
@@ -129,18 +124,6 @@ class ApplicationController < ActionController::Base
 			feed_unauthorized = Feed.new
 			feedl_unauthorized.id = -1
 			return feed_unauthorized.to_xml(:only => :entry_id)
-		end
-
-		# generates a database unique api key
-		def generate_api_key(size = 16)
-			alphanumerics = ('0'..'9').to_a + ('A'..'Z').to_a
-			k = (0..size).map {alphanumerics[Kernel.rand(36)]}.join
-	
-			# if key exists in database, regenerate key
-			k = generate_api_key if ApiKey.find_by_api_key(k)
-	
-			# output the key
-			return k
 		end
 
 		# options: days = how many days ago, start = start date, end = end date, offset = timezone offset

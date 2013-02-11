@@ -58,7 +58,7 @@ Start Terminal
 <code>bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )</code>
 <code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile</code>
  
-<code>source .bash_profile</code>
+<code>source ~/.bash_profile</code>
 
 <code>sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby</code>
       Note: Enter and confirm a new MySQL password

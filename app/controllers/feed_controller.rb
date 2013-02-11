@@ -248,7 +248,8 @@ class FeedController < ApplicationController
 			end_time = get_floored_time(feeds.last.created_at, seconds)
 
 			# create empty array with appropriate size
-			timeslices = Array.new(((end_time - start_time) / seconds).floor)
+			timeslices = Array.new((((end_time - start_time) / seconds).abs).floor)
+
 
 			# create a blank clone of the first feed so that we only get the necessary attributes
 			empty_feed = create_empty_clone(feeds.first)

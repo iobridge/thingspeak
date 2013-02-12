@@ -1,3 +1,7 @@
+database.yml
+*~
+.DS_store
+log/
 log/*.log
 tmp/**/*
 tmp/restart.txt

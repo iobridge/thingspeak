@@ -6,3 +6,4 @@ config/database.yml
 db/*.sqlite3
 .bundle
 .bundle/*
+*~

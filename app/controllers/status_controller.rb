@@ -24,20 +24,21 @@ class StatusController < ApplicationController
 
 			# set output correctly
 			if params[:format] == 'xml'
-				@channel_xml = @channel.to_xml(channel_options).sub('</channel>', '').strip
-				@feed_xml = @feeds.to_xml(:skip_instruct => true).gsub(/\n/, "\n  ").chop.chop
+				@channel_output = @channel.to_xml(channel_options).sub('</channel>', '').strip
+				@feed_output = @feeds.to_xml(:skip_instruct => true).gsub(/\n/, "\n  ").chop.chop
 			elsif params[:format] == 'csv'
 				@csv_headers = [:created_at, :status]
+				@feed_output = @feeds
 			else
-				@channel_json = @channel.to_json(channel_options).chop
-				@feed_json = @feeds.to_json
+				@channel_output = @channel.to_json(channel_options).chop
+				@feed_output = @feeds.to_json
 			end
 		# else set error code
 		else
 			if params[:format] == 'xml'
-				@channel_xml = bad_channel_xml
+				@channel_output = bad_channel_xml
 			else
-				@channel_json = '-1'.to_json
+				@channel_output = '-1'.to_json
 			end
 		end
 
@@ -46,10 +47,10 @@ class StatusController < ApplicationController
 
 		# output data in proper format
 		respond_to do |format|
-			format.html { render :text => @feed_json }
-			format.json { render :action => 'feed/index' }
-			format.xml { render :action => 'feed/index' }
-			format.csv { render :action => 'feed/index' }
+			format.html { render :text => @feed_output }
+			format.json { render "feed/index" }
+			format.xml { render "feed/index" }
+			format.csv { render "feed/index" }
 		end
 	end
 

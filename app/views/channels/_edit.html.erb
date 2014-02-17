@@ -111,12 +111,12 @@
 
   <br /><br />
 
-  <h2><%= t(:channel_clear_message) %></h2>
+  <h4><%= t(:channel_clear_message) %></h4>
   <%= button_to t(:channel_clear), { :controller => 'channels', :action => 'clear', :id => @channel.id }, :data => { :confirm => t(:confirm_channel_clear) } %>
 
   <br /><br />
 
-  <h2><%= t(:channel_delete_message) %></h2>
+  <h4><%= t(:channel_delete_message) %></h4>
   <%= button_to t(:channel_delete), channel_path(@channel.id), :method => 'delete', :data => { :confirm => t(:confirm_channel_delete) } %>
 </div>
 <div id="sidebar">

@@ -1,0 +1,24 @@
+<div id="channel_info" class="FL channelInfo" >
+  <div class="FL" ><h3 class="channel_info"><%= @channel.name %></h3></div>
+  <div class="FR list_tags"><%= @channel.list_tags %></div>
+  <div class="CB"></div>
+  <p>by <%= link_to @channel.user.login, user_profile_path(@channel.user.login) %></p>
+  <div class="channelDescription" ><p><%= @channel.description %></p></div>
+  <p></p>
+</div> <!-- end channelInfo -->
+<div id="channellinks">
+  <div class="FR developerlink">
+    <a id="devInfoLink_<%= zone %>" href="#" class="topLink" ><%= t(:developer_info) %></a>
+  </div>
+  <% unless @channel.url.blank? %>
+  <div class="FR developerlink">
+    <%= link_to t(:for_more_information), @channel.url, :target => '_blank', :class => 'topLink'  %>
+  </div>
+  <% end %>
+  <% if @mychannel %>
+  <div class="FR developerlink"   >
+    <a href="#" id="portletAddLink_<%= zone %>" class="topLink " ><%= t(:add_portlets) %></a>
+  </div>
+  <% end %>
+</div> <!-- end channellinks -->
+

@@ -1,0 +1,118 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+
+    <h4 class="breadcrumb"><%= t(:apps) %></h4>
+
+    <div class="col-pad">
+
+      <div class="apps">
+        <%= link_to thingtweets_path do %>
+          <%= image_tag 'thingtweet.png', :size => '104x104' %>
+          <br />
+          <%= t(:thingtweet) %>
+        <% end %>
+      </div>
+
+      <div class="apps">
+        <%= link_to thinghttp_index_path do %>
+          <%= image_tag 'thinghttp.png', :size => '104x104' %>
+          <br />
+          <%= t(:thinghttp) %>
+        <% end %>
+      </div>
+
+      <div class="apps">
+        <%= link_to tweetcontrol_index_path do %>
+          <%= image_tag 'tweetcontrol.png', :size => '104x104' %>
+          <br />
+          <%= t(:tweetcontrol) %>
+        <% end %>
+      </div>
+
+      <div class="apps">
+        <%= link_to reacts_path do %>
+          <%= image_tag 'react.png', :size => '104x104' %>
+          <br />
+          <%= t(:react) %>
+        <% end %>
+      </div>
+
+      <div class="apps">
+        <%= link_to talkbacks_path do %>
+          <%= image_tag 'talkback.png', :size => '104x104' %>
+          <br />
+          <%= t(:talkback) %>
+        <% end %>
+      </div>
+
+      <% if is_admin? %>
+      <div class="apps">
+        <%= link_to scheduled_thinghttps_path do %>
+          <%= image_tag 'scheduled_thinghttp.png', :size => '104x104' %>
+          <br />
+          <%= t(:scheduled_thinghttp) %>
+        <% end %>
+      </div>
+      <% end %>
+
+    </div>
+  </div>
+
+  <div id="sidebar" class="col-xs-12 col-sm-6">
+
+    <h4 class="breadcrumb"><%= t(:help) %></h4>
+
+    <div class="col-pad">
+
+      <h3>
+        <%= t(:thingtweet) %>
+        <div class="helplink">(<a href="http://community.thingspeak.com/documentation/apps/thingtweet/"><%= t(:help_options) %></a>)</div>
+      </h3>
+      <%= t(:help_apps_thingtweet) %>
+      <ul>
+        <li><a href="http://community.thingspeak.com/tutorials/arduino/update-twitter-with-thingtweet-and-arduino-ethernet-shield/">Arduino Tutorial</a></li>
+        <li><a href="http://community.thingspeak.com/tutorials/iobridge/updating-a-twitter-status-using-the-thingtweet-app-and-iobridge-io-204/">ioBridge Tutorial</a></li>
+      </ul>
+      <br>
+
+      <h3>
+        <%= t(:thinghttp) %>
+        <div class="helplink">(<a href="http://community.thingspeak.com/documentation/apps/thinghttp/"><%= t(:help_options) %></a>)</div>
+      </h3>
+      <%= t(:help_apps_thinghttp) %>
+      <ul>
+        <li><a href="http://community.thingspeak.com/tutorials/twilio/make-calls-with-twilio-using-the-thinghttp-app/">Twilio Tutorial</a></li>
+        <li><a href="http://community.thingspeak.com/tutorials/prowl/send-push-updates-using-prowl-and-thinghttp/">Prowl Tutorial</a></li>
+      </ul>
+      <br>
+
+      <h3>
+        <%= t(:tweetcontrol) %>
+         <div class="helplink">(<a href="http://community.thingspeak.com/documentation/apps/tweetcontrol/"><%= t(:help_options) %></a>)</div>
+      </h3>
+      <%= t(:help_apps_tweetcontrol) %>
+      <br><br>
+
+      <h3>
+        <%= t(:react) %>
+        <div class="helplink">(<a href="http://community.thingspeak.com/documentation/apps/react/"><%= t(:help_options) %></a>)</div>
+      </h3>
+      <%= t(:help_apps_react) %>
+      <br><br>
+
+      <h3>
+        <%= t(:talkback) %>
+        <div class="helplink">(<a href="/docs/talkback"><%= t(:help_options) %></a>)</div>
+      </h3>
+      <%= t(:help_apps_talkback) %>
+
+    </div>
+  </div>
+</div>
+
+<script language="javascript">
+$(function() {
+      $("#sidebar a").attr("target", "_blank");
+});
+</script>
+

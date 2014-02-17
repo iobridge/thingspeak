@@ -1,0 +1,109 @@
+<div class="col-sm-8 col-xs-8">
+
+  <ol class="breadcrumb">
+    <li><%= link_to t(:plugins), plugins_path %></li>
+    <li><%= link_to plugin_path(@plugin.id) do %> <%= t(:plugin) %> <%= @plugin.id %><% end %></li>
+    <li class="active"><%= t(:edit) %></li>
+  </ol>
+
+  <%= form_for @plugin, :html => {:method => 'put', :class => 'form-horizontal'} do |c| %>
+    <%= error_messages_for 'plugin', :header_message => t(:try_again), :message => t(:plugin_error) %>
+    <input name='userlogin' class='userlogin' />
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10 col-xs-offset-3 col-xs-6">
+        <div class="checkbox">
+          <label>
+            <%= c.check_box :private_flag %>
+            <%= t(:plugin_private_flag) %>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 col-xs-3 control-label"><%= t(:plugin_name) %></label>
+      <div class="col-sm-10 col-xs-6"><%= c.text_field :name, :class => 'form-control' %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 col-xs-3 control-label"><%= t(:plugin_html) %></label>
+      <div class="col-sm-10 col-xs-6"><%= c.text_area :html, :class => 'form-control', :rows => 14 %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 col-xs-3 control-label"><%= t(:plugin_css) %></label>
+      <div class="col-sm-10 col-xs-6"><%= c.text_area :css, :class => 'form-control', :rows => 14 %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 col-xs-3 control-label"><%= t(:plugin_js) %></label>
+      <div class="col-sm-10 col-xs-6"><%= c.text_area :js, :class => 'form-control', :rows => 14 %></div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-2 control-label"></label>
+      <div class="col-sm-10"><p class="form-control-static"><%= c.submit t(:plugin_edit), :class => 'btn btn-primary' %></p></div>
+    </div>
+
+  <% end %>
+
+  <br /><br />
+
+  <h3><%= t(:plugin_delete_message) %></h3>
+  <%= button_to t(:plugin_delete), plugin_path(@plugin.id), :method => 'delete', :data => { :confirm => t(:confirm_plugin_delete) }, :class => 'btn btn-danger' %>
+
+</div>
+
+<script type="text/javascript">
+  // when document is ready
+  $(function() {
+
+    // allow tabs to work in textareas
+    $("textarea").tabby();
+
+    // clears status message
+    function clearStatus() {
+      setTimeout(function() {
+        $('#status').html('');
+      }, 2500);
+    }
+
+    // event to capture update button click
+    $('#plugin_submit').click(
+        function() {
+      $.update(
+        // url to post to
+        '/plugins/ajax_update/<%= @plugin.id %>',
+
+        // data to send
+        {
+          plugin:
+          {
+              name: $('#plugin_name').val(),
+              private_flag: $('#plugin_private_flag').is(':checked'),
+              html: $('#plugin_html').val(),
+              css: $('#plugin_css').val(),
+              js: $('#plugin_js').val()
+          }
+        },
+
+        // if post was successful
+        function (response) {
+          var status = (response == '1') ? '<%= t(:saved) %>' : '<%= t(:saved_error) %>';
+          $('#status').html(status);
+          clearStatus();
+        },
+
+        // if post failed
+        function (response) {
+          $('#status').html('<%= t(:saved_error) %>');
+          clearStatus();
+        }
+      );
+      return false;
+    });
+
+  });
+</script>
+

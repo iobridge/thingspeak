@@ -1,0 +1,14 @@
+<div class="nested-fields">
+  <div class="row">
+    <div class="col-sm-12">
+      <%= t(:thinghttp_header_name) %>
+      <%= header.text_field :name, :class => 'form-control input-sm' %>
+      <br>
+      <%= t(:thinghttp_header_value) %>
+      <%= header.text_field :value, :class => 'form-control input-sm' %>
+      <span class="help-block"><%= header.link_to_remove t(:thinghttp_header_remove) %></span>
+    </div>
+  </div>
+</div>
+<br>
+

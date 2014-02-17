@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="http<%= 's' if @ssl %>://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script type="text/javascript" src="<%= @map_domain %>/maps/api/js?sensor=false"></script> 
+  <script type="text/javascript">
+    // when document is ready
+    $(function() { 
+  
+      // google maps options
+      var myOptions = {
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      var bounds = new google.maps.LatLngBounds();
+      var lat, lng, latlng, marker, title;
+
+      // get the data with a webservice call
+      $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed.json?callback=?&location=true&results=0#{@qs}" %>', function(data) {
+        // if no access
+        if (data == '-1') {
+          $('#chart-container').append('<%= t(:chart_no_access) %>');
+        }
+
+        lat = parseFloat(data.channel.latitude);
+        lng = parseFloat(data.channel.longitude);
+        latlng = new google.maps.LatLng(lat, lng);
+        marker = new google.maps.Marker({
+            position: latlng,
+            title: data.channel.name
+          });
+
+        marker.setMap(map); 
+        map.setCenter(latlng);
+        map.setZoom(4);
+
+      });
+    });
+  </script>
+</head>
+<body style="padding: 0; margin: 0;">
+  <div id="map_canvas" style="width: <%= params[:width] ? params[:width].to_i : @width.to_i %>px; height: <%= params[:height] ? params[:height].to_i : @height.to_i %>px;"></div>
+</body>
+</html>

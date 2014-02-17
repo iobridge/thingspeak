@@ -1,0 +1,26 @@
+<div class="socialButtons" >
+  <% if current_user %>
+    <div class="buttonlets padded watchButtonPadding">
+      <%= check_box_tag 'watch', 1, current_user.watchings.check(current_user.id, @channel.id) %>
+      <label for="watch" class="watchButtonLabel" >
+        <div class="watchButtonImage"></div>
+        <div id="watchText" class="watchButtonText">Watch</div>
+      </label>
+    </div>
+  <% end %>
+
+  <div class="addthis_toolbox addthis_default_style buttonlets padded tweetButton"  >
+    <a class="addthis_button_tweet"></a>
+  </div>
+  <div class="addthis_toolbox addthis_default_style buttonlets padded facebookButton" >
+    <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+  </div>
+  <div class="addthis_toolbox addthis_default_style buttonlets padded googleplusButton" >
+    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+  </div>
+  <div class="addthis_toolbox addthis_default_style buttonlets padded" >
+    <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+</div>
+<script type="text/javascript" src="https://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4f9168ce642d4694"></script>
+

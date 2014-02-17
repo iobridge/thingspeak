@@ -1,0 +1,75 @@
+<% if @channel.public? %>
+
+<%= render :partial => 'channelinfo', :locals => { :zone => "public" } %>
+
+<div class="CB">
+<div id="public_dialog0" class="column" > </div>
+<div id="public_dialog1" class="column" > </div>
+</div>
+
+<div class="commentlink" >
+  <% if !current_user %>
+  <%= link_to t(:comment_add), channel_comments_path(@channel), :class => 'boldlink' %>
+  <% else %>
+  <span class="mainlink spanlink boldlink" onclick="$('#commentmain').toggle();"><%= t(:comment_add) %></span>
+  <% end %>
+  <div id="commentmain" style="display:none" >
+  <%= form_for :comment, :url => channel_comments_path(@channel) do |f| %>
+      <%= f.error_messages %>
+      <input name='userlogin' class='userlogin' />
+      <%= f.text_area :body, :rows => 7, :cols => 54 %>
+      <br />
+      <%= submit_tag %>
+    <% end %>
+  </div>
+  <br/><br/>
+  <div id='comments' >
+    <% @channel.comments.each do |c| %>
+      <%= render :partial => 'comments/comment', :object => c if c.parent_id.nil? %>
+    <% end %>
+  </div>
+</div>
+
+<script>
+    $("#devInfoLink_public").click(function() {
+               var element = $("#devInfo");
+               openDialogCenter(element);
+           });
+
+$("#portletAddLink_public").click(function()
+          {
+
+              $("#addPortlets").load('/channels/<%=@channel.id %>/hidden_windows?visibility_flag=public',
+                   function() {
+                 var element = $("#addPortlets");
+                 openDialogCenter(element);
+
+                   })
+          });
+
+// comment flag function
+function commentflag(m_id, user_id)
+{
+
+    $.ajax({
+         url: '/comments/vote/' + m_id,
+         type: 'POST',
+         data: {user_id : user_id},
+         success: function(data) {
+       $('#commentflag' + m_id).parent().parent().append("<span id='votemsg" + m_id + "'><br /><br /><%= t(:comment_reported) %></span>");
+       $('#imgflag' + m_id).attr('src', '/images/flag_red.gif');
+       $('#flaglink' + m_id).removeAttr('onclick');
+       $('#flaglink' + m_id).unbind('mouseenter mouseleave');
+       setTimeout(function() {  $("#votemsg" + m_id).fadeOut();  }, 2600);
+         }
+     });
+
+    return false;
+}
+</script>
+<% else %>
+<div class="FL" >
+<h3 class="channel_info"><%= t(:channel_not_public) %></h3>
+</div>
+<% end %>
+

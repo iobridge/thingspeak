@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="<%= @domain %>javascripts/timeago.min.js"></script>
+  <style type="text/css">
+    html, body { margin: 0; padding: 0; font-family: Helvetica, Arial, sans-serif; color: #333333; font-size: 16px;}
+    .indent { margin-left: 28px; padding: 2px;}
+    .small { font-size: 80%; }
+    .status { padding: 3px; color: #ffffff; background-color: #62a09d; }
+    .timeago { font-size: 10px; }
+  </style>
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+      var html = '';
+      var field1, field2, field3, field4, field5, field6, field7, field8;
+
+      // get the data with a webservice call
+      $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed.json?callback=?&offset=0&results=10&location=true&status=true" %>', function(data) {
+
+        // set channel field names
+        if (data.channel.field1) { field1 = data.channel.field1; }
+        if (data.channel.field2) { field2 = data.channel.field2; }
+        if (data.channel.field3) { field3 = data.channel.field3; }
+        if (data.channel.field4) { field4 = data.channel.field4; }
+        if (data.channel.field5) { field5 = data.channel.field5; }
+        if (data.channel.field6) { field6 = data.channel.field6; }
+        if (data.channel.field7) { field7 = data.channel.field7; }
+        if (data.channel.field8) { field8 = data.channel.field8; }
+
+        // iterate through each feed
+        $.each(data.feeds.reverse(), function() {
+          if (this.location) {
+            html += '<div id="entry_' + this.entry_id + '"><b><img src="<%= "#{@domain}images/icon_location_24.png" %>" width="24" height="24" border="0" align="absbottom" /> ' + this.location + '</b></div>';
+            if (this.field1) { html += '<div class="indent">' + data.channel.field1 + ': ' + this.field1 + '</div>'; }
+            if (this.field2) { html += '<div class="indent">' + data.channel.field2 + ': ' + this.field2 + '</div>'; }
+            if (this.field3) { html += '<div class="indent">' + data.channel.field3 + ': ' + this.field3 + '</div>'; }
+            if (this.field4) { html += '<div class="indent">' + data.channel.field4 + ': ' + this.field4 + '</div>'; }
+            if (this.field5) { html += '<div class="indent">' + data.channel.field5 + ': ' + this.field5 + '</div>'; }
+            if (this.field6) { html += '<div class="indent">' + data.channel.field6 + ': ' + this.field6 + '</div>'; }
+            if (this.field7) { html += '<div class="indent">' + data.channel.field7 + ': ' + this.field7 + '</div>'; }
+            if (this.field8) { html += '<div class="indent">' + data.channel.field8 + ': ' + this.field8 + '</div>'; }
+            if (this.status) { html += '<div class="indent"><span class="status">"' + this.status + '"</span></div>'; }
+            html += '<div class="indent small"><abbr class="timeago" title="' + this.created_at + '">' + this.created_at + '</abbr></div>';
+            html += '<div>&nbsp;</div>';
+          }
+        });
+
+        // write data to page
+        $('#feed-container').html(html);
+
+        // add timeago
+        $('abbr.timeago').timeago();
+
+        // push data every 15 seconds
+        setInterval(function() {
+
+          // get the data with a webservice call
+          $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&offset=0&location=true&status=true" %>', function(data) {  
+            // if data exists and entry id doesn't already exist
+            if (data.location && $('#entry_' + data.entry_id).length == 0) {
+              html = '<div id="entry_' + data.entry_id + '"><b><img src="<%= "#{@domain}images/icon_location_24.png" %>" width="24" height="24" border="0" align="absbottom" /> ' + data.location + '</b></div>';
+              if (data.field1) { html += '<div class="indent">' + field1 + ': ' + data.field1 + '</div>'; }
+              if (data.field2) { html += '<div class="indent">' + field2 + ': ' + data.field2 + '</div>'; }
+              if (data.field3) { html += '<div class="indent">' + field3 + ': ' + data.field3 + '</div>'; }
+              if (data.field4) { html += '<div class="indent">' + field4 + ': ' + data.field4 + '</div>'; }
+              if (data.field5) { html += '<div class="indent">' + field5 + ': ' + data.field5 + '</div>'; }
+              if (data.field6) { html += '<div class="indent">' + field6 + ': ' + data.field6 + '</div>'; }
+              if (data.field7) { html += '<div class="indent">' + field7 + ': ' + data.field7 + '</div>'; }
+              if (data.field8) { html += '<div class="indent">' + field8 + ': ' + data.field8 + '</div>'; }
+              if (data.status) { html += '<div class="indent"><span class="status">"' + data.status + '"</span></div>'; }
+              html += '<div class="indent small"><abbr class="timeago" title="' + data.created_at + '">' + data.created_at + '</abbr></div>';
+              html += '<div>&nbsp;</div>';
+
+              // write data to page
+              $(html).prependTo('#feed-container').hide().slideDown();
+
+              // add timeago
+              $('abbr.timeago').timeago();
+            }
+          });
+
+        }, 15000);
+      });
+
+    });
+
+  </script>
+</head>
+<body style='background-color: <%= params[:bgcolor] ? params[:bgcolor] : 'transparent' %>;'>
+  <div id="feed-container"></div>
+</body>
+</html>

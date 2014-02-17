@@ -1,0 +1,31 @@
+<%= render :partial => 'channelinfo', :locals => { :zone => "private" } %>
+<div class="channel_stats_location">
+  <span class="channel_stats_text">Channel Stats</span>
+  <table>
+    <tr><td>Created</td><td ><abbr class="timeago channel_time_text" title="<%= @channel.created_at %>" ><%= @channel.created_at %></abbr></td></tr>
+    <tr><td>Updated</td><td ><abbr class="timeago channel_time_text" title="<%= @channel.updated_at %>" ><%= @channel.updated_at %></abbr></td></tr>
+  </table>
+  <span><%= @channel.feeds.count %> Entries</span>
+</div>
+<div class="CB" >
+  <div id="private_dialog0" class="column" > </div>
+  <div id="private_dialog1" class="column" > </div>
+</div>
+<script>
+$(function() {
+    $("#devInfoLink_private").click(
+  function(e) { 
+      var element = $("#devInfo");
+      openDialogCenter(element);
+  });
+      $("#portletAddLink_private").click(
+    function(e) { 
+        $("#addPortlets").load('/channels/<%=@channel.id %>/hidden_windows?visibility_flag=private', 
+          function(e) {
+        var element = $("#addPortlets");
+        openDialogCenter(element);
+          })  ;
+    });
+  });
+
+</script>

@@ -1,0 +1,174 @@
+<div class="FL">
+<% flash.each do |name, msg| %>
+<div id="<%= name %>" class="fade" >
+  <p><%= msg %></p>
+  <div class="clear"></div>
+</div>
+<% end %>
+  <%= form_for @channel, :html => {:method => 'put'} do |c| %>
+   <% unless session[:errors].nil?
+      session[:errors].each do |attr, msg|
+        @channel.errors.add(attr, msg)
+      end
+      session[:errors] = nil %>
+   <% end %>
+
+    <p>
+      <%= error_messages_for 'channel', :header_message => t(:try_again), :message => t(:channel_error) %>
+    </p>
+    <input name='userlogin' class='userlogin' />
+    <table class="table_no_header">
+      <tr>
+        <td class="left"><%= t(:channel_ranking) %></td>
+        <td><%= @channel.ranking %>%</td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:channel_id) %></td>
+        <td><%= @channel.id %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:channel_name) %></td>
+        <td><%= c.text_field :name %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:channel_description) %></td>
+        <td><%= c.text_area :description, :cols => 30, :rows => 4 %></td>
+      </tr>
+      <%= fields_for :tags do |t| %>
+        <tr>
+          <td class="left"><%= t(:tags) %></td>
+          <td><%= t.text_area :name, :cols => 30, :rows => 2, :value => @channel.list_tags %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td class="left"><%= t(:latitude) %></td>
+        <td><%= c.text_field :latitude %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:longitude) %></td>
+        <td><%= c.text_field :longitude %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:elevation) %></td>
+        <td><%= c.text_field :elevation %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:public) %></td>
+        <td><%= c.check_box :public_flag %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:channel_url) %></td>
+        <td><%= c.text_field :url %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:video_id) %></td>
+        <td >
+      <%= c.text_field :video_id, :class=>'video_narrow'%>
+      <%= c.radio_button :video_type, 'youtube' %>
+      <span class="small"><%= t(:youtube) %></span>
+      <%= c.radio_button :video_type, 'vimeo' %>
+      <span class="small"><%= t(:vimeo) %></span>
+        </td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 1</td>
+        <td><%= c.text_field :field1, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 2</td>
+        <td><%= c.text_field :field2, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 3</td>
+        <td><%= c.text_field :field3, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 4</td>
+        <td><%= c.text_field :field4, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 5</td>
+        <td><%= c.text_field :field5, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 6</td>
+        <td><%= c.text_field :field6, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 7</td>
+        <td><%= c.text_field :field7, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"><%= t(:field) %> 8</td>
+        <td><%= c.text_field :field8, :class => 'field' %></td>
+      </tr>
+      <tr>
+        <td class="left"></td>
+        <td><%= c.submit t(:channel_update) %></td>
+      </tr>
+    </table>
+  <% end %>
+
+  <br /><br />
+
+  <h2><%= t(:channel_clear_message) %></h2>
+  <%= button_to t(:channel_clear), { :controller => 'channels', :action => 'clear', :id => @channel.id }, :data => { :confirm => t(:confirm_channel_clear) } %>
+
+  <br /><br />
+
+  <h2><%= t(:channel_delete_message) %></h2>
+  <%= button_to t(:channel_delete), channel_path(@channel.id), :method => 'delete', :data => { :confirm => t(:confirm_channel_delete) } %>
+</div>
+<div id="sidebar">
+<ul>
+    <li>
+      <h2><%= t(:help) %></h2>
+      <%= t(:help_channel_public) %>
+      <br /><br />
+      <%= t(:help_channel_url) %>
+      <br /><br />
+      <%= t(:help_channel_video) %>
+      <br /><br />
+      <%= t(:help_channel_fields) %>
+      <br /><br />
+      <%= t(:help_channel_clear) %>
+      <br /><br />
+      <%= t(:help_channel_ranking) %>
+      <br /><br />
+    </li>
+  </ul>
+</div>
+<script type="text/javascript">
+  // remember default field label
+  var default_label = '<%= t(:channel_default_field) %>';
+  // when document is ready
+  $(function() {
+    // iterate through each field textbox
+    $('.field').each(function() {
+      // if a value is present, show the 'remove' checkbox
+      if ($(this).val()) {
+        $(this).after('<span class="small" id="span_' + $(this).attr('id') + '"><input type="checkbox" onclick="removeField(\'' + $(this).attr('id') + '\')"  /><span class="up2">remove field</span></span>');
+      // else disable
+      } else {
+        $(this).after('<span class="small" id="span_' + $(this).attr('id') + '"><input type="checkbox" onclick="addField(\'' + $(this).attr('id') + '\')"  /><span class="up2">add field</span></span>');
+      }
+    });
+
+  });
+
+  // adds a field
+  function addField(id) {
+    $('#span_'+id).remove()
+    $('#'+id).val(default_label + ' ' + id.substring(id.length-1));
+    $('#'+id).after('<span class="small" id="span_' + id + '"><input type="checkbox" onclick="removeField(\'' + id + '\')"  /><span class="up2">remove field</span></span>');
+    $('#'+id).select();
+  }
+
+  // removes a field
+  function removeField(id) {
+    $('#span_'+id).remove();
+    $('#'+id).val('');
+    $('#'+id).after('<span class="small" id="span_' + id + '"><input type="checkbox" onclick="addField(\'' + id + '\')"  /><span class="up2">add field</span></span>');
+  }
+</script>
+

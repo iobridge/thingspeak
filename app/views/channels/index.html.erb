@@ -1,25 +1,79 @@
-<h2><%= t(:channels) %></h2>
-<% if @channels.length > 0 %>
-  <table class="nicetable">
-      <tr class="header TAC">
-          <td><%= t(:channel_id) %></td>
-          <td><%= t(:channel_name) %></td>
-      </tr>
-     
-      <% @channels.each do |d| %>
-      <tr>
-          <td class="left"><%= link_to d.id, channel_path(d.id) %></td>
-          <td><%= link_to d.name, channel_path(d.id) %></td>
-      </tr>
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+
+    <h4 class="breadcrumb"><%= t(:channels_my) %></h4>
+
+    <div class="col-pad">
+
+      <% if @channels.length > 0 %>
+
+        <table class="nicetable-borderless">
+
+          <% @channels.each do |channel| %>
+            <% if !channel.social %>
+              <tr>
+                <td>
+        <h3 class="signed_in_channel_header" ><%= link_to channel.name, channel_path(channel.id), :id => "showsite_#{channel.id}" %></h3>
+        <div class="public_private_icon">
+          <%= channel.public_flag ? image_tag('icons/Unlocked.png', :title=> t(:public_true)) : image_tag('icons/Locked.png', :title=> t(:channel_not_public))  %>
+        </div>
+
+
+          </td>
+              </tr>
+    <tr><td><p><%= link_to t(:private_link), channel_path(channel.id, :anchor => 'privateview') %>  |
+          <%= link_to t(:public_link), channel_path(channel.id, :anchor => 'publicview') %> |
+          <%= link_to t(:settings_link), channel_path(channel.id, :anchor => 'channelsettings') %>  |
+          <%= link_to t(:api_key_link), channel_path(channel.id, :anchor => 'apikeys') %>  |
+          <%= link_to t(:data_import_link), channel_path(channel.id, :anchor => 'dataimport') %> </p></td></tr>
+    <tr><td><p><%= channel.description %></p></td></tr>
+            <% end %>
+          <% end %>
+
+        </table>
+
+        <br />
+
       <% end %>
- 
-  </table>
- 
-  <br /><br />
- 
-<% end %>
- 
-<%= form_for :channel do |d| %>
-    <input name='userlogin' class='userlogin' />
-    <%= d.submit t(:channel_create) %>
-<% end %>
+
+      <%= form_for :channel do |d| %>
+        <input name='userlogin' class='userlogin' />
+        <%= d.submit t(:channel_create), :class => 'btn btn-primary' %>
+      <% end %>
+
+      <% if is_admin? %>
+
+        <br /><br /><br />
+
+        <% @channels.each do |c| %>
+          <% if c.social %>
+            <%= t(:social_channel) %>: <%= link_to c.name, (Rails.env == 'production') ? "http://www.socialsensornetwork.com/#{c.slug}" : "/s/#{c.slug}" %>
+            <br />
+          <% end %>
+        <% end %>
+
+        <br />
+
+        <%= link_to t(:social_channel_create), :controller => 'channels', :action => 'social_new' %>
+      <% end %>
+
+    </div>
+  </div>
+
+  <div id="sidebar" class="col-xs-12 col-sm-6">
+    <h4 class="breadcrumb"><%= t(:help) %></h4>
+
+    <div class="col-pad">
+
+      <%= t(:help_channel) %>
+      (<a href="http://community.thingspeak.com/documentation/api/"><%= t(:help_options) %></a>)
+      <ul>
+        <li><a href="http://community.thingspeak.com/tutorials/arduino/using-an-arduino-ethernet-shield-to-update-a-thingspeak-channel/">Arduino Tutorial</a></li>
+        <li><a href="http://community.thingspeak.com/tutorials/netduino/create-your-own-web-of-things-using-the-netduino-plus-and-thingspeak/">Netduino Plus Tutorial</a></li>
+      </ul>
+
+    </div>
+  </div>
+
+</div>
+

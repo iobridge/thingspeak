@@ -1,104 +1,66 @@
-<script type="text/javascript" src="/javascripts/rest.js"></script>
+<div id="maincontent">
+  <h2>
+    <%= link_to t(:channels), channels_path %> &raquo;
+    <%= link_to channel_path(@channel.id) do %> <%= t(:channel) %> <%= @channel.id %><% end %> &raquo;
+    <%= t(:charts) %>
+  </h2>
+
+  <% if !@channel.active? %>
+    <%= render :partial => 'config',
+      :locals => {
+        :displayconfig => true,
+        :title => t(:chart_example),
+        :src => "https://api.thingspeak.com/channels/3/charts/1",
+        :options => '&timescale=60&round=2',
+        :index => 0,
+        :width => @width,
+        :height => @height
+      }
+    %>
+
+    <h3><%= t(:chart_owned) %></h3>
+  <% end %>
+
+  <% @channel.attribute_names.each do |attr| %>
+    <% if attr.index('field') and @channel[attr] and !@channel[attr].empty? %>
   
+      <%= render :partial => 'config',
+        :locals => {
+                      :displayconfig => true,
+          :title => "#{@channel.name} - #{@channel[attr]}",
+          :src => "#{@domain}channels/#{@channel_id}/charts/#{attr[-1]}",
+          :options => @channel["options#{attr[-1]}"],
+          :index => attr[-1],
+          :width => @width,
+          :height => @height
+        }
+      %>
+  
+    <% end %>
+  <% end %>
+</div>
 
-<h2>
-	<%= link_to t(:channels), channels_path %> &raquo;
-	<%= link_to channel_path(@channel.id) do %> <%= t(:channel) %> <%= @channel.id %><% end %> &raquo;
-	<%= t(:charts) %>
-</h2>
-
-<%= render :partial => 'config',
-	:locals => {
-		:title => t(:chart_example),
-		:src => "https://api.thingspeak.com/channels/3/charts/1",
-		:options => '&timescale=60&round=2',
-		:index => 0,
-		:width => @width,
-		:height => @height
-	}
-%>
-
-<h3><%= t(:chart_owned) %></h3>
-
-<% @channel.attribute_names.each do |attr| %>
-	<% if attr.index('field') and @channel[attr] and !@channel[attr].empty? %>
-
-		<%= render :partial => 'config',
-			:locals => {
-				:title => "#{@channel.name} - #{@channel[attr]}",
-				:src => "#{@domain}channels/#{@channel_id}/charts/#{attr[-1]}",
-				:options => @channel["options#{attr[-1]}"],
-				:index => attr[-1],
-				:width => @width,
-				:height => @height
-			}
-		%>
-
-	<% end %>
-<% end %>
+<div id="sidebar">
+  <ul>
+    <li>
+      <div class="helplink">(<a href="http://community.thingspeak.com/documentation/api/#charts"><%= t(:help_options) %></a>)</div>
+      <h2><%= t(:help_charts) %></h2>
+      <%= t(:help_charts_options) %>
+      <br /><br />
+      <%= t(:help_charts_embed) %>
+      <br /><br />
+      &bull; <a href="http://community.thingspeak.com/tutorials/wordpress/how-to-embed-a-thingspeak-chart-on-your-wordpress-blog/">WordPress Tutorial</a>
+    </li>
+  </ul>
+</div>
 
 <script type="text/javascript">
 
-	$(document).ready(function() {
-		// if chrome/safari error occurs, reload page
-		if ($('#title0').val() == '60' && $('#color0').val() == '10') {
-			window.location.reload();
-		}
-	});
-
-	// update the chart with all the textbox values
-	function updateChart(index, postUpdate) {
-		// default width and height
-		var width = <%= @width %>;
-		var height = <%= @height %>;
-		// get old src
-		var src = $('#iframe' + index).attr('default_src').split('?')[0];
-
-		// if not a line chart, a timeslice should be present or set timescale=30
-		if ($('#type' + index).val() != 'line') {
-			if ($('#timescale' + index).val().length == 0 && $('#average' + index).val().length == 0 && $('#median' + index).val().length == 0 && $('#sum' + index).val().length == 0) {
-				$('#timescale' + index).val(30);
-			}
-		}
-
-		// add inputs to array
-		var inputs = [];
-		$('.chart_options' + index).each(function() {
-			var v = $(this).val();
-			var id = $(this).attr('id');
-			if (v.length > 0) { inputs.push([id.substring(0, id.length-1), v]); }
-		});
-
-		// create querystring
-		var qs = '';
-		while (inputs.length > 0) {
-			var p = inputs.pop();
-			if (p[0] == 'width') { width = parseInt(p[1]); }
-			if (p[0] == 'height') { height = parseInt(p[1]); }
-
-			// don't add type=line to querystring, it's the default value
-			if (!(p[0] == 'type' && p[1] == 'line')) {
-				qs += '&' + p[0] + '=' + encodeURIComponent(p[1]);
-			}
-		}
-		// if querystring exists, add it to src
-		if (qs.length > 0) { src += '?' + qs.substring(1); }
-
-		// save chart options to database
-		if (postUpdate && index > 0) {
-			$.update(
-				'/channels/<%= @channel_id %>/charts/' + index,
-				{ options: qs }
-			);
-		}
-
-		// set embed code
-		$('#embed' + index).val('<iframe width="' + width + '" height="' + height + '" style="border: 1px solid #cccccc;" src="' + src + '"></iframe>');
-
-		// set new src
-		$('#iframe' + index).attr('src', src);
-		$('#iframe' + index).attr('width', width);
-		$('#iframe' + index).attr('height', height);
-	}
+  $(document).ready(function() {
+    // if chrome/safari error occurs, reload page
+    if ($('#title0').val() == '60' && $('#color0').val() == '10') {
+      window.location.reload();
+    }
+  });
 
 </script>

@@ -1,0 +1,104 @@
+<script>
+
+
+ $(function() {
+      $("#tabs").tabs({
+      ajaxOptions: {
+        error: function( xhr, status, index, anchor ) {
+          $( anchor.hash ).html(
+            "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+            "If this wouldn't be a demo." );
+        }
+      }
+    });
+
+ //Need to turn this into an ID so it doesn't run on more than one object
+       $(".ioplugin").off();
+       $("body").on("click", ".ioplugin", function() {
+
+              var plugins = $(".plugin");
+              var addPlugin = $(this);
+              var ids = addPlugin.attr('id').split("-");
+              var channelId  = <%= params[:channel_id] %>;
+              var windowId =ids[1];
+          //Need to add data to this request to identify it as a plugin request
+              var data = {plugin:true, visibility_flag:"<%= @visibility %>"};
+              $.update("/channels/" + channelId + "/windows/"+ windowId + "/display" , data,
+                        function(response) {
+
+                           var window = response.plugin_window;
+                           var colId = window.col;
+
+                           var colName = (window.private_flag == true) ? "private" : "public";
+
+                           addPlugin.hide();
+                           for (var type in response) {
+                               var wtype = type;
+                           }
+                           var portlet = addWindow(colName,colId, window.id, wtype, window.title, window.html );
+                           //for each portlet
+
+                           portlet.each ( decoratePortlet("true") );
+
+                           portlet.find( ".ui-toggle" ).click( uiToggleClick );
+                           portlet.find( ".ui-view" ).click( uiViewClick (channelId) );
+                           portlet.find( ".ui-edit" ).click( uiEditClick (channelId) );
+                           portlet.find( ".ui-close" ).click( uiCloseClick (channelId) );
+                        }) ;
+          });
+
+      $(".ioportlet").click(
+          function() {
+
+              var addPortlet = $(this);
+              var ids = addPortlet.attr('id').split("-");
+              var channelId  = ids[1];
+              var windowId =ids[2];
+              $.update("/channels/" + channelId +"/windows/"+ windowId + "/display" ,
+                       function(response) {
+                           var window = (response.portlet_window) ? response.portlet_window : response.chart_window;
+                           var colId = window.col;
+                           var colName = (window.private_flag == true) ? "private" : "public";
+                           addPortlet.hide();
+                           for (var type in response) {
+                               var wtype = type;
+                           }
+                           var portlet = addWindow(colName,colId, window.id, wtype, window.title, window.html );
+                           //for each portlet
+
+                           portlet.each ( decoratePortlet("true") );
+
+                           portlet.find( ".ui-toggle" ).click( uiToggleClick );
+                           portlet.find( ".ui-view" ).click( uiViewClick (channelId) );
+                           portlet.find( ".ui-edit" ).click( uiEditClick (channelId) );
+                           portlet.find( ".ui-close" ).click( uiCloseClick (channelId) );
+                       }) ;
+          });
+
+ });
+</script>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Windows</a></li>
+    <% if @visibility =="private" %>
+    <li><a href="/plugins/private_plugins?channel_id=<%= params[:channel_id] %>">Plugins</a></li>
+    <% else %>
+    <li><a href="/plugins/public_plugins?channel_id=<%= params[:channel_id] %>">Plugins</a></li>
+    <% end %>
+  </ul>
+
+  <div id="tabs-1">
+    <% if @windows.blank? %>
+       <h4><%= t("portlets_all_displayed") %></h4>
+    <% else %>
+       <h4><%= t("portlets_add") %></h4>
+       <% @windows.each do |window| %>
+         <div id="addPortlet-<%= window.channel_id %>-<%=window.id%>" class="ioportlet ui-widget-content addportlet" >
+         <%= window.title %>
+         </div>
+       <% end %>
+    <% end %>
+  </div>
+
+</div>
+

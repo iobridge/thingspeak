@@ -1,89 +1,127 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <script type="text/javascript" src="/javascripts/jquery-1.6.js"></script>
-  <script type="text/javascript" src="/javascripts/highcharts<%= '-android' if get_header_value('user_agent').upcase.index('ANDROID') %>.js"></script>
-  
-  <script type="text/javascript">
-  
-    // user's timezone offset
-    var myOffset = new Date().getTimezoneOffset();
-    
-    // converts date format from JSON
-    function getChartDate(d) {
-      // get the data using javascript's date object (year, month, day, hour, minute, second)
-      // months in javascript start at 0, so remember to subtract 1 when specifying the month
-      // offset in minutes is converted to milliseconds and subtracted so that chart's x-axis is correct
-      return Date.UTC(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)) - (myOffset * 60000);
-    }
+  <head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+    <%= javascript_include_tag 'application' %>
 
-    $(document).ready(function() {
-      // blank array for holding chart data
-      var chartData = [];
-      // variable for the local date in milliseconds
-      var localDate;
-      // variable for the last date added to the chart
-      var last_date;
+      <script type="text/javascript">
 
-      // get the data with a webservice call
-      $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/field/#{params[:id]}.json?callback=?&offset=0#{@qs}" %>', function(data) {
-        // if no access
-        if (data == '-1') {
-          $('#chart-container').append('<%= t(:chart_no_access) %>');
+        // user's timezone offset
+        var myOffset = new Date().getTimezoneOffset();
+
+        // converts date format from JSON
+        function getChartDate(d) {
+            // get the data using javascript's date object (year, month, day, hour, minute, second)
+            // months in javascript start at 0, so remember to subtract 1 when specifying the month
+            // offset in minutes is converted to milliseconds and subtracted so that chart's x-axis is correct
+            return Date.UTC(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)) - (myOffset * 60000);
         }
-  
-        // iterate through each feed
-        $.each(data.feeds, function() {
-          var p = new Highcharts.Point();
-          // set the proper values
-          var v = this.field<%= params[:id] %>;
-          p.x = getChartDate(this.created_at);
-          p.y = parseFloat(v);
-          // add location if possible
-          if (this.location) { p.name = this.location; }
-          // if a numerical value exists add it
-          if (!isNaN(parseInt(v))<% if params[:max] %> && p.y <= <%= params[:max]%><% end %><% if params[:min] %> && p.y >= <%= params[:min]%><% end %>) { chartData.push(p); }
-        });
 
-        // specify the chart options
-        var chartOptions = {
+        $(document).ready(function() {
+          // blank array for holding chart data
+          var chartData = [];
+          // variable for the local date in milliseconds
+          var localDate;
+          // variable for the last date added to the chart
+          var last_date;
+
+          // get the data with a webservice call
+
+          $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/field/#{params[:id]}.json?callback=?&offset=0#{@qs}" %>', function(data) {
+
+            // if no access
+            if (data == '-1') {
+          $('#chart-container').append('<%= t(:chart_no_access) %>');
+            }
+
+            // iterate through each feed
+            $.each(data.feeds, function() {
+                 var p = new Highcharts.Point();
+                 // set the proper values
+                 var v = this.field<%= params[:id] %>;
+                 p.x = getChartDate(this.created_at);
+                 p.y = parseFloat(v);
+                 // add location if possible
+                 if (this.location) { p.name = this.location; }
+                 // if a numerical value exists add it
+                 if (!isNaN(parseInt(v))<% if params[:max] %> && p.y <= <%= params[:max]%><% end %><% if params[:min] %> && p.y >= <%= params[:min]%><% end %>) { chartData.push(p); }
+             });
+
+            // specify the chart options
+            var chartOptions = {
           chart: {
-            renderTo: 'chart-container',
-            defaultSeriesType: '<%= params[:type] ? "#{params[:type]}" : "line" %>',
-            backgroundColor: '<%= params[:bgcolor] || "#ffffff" %>',
-            events: {
-              load: function() {
-                if ('true' === '<%= params[:dynamic] %>') {
-                  // push data every 15 seconds
-                  setInterval(function() {
-    
-                    // get the data with a webservice call
-                    $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&offset=0&location=true" %>', function(data) { 
-                      // if data exists
-                      if (data && data.field<%= params[:id] %>) {
-                        var p = new Highcharts.Point();
-                        // set the proper values
-                        var v = data.field<%= params[:id] %>;
-                        p.x = getChartDate(data.created_at);
-                        p.y = parseFloat(v);
-                        // add location if possible
-                        if (data.location) { p.name = data.location; }
-                        // get the last date if possible
-                        if (dynamicChart.series[0].data.length > 0) { last_date = dynamicChart.series[0].data[dynamicChart.series[0].data.length-1].x; }
-                        // if a numerical value exists and it is a new date, add it
-                        if (!isNaN(parseInt(v)) && (p.x != last_date)<% if params[:max] %> && p.y <= <%= params[:max]%><% end %><% if params[:min] %> && p.y >= <%= params[:min]%><% end %>) {
-                          dynamicChart.series[0].addPoint(p, true, <%= (@push) ? 'true' : 'false' %>);
-                        }
-                      }
-                    });
-    
-                  }, 15000);
+
+              renderTo: 'chart-container',
+              defaultSeriesType: '<%= params[:type] ? "#{params[:type]}" : "line" %>',
+              backgroundColor: '<%= params[:bgcolor] || "#ffffff" %>',
+              events: {
+            load: function() {
+                //if dynamic and no "timeslice" options are set
+                //   GAK 02/16/2013 Let's try to add the last "average" slice if params[:average]
+
+                var url = '<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&offset=0&location=true#{@qs}" %>' ;
+                if ("<%= params[:average] %>".length > 0) {
+              url = '<%= "#{@domain}channels/#{params[:channel_id]}/feed/last_average.json?callback=?&offset=0&location=true&average=#{params[:average]}#{@qs}" %>' ;
                 }
+                else if ("<%= params[:median] %>".length > 0) {
+              url = '<%= "#{@domain}channels/#{params[:channel_id]}/feed/last_median.json?callback=?&offset=0&location=true&median=#{params[:median]}#{@qs}" %>' ;
+                }
+                else if ("<%= params[:sum] %>".length > 0) {
+                            url = '<%= "#{@domain}channels/#{params[:channel_id]}/feed/last_sum.json?callback=?&offset=0&location=true&sum=#{params[:sum]}#{@qs}" %>' ;
+                }
+
+                if ('true' === '<%= params[:dynamic] %>' && (
+                                                            '<%= params[:timescale] %>'.length < 1
+              )) {
+                  // push data every 15 seconds
+
+                  setInterval(function() {
+                      // get the data with a webservice call if we're just getting the last channel
+
+                      $.getJSON(url, function(data) {
+                        // if data exists
+                        if (data && data.field<%= params[:id] %>) {
+
+                            var p = new Highcharts.Point();
+                            // set the proper values
+                            var v = data.field<%= params[:id] %>;
+
+                            p.x = getChartDate(data.created_at);
+                            p.y = parseFloat(v);
+                            // add location if possible
+                            if (data.location) { p.name = data.location; }
+                            // get the last date if possible
+                            if (dynamicChart.series[0].data.length > 0) {
+                          last_date = dynamicChart.series[0].data[dynamicChart.series[0].data.length-1].x;
+                            }
+                            var shift = <%= (@push=='true') ? 'true' : 'false' %> ; //default for shift
+
+                            //if push is requested in parameters
+                            // then if results is and data.length is < results, shift = false
+                            var results = <%= (@results) ? @results : 60 %>;
+
+                            if ( results  && dynamicChart.series[0].data.length+1 >= results )   {
+                          shift = true ;
+                            }
+                            // if a numerical value exists and it is a new date, add it
+                            if (!isNaN(parseInt(v)) && (p.x != last_date)<% if params[:max] %> && p.y <= <%= params[:max]%><% end %><% if params[:min] %> && p.y >= <%= params[:min]%><% end %>) {
+                          dynamicChart.series[0].addPoint(p, true, shift);
+                            }
+                            else {
+                          dynamicChart.series[0].data[dynamicChart.series[0].data.length-1].update(p);
+                            }
+
+
+                        }
+                          });
+
+                  }, 15000);
               }
             }
+              }
           },
           title: {
-            text: ''
+              text: ''
           },
           plotOptions: {
             line: {
@@ -101,54 +139,59 @@
               },
               animation: true,
               step: <%= params[:step] || 'false' %>,
-              borderWidth: 0
+              borderWidth: 0,
+              turboThreshold: 0
             }
           },
           tooltip: {
-            // reformat the tooltips so that local times are displayed
-            formatter: function() {
-              var d = new Date(this.x + (myOffset*60000));
-              var n = (this.point.name === undefined) ? '' : '<br/>' + this.point.name;
-              return this.series.name + ':<b>' + this.y + '</b>' + n + '<br/>' + d.toDateString() + '<br/>' + d.toTimeString().replace(/\(.*\)/, "");
-            }
+              // reformat the tooltips so that local times are displayed
+              formatter: function() {
+            var d = new Date(this.x + (myOffset*60000));
+            var n = (this.point.name === undefined) ? '' : '<br/>' + this.point.name;
+            return this.series.name + ':<b>' + this.y + '</b>' + n + '<br/>' + d.toDateString() + '<br/>' + d.toTimeString().replace(/\(.*\)/, "");
+              }
           },
           xAxis: {
-            type: 'datetime',
-            title: {
-              text: ''
-            }
+              type: 'datetime',
+              title: {
+            text: 'test'
+              }
           },
           yAxis: {
-            title: {
-              text: ''
-            }
+              title: {
+            text: ''
+              }
+          },
+          exporting: {
+              enabled: <%= (params[:export].present? && params[:export] == 'true') ? 'true' : 'false' %>
           },
           legend: {
-            enabled: false
+              enabled: false
           },
           series: [{
-            name: data.channel.field<%= params[:id] %>
-          }]
-        };
+                 name: data.channel.field<%= params[:id] %>
+             }]
+            };
 
-        // add the data to the chart
-        chartOptions.series[0].data = chartData;
+            // add the data to the chart
+            chartOptions.series[0].data = chartData;
 
-        // set chart labels here so that decoding occurs properly
-        chartOptions.title.text = <% if params[:title] %>decodeURIComponent('<%= u(params[:title]) %>')<% else %>data.channel.name<% end %>;
-        chartOptions.xAxis.title.text = <% if params[:xaxis] %>decodeURIComponent('<%= u(params[:xaxis]) %>')<% else %>'Date'<% end %>;
-        chartOptions.yAxis.title.text = <% if params[:yaxis] %>decodeURIComponent('<%= u(params[:yaxis]) %>')<% else %><%= "data.channel.field#{params[:id]}" %><% end %>;
+            // set chart labels here so that decoding occurs properly
+            chartOptions.title.text = <% if params[:title] %>decodeURIComponent('<%= u(params[:title]) %>')<% else %>data.channel.name<% end %>;
+            chartOptions.xAxis.title.text = <% if params[:xaxis] %>decodeURIComponent('<%= u(params[:xaxis]) %>')<% else %>'Date'<% end %>;
+            chartOptions.yAxis.title.text = <% if params[:yaxis] %>decodeURIComponent('<%= u(params[:yaxis]) %>')<% else %><%= "data.channel.field#{params[:id]}" %><% end %>;
 
-        // draw the chart
-        var dynamicChart = new Highcharts.Chart(chartOptions);
+            // draw the chart
+            var dynamicChart = new Highcharts.Chart(chartOptions);
+
+        });
 
       });
 
-    });
-  
   </script>
 </head>
 <body style='background-color: <%= params[:bgcolor] ? params[:bgcolor] : 'white' %>;'>
   <div id="chart-container" style="width: <%= params[:width] ? params[:width].to_i - 25 : @width.to_i - 25 %>px; height: <%= params[:height] ? params[:height].to_i - 25 : @height.to_i - 25 %>px;"></div>
 </body>
 </html>
+

@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+
+    <h4 class='breadcrumb'><%= t(:plugins) %></h4>
+
+    <% if @plugins.length > 0 %>
+      <table class="table table-striped table-bordered">
+        <tr>
+          <th><%= t(:plugin_name) %></th>
+          <th><%= t(:action) %></th>
+        </tr>
+
+        <% @plugins.each do |p| %>
+        <tr>
+          <td><%= link_to p.name, plugin_path(p.id) %></td>
+          <td><%= link_to t(:edit), edit_plugin_path(p.id) %></td>
+        </tr>
+        <% end %>
+
+      </table>
+
+      <br /><br />
+    <% end %>
+
+    <%= form_for :plugin do |p| %>
+      <input name='userlogin' class='userlogin' />
+      <%= p.submit t(:plugin_create), :class => 'btn btn-primary' %>
+    <% end %>
+  </div>
+
+  <div id="sidebar" class="col-xs-12 col-sm-6">
+    <h4 class="breadcrumb"><%= t(:help) %></h4>
+
+    <div class="col-pad">
+      <%= t(:help_plugins) %>
+      <ul>
+        <li><a href="http://community.thingspeak.com/tutorials/google/display-a-google-gauge-visualization-using-thingspeak-plugins/" target="_blank">Google Gauge Tutorial</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+

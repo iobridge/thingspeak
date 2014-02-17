@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>The Social Sensor Network</title>
+  <style type="text/css">
+  body {
+    background-color: #bcd1e4;   
+  }
+  a {
+    text-decoration: none;  
+    color: #ffffff;  
+    font: 18px Arial, Sans-Serif;
+    font-weight: 700;
+    text-shadow: 0px 1px 2px #535353;
+  }
+  h2 {
+    margin: 10px 0 0 0;
+    font: 45px Tahoma, Helvetica, Arial, Sans-Serif;
+    text-align: center;
+    color: #535353;
+    text-shadow: 0px 2px 3px #62a09d;
+  }
+  h3 {
+    margin: 0 0 0 0;
+    font: 14px Tahoma, Helvetica, Arial, Sans-Serif;
+    text-align: center;
+    color: #656fad;
+    text-shadow: 0px 1px 2px #62a09d;
+    
+  }
+  input, #submit {
+    font: 14px Tahoma, Helvetica, Arial, Sans-Serif;
+    text-align: center;
+    color: #656fad;
+    border: 1px solid #535353;
+    
+  }
+  #content {
+    margin: 0 auto;
+    text-align: center;     
+    width: 800px;
+  }
+  #social {
+    float:left;
+  }
+  #demo {
+    margin: 5px;
+    border: 1px solid #535353;
+    padding: 15px;  
+    background: #c46353;
+  }
+  #demo_text {
+    display: block;
+    margin: 0 0 10px 0;
+    font: 25px Tahoma, Helvetica, Arial, Sans-Serif;
+    text-align: center;
+    color: #535353;
+    text-shadow: 0px 2px 3px #62a09d;
+  }
+  </style>
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-22749436-1']);
+    _gaq.push(['_trackPageview']);
+  
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  
+  </script>
+</head>
+<body>
+  <div id="content">
+    
+    <div id="social">
+      <script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>
+      <a href="http://twitter.com/share?via=socialsensors" class="twitter-share-button">Tweet</a>
+      <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.socialsensornetwork.com%2F&amp;layout=button_count&amp;show_faces=true&amp;width=450&amp;action=like&amp;font=tahoma&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:21px;" allowTransparency="true"></iframe>
+    </div>
+    
+    <div style="clear:both;"></div>
+    
+    <% link_to 'irs-refund/' do %>
+      <img src='<%= "#{@api_domain}images/social_sensor_network_main.png "%>' width='600' height='415' border='0' />
+    <% end %>
+    <h2>the social sensor network is forming.</h2>
+    <h3>We have one thing in common. At almost all times we are connected to the web.<br />
+      The Social Sensor Network allows everyone to report and share data in an open and meaningful way.</h3>
+      
+      <br />
+
+    <form method=post action="https://app.icontact.com/icp/signup.php" name="icpsignup" id="icpsignup2312" accept-charset="UTF-8" onsubmit="return verifyRequired2312();" >
+      <input type=hidden name=redirect value="http://www.socialsensornetwork.com?invite=success" />
+      <input type=hidden name=errorredirect value="http://www.socialsensornetwork.com" />
+      <input type=text name="fields_email">
+      <input type=hidden name="listid" value="26352">
+      <input type=hidden name="specialid:26352" value="SP8K">
+      <input type=hidden name=clientid value="874748">
+      <input type=hidden name=formid value="2312">
+      <input type=hidden name=reallistid value="1">
+      <input type=hidden name=doubleopt value="0">
+      <input type="submit" name="submit" id="submit" value="Sign up for Invite">
+    </form>
+    
+    <script type="text/javascript">
+      // alert user for successful form submission
+      if (window.location.toString().indexOf('invite=success') > 0) {
+        alert('Your email address has been submitted, thanks!');
+        window.location = window.location.toString().replace('?invite=success', '');
+      }
+
+      var icpForm2312 = document.getElementById('icpsignup2312');
+      
+      if (document.location.protocol === "https:")
+      
+        icpForm2312.action = "https://app.icontact.com/icp/signup.php";
+      function verifyRequired2312() {
+        if (icpForm2312["fields_email"].value == "") {
+          icpForm2312["fields_email"].focus();
+          alert("The Email field is required.");
+          return false;
+        }
+      
+      return true;
+      }
+    </script>
+    
+      <br />
+      <br />
+      
+    <span id="demo_text">demo channels</span>
+    
+      <br />      
+  
+    <span id="demo"><a href="http://www.socialsensornetwork.com/irs-refund">IRS Refunds</a></span>
+    <span id="demo"><a href="http://www.socialsensornetwork.com/online-poker">Frozen Online Poker Money</a></span>
+
+  </div>
+</body>
+</html>
+
+

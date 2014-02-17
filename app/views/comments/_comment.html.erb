@@ -1,0 +1,45 @@
+<div <%= "class=nestedcomment" if !comment.parent_id.nil? %>>
+  <div class="commentdiv">
+    <table class="commenttable">
+      <tr>
+        <td style="width: 50px; vertical-align: top;">
+          <%= gravatar_tag User.find(comment.user_id), :default => 'wavatar', :secure => true %>
+        </td>
+        <td>
+          <% if current_user %>
+            <div class="votediv">
+              <span id="flaglink<%= comment.id %>" class="voteicon voteflag" onclick="return commentflag(<%= comment.id %>, <%= current_user.id %>);"><span id="commentflag<%= comment.id %>"></span> <%= t(:comment_flag) %></span>
+            </div>
+          <% end %>
+          <span class="username"><%= link_to User.find(comment.user_id).login, list_channels_path(User.find(comment.user_id).login) %></span>
+          <span class="prettydate"><%= time_ago_in_words(comment.created_at) %> <%= t(:ago) %></span>
+          <br />
+          <div>
+            <%= auto_link_urls(comment.body) %>
+          </div>
+          <% if current_user %>
+            <% if comment.user == current_user %>
+              <%= link_to t(:delete), comment_path(comment), :method => :delete, :data => { :confirm => t(:confirm_comment_delete) } %>
+            <% else %>
+              <span class="spanlink" onclick="$('#commentreply<%= comment.id %>').toggle();"><%= t(:comment_reply) %></span>
+            <% end %>
+          <% else %>
+            <%= link_to t(:comment_reply), channel_comments_path(@channel) %>
+          <% end %>
+          <div id="commentreply<%= comment.id %>" style="display: none;">
+            <%= form_for comment, :as => :comment, :url => "/channels/#{@channel.id}/comments", :html => {:method => :post} do |f| %>
+              <%= f.error_messages %>
+              <input name='userlogin' class='userlogin' />
+              <%= hidden_field_tag :parent_id, comment.id %>
+              <%= f.text_area :body, :value => '', :class => 'commentarea' %>
+              <br />
+              <%= submit_tag %>
+            <% end %>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <%= render :partial => 'comments/comment', :collection => comment.children %>
+</div>
+

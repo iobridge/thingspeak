@@ -1,0 +1,9 @@
+.recent_status {
+    font-family: sans-serif;
+    margin: 4px;
+}
+.timeago { 
+    font-size: 0.8em; 
+    color: #ccc;
+    margin-left:10px;
+}

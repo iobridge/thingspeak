@@ -1,5 +1,230 @@
-<% if current_user %>
-	<%= t(:homepage_logged_in) %>
-<% else %>
-	<%= t(:homepage) %>
-<% end %>
+<script type="text/javascript">
+  // users timezone offset
+  var myOffset = new Date().getTimezoneOffset();
+
+  // converts date format from JSON
+  function getChartDate(d) {
+    // get the data using javascript's date object (year, month, day, hour, minute, second)
+    // months in javascript start at 0, so remember to subtract 1 when specifying the month
+    // offset in minutes is converted to milliseconds and subtracted so that chart's x-axis is correct
+    return Date.UTC(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)) - (myOffset * 60000);
+  }
+
+  $(document).ready(function() {
+    // blank array for holding chart data
+    var chartData = [];
+    // variable for the date string
+    var d;
+    // variable for the data point
+    var p;
+    // variable for the local date in milliseconds
+    var localDate;
+
+    // get the data with a webservice call
+    $.getJSON('https://api.thingspeak.com/channels/9/field/1.json?callback=?&amp;results=15&amp;offset=0', function(data) {
+      // if no access
+      if (data == '-1') {
+        $('#chart-container').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
+      }
+
+      // iterate through each feed
+      $.each(data.feeds, function() {
+        p = this.field1;
+        // if a numerical value exists add it
+        if (!isNaN(parseInt(p))) {
+          chartData.push([getChartDate(this.created_at), parseFloat(p)]);
+        }
+      });
+
+      // specify the chart options
+      var chartOptions = {
+        chart: {
+          renderTo: 'chart-container',
+          defaultSeriesType: 'line',
+          backgroundColor: '#fff',
+          events: {
+            load: function() {
+              // push data every 15 seconds
+              setInterval(function() {
+
+                // get the data with a webservice call
+                $.getJSON('https://api.thingspeak.com/channels/9/feed/last.json?callback=?&amp;offset=0', function(data) {
+                  p = data.field1;
+                  d = getChartDate(data.created_at);
+                  last_date = dynamicChart.series[0].data[dynamicChart.series[0].data.length-1].x;
+
+                  // if a numerical value exists and it is a new date, add it
+                  if (!isNaN(parseInt(p)) && (d != last_date)) {
+
+                    dynamicChart.series[0].addPoint([d, parseFloat(p)], true, true);
+                  }
+                });
+
+              }, 15000);
+            }
+          }
+        },
+        title: {
+          text: ''
+        },
+        plotOptions: {
+          line: {
+            color: '#d62020'
+          },
+          bar: {
+            color: '#d62020'
+          },
+          column: {
+            color: '#d62020'
+          },
+          series: {
+            marker: {
+              radius: 3
+            },
+            animation: true
+          }
+        },
+        tooltip: {
+          // reformat the tooltips so that local times are displayed
+          formatter: function() {
+            var d = new Date(this.x + (myOffset*60000));
+            return this.series.name + ':<b>' + this.y + '</b><br/>' + d.toDateString() + '<br/>' + d.toTimeString().replace(/\(.*\)/, "");
+          }
+        },
+        xAxis: {
+          type: 'datetime',
+          title: {
+            text: ''
+          }
+        },
+        yAxis: {
+          title: {
+            text: ''
+          }
+        },
+                          exporting: {
+                                  enabled: false
+                          },
+        legend: {
+          enabled: false
+        },
+        series: [{
+          name: data.channel.field1
+        }]
+      };
+
+      // add the data to the chart
+      chartOptions.series[0].data = chartData;
+
+      // set chart labels here so that decoding occurs properly
+      chartOptions.title.text = 'Dynamic Light Levels';
+      chartOptions.xAxis.title.text = 'Time';
+      chartOptions.yAxis.title.text = data.channel.field1;
+
+      // draw the chart
+      var dynamicChart = new Highcharts.Chart(chartOptions);
+
+    });
+
+  });
+
+</script>
+
+<div class="row">
+  <div class="text-center">
+    <%= image_tag 'front.png', :size => '854x144' %>
+  </div>
+</div>
+
+<br><br><br>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div id="chart-container" class="center-block" style="width: 500px; height: 260px; padding-left: 20px;"></div>
+  </div>
+  <div class="col-sm-6">
+    <div style="margin-top: 55px;" class="text-center"><a href="http://community.thingspeak.com/tutorials/netduino/create-your-own-web-of-things-using-the-netduino-plus-and-thingspeak/"><%= image_tag 'my_house_status_update.png' %></a></div>
+  </div>
+</div>
+
+<br><br><br>
+
+<div class="row">
+
+  <div class="col-sm-4">
+    <h4 class="breadcrumb">Features</h4>
+    <p>
+      <ul>
+        <li>Open Source API</li>
+        <li>Real-time data collection</li>
+        <li>Data processing</li>
+        <li>Data visualizations</li>
+        <li>Location-awareness</li>
+        <li>Status context</li>
+        <li>Application infrastructure</li>
+        <li>Twitter proxy</li>
+        <li>Apps</li>
+        <li>Plugins</li>
+        <li><%= link_to '... more', features_pages_path %></li>
+      </ul>
+    </p>
+  </div>
+
+  <div class="col-sm-4">
+    <h4 class="breadcrumb">Applications</h4>
+    <p>
+      <ul>
+        <li>Sensor monitoring</li>
+        <li>Energy monitoring</li>
+        <li>Connecting devices and systems</li>
+        <li>Geo location tracking</li>
+        <li>Interfacing with social networks</li>
+        <li>RFID transactions</li>
+      </ul>
+    </p>
+    <h4 class="breadcrumb">Who Uses ThingSpeak</h4>
+    <p>
+      <ul>
+        <li>Application developers</li>
+        <li>Product integrators</li>
+        <li>Web designers</li>
+      </ul>
+    </p>
+  </div>
+
+  <div class="col-sm-4">
+    <h4 class="breadcrumb">Get Started</h4>
+      <div class="col-pad">
+        If you are ready to get started, <span id="feature_signup"> <%= link_to t(:signup), new_account_path %></span> for a free user account.
+      </div>
+    <h4 class="breadcrumb">Connect</h4>
+    <p>
+      <ul>
+        <li><a href="http://www.twitter.com/thingspeak" title="Follow ThingSpeak on Twitter">Twitter</a></li>
+        <li><a href="https://github.com/iobridge/ThingSpeak" title="Open Source Internet of Things Project on GitHub">GitHub</a></li>
+        <li><a href="http://community.thingspeak.com" title="Join the ThingSpeak Community">ThingSpeak Community</a></li>
+        <li><a href="http://community.thingspeak.com/documentation" title="ThingSpeak API and Apps Documentation">Documentation</a> and <a href="http://community.thingspeak.com/tutorials" title="ThingSpeak Tutorials">Tutorials</a></li>
+        <li><a href="mailto:support@thingspeak.com" title="Contact ThingSpeak">Questions</a></li>
+      </ul>
+    </p>
+  </div>
+
+</div>
+
+<br><br><br>
+
+<div class="row">
+  <div class="col-sm-offset-2 col-sm-8 col-xs-12">
+
+    <div class="center-block" style="max-width: 600px;">
+      <h4><a href="http://community.thingspeak.com/" title="ThingSpeak Community, Blog, and Forum">latest news<a> <a href="http://feeds.feedburner.com/internetofthings/" title="ThingSpeak RSS Feed"><%= image_tag 'icon_rss.gif' %></a></h4>
+      <br>
+
+      <% cache("blog-posts-on-homepage", :expires_in => 10.minutes) do %>
+        <%= raw blog_entries %>
+      <% end %>
+    </div>
+
+  </div>
+</div>
+

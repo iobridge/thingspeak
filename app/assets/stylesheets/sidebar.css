@@ -1,0 +1,28 @@
+.affix-top,.affix{
+	position: static;
+}
+
+#bootstrap-sidebar {
+  background-color: #eee;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 2px 0;
+}
+
+#bootstrap-sidebar li a:hover {
+  background-color: #fafafa;
+}
+
+#bootstrap-sidebar li.active {
+  border:0 #666 solid;
+  border-right-width:4px;
+}
+
+@media (min-width: 979px) {
+  #bootstrap-sidebar.affix-top, #bootstrap-sidebar.affix {
+    position: fixed;
+    top:90px;
+    width:228px;
+  }
+}
+

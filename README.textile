@@ -24,7 +24,7 @@ h3. Run The Application
 
 1. Start the server: rails server
 
-Your application will now be running at http://localhost:3000/ 
+Your application will now be running at http://localhost:3000/
 
 h2. Changing Application Text
 
@@ -36,14 +36,9 @@ h2. (Optional) Memcached Support and Rate Limiting
 
 Please see our "official memcached fork":https://github.com/llawlor/thingspeak
 
-h2. (Optional) HTTP GET Support
-
-By default the application will accept channel updates via GET or POST.  To only allow POSTs, change the value of GET_SUPPORT found in config/initializers/constants.rb
-
 h2. (Optional) Email Setup
 
 Set your domain, user_name, and password in config/environment.rb
-Also set your password reset link in app/controllers/mailer.controller.rb line 14 (and uncomment the line)
 
 h1. Installation on clean install of Ubuntu 10.10 and 11.10
 
@@ -57,8 +52,8 @@ Start Terminal
 
 <code>bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )</code>
 <code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile</code>
- 
-<code>source ~/.bash_profile</code>
+
+<code>source .bash_profile</code>
 
 <code>sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby</code>
       Note: Enter and confirm a new MySQL password
@@ -83,3 +78,4 @@ Start Terminal
 <code>rake db:schema:load</code>
 
 <code>rails server</code>
+

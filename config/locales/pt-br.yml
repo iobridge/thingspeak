@@ -39,6 +39,7 @@
   channel_create: "Criar novo canal"
   channel_edit: "Editar Canal"
   channel_error: "Ocorreram alguns problemas ao criar seu canal:"
+  channel_update_success: "The Channel was updated."
   channel_feed: "Dados do Canal"
   channel_default_field: "Rótulo do campo"
   channel_default_name: "Canal"
@@ -48,7 +49,8 @@
   channel_directions: "Direções"
   channel_id: "ID do canal"
   channel_name: "Nome"
-  channel_not_public: "Este canal é público."
+  channel_ranking: "Percentage Complete"
+  channel_not_public: "Este canal não é público."
   channel_permission: "Você não tem permissão para visualizar este canal!"
   channel_public: "Visualizar canal público"
   channel_public_view: "Visualização Pública"
@@ -57,7 +59,12 @@
   channels: "Canais"
   channels_my: "Meus Canais"
   channels_public_view: "Visualizar canais públicos"
+  channel_being_cleared: "This channel is currently being cleared. Any data you post to this channel before clearing is complete may be deleted."
+  channel_video_type_blank: "Ou Youtube, ou Vimeo, é necessário se Video ID é especificado."
   chart: "Gráfico"
+  chart_max: "Máximo"
+  chart_min: "Mínimo"
+  chart_is_dynamic: "Dinâmico"
   chart_background_color: "Cor do fundo"
   chart_embed_code: "Código para embutir"
   chart_example: "Gráfico de exemplo"
@@ -66,7 +73,7 @@
   chart_owned: "Seus gráficos"
   chart_round: "Arredondamento"
   chart_type: "Tipo"
-  chart_update: "Atualizar"
+  chart_update: "Atualizar gráficos"
   chart_xaxis: "Eixo X"
   chart_yaxis: "Eixo Y"
   charts: "Gráficos"
@@ -95,6 +102,7 @@
   data: "Dados"
   days: "Dias"
   delete: "apagar"
+  device: "Device"
   device_create: "Adicionar um novo dispositivo"
   device_custom_mac: "Digitar um endereço MAC personalizado"
   device_default_name: "Dispositivo"
@@ -107,6 +115,7 @@
   device_local_ip_address: "Endereço IP Local"
   device_local_port: "Porta Local"
   device_mac: "Endereço MAC"
+  device_mac_invalid: "Invalid MAC Address."
   device_model: "Modelo"
   device_port: "Número da porta pública"
   device_random_mac: "Gerar endereço MAC aleatório"
@@ -128,6 +137,7 @@
   footer: "Esta é a mensagem de rodapé."
   forgot: "Esqueceu sua senha?"
   forum: "Fórum"
+  for_more_information: "Para Mais Informações"
   generate_thingtweet_arduino_code: "Gerar código Arduino para o ThingTweet"
   height: "Altura"
   home: "Início"
@@ -177,7 +187,9 @@
   plugin_js: "JavaScript"
   plugin_name: "Nome"
   plugin_permission: "Você não tem permissão para apagar isto!"
+  plugin_private_flag: "Private only?"
   plugins: "Plugins"
+  plugin_private_flag: "Private?"
   profile_bio: "Biografia"
   profile_edit: "Editar perfil público"
   profile_for: "Perfil de"
@@ -189,8 +201,69 @@
   public: "Tornar Público?"
   public_header: "Público?"
   public_profile: "Perfil Público"
-  public_true: "Sim"
+  public_true: "Este canal é público."
   questions: "Perguntas"
+  react: "React"
+  react_header_name: "Name"
+  react_new_button: "Create New React"
+  react_delete_confirm: "Are you sure you wish to delete this condition?"
+  react_thinghttp_error: "'%{thinghttp_name}' request doesn't belong to you"
+  react_channel_error: "'%{channel_name}' request doesn't belong to you"
+  react_invalid_error: "%{value} is not a valid value"
+  react_invalid_number_error: "%{value} is not a value field number"
+  react_invalid_condition_error: "%{value} is not a valid condition"
+  react_invalid_condition_type_error: "%{value} is not a valid condition type"
+  react_twitter_account_required: "You need to add a twitter account to enable tweeting"
+  react_add_twitter_account: "Add a twitter account"
+  react_thinghttp_required: "You need to add a ThingHTTP request "
+  react_add_thinghttp_req: "Add ThingHTTP request"
+  react_tweet_cant_be_blank: "The tweet can't be blank"
+  react_type_string: "String"
+  react_type_status: "Status"
+  react_type_numeric: "Numeric"
+  react_type_geo: "Geo"
+  react_type_nodata: "No Data Check"
+  react_when_insert: "On Data Insertion"
+  react_when_10m: "Every 10 minutes"
+  react_when_30m: "Every 30 minutes"
+  react_when_60m: "Every 60 minutes"
+  react_condition_prefix: "If channel"
+  react_condition_field: "field"
+  react_condition_contains: "contains"
+  react_condition_begins: "starts with"
+  react_condition_ends: "ends with"
+  react_condition_gt: "is greater than"
+  react_condition_gte: "is greater than or equal to"
+  react_condition_lt: "is less than"
+  react_condition_lte: "is less than or equal to"
+  react_condition_eq: "is equal to"
+  react_condition_ne: "is not equal to"
+  react_condition_within: "is within"
+  react_condition_further: "is further than"
+  react_condition_nodata_prefix: "has not been updated for"
+  react_condition_nodata_suffix: "minutes"
+  react_condition_geo: "km from"
+  react_latitude: "latitude" 
+  react_longitude: "longitude"
+  react_delete: "Delete this React"
+  react_twitter_delete_warning1: "Cannot delete this twitter account as it is used by %{reacts_count}: %{reacts_list}"
+  react_twitter_delete_warning2: "Please delete or modify this react before unlinking this twitter account."
+  react_thinghttp_delete_warning1: "Cannot delete this ThingHTTP as it is used by %{reacts_count}: %{reacts_list}"
+  react_thinghttp_delete_warning2: "Please delete or modify this react before unlinking this ThingHTTP."
+  react_default_name: "React"
+  react_label_condition: "Condition"
+  react_label_test_frequency: "Test Frequency"
+  react_label_react_name: "React Name"
+  react_label_condition_type: "Condition Type"
+  react_label_action: "Action"
+  react_label_options: "Options"
+  react_action_tweet_prefix: "then tweet"
+  react_action_tweet_suffix: "using Twitter account"
+  react_action_thinghttp_prefix: "then perform thinghttp"
+  react_option_run_first_time: "Run action only the first time the condition is met"
+  react_option_run_every_time: "Run action each time condition is met"
+  react_create_button: "Create React"
+  react_save_button: "Create React"
   remember_me: "Lembrar meu Login"
   results: "Resultados"
   rss: "RSS Feed"
@@ -216,6 +289,7 @@
   social_channel_error_slug_exists: "Slug já foi usado."
   social_channel_new: "Novo canal social"
   social_saved: "Enviado, obrigado!"
+  status_messages: "Status Messages"
   submit: "Enviar"
   sum: "Soma"
   tags: "Tags"
@@ -275,6 +349,9 @@
   upload: "Upload"
   upload_select: "Faça o upload de um arquivo CSV para importar dados para este canal"
   uploading: "fazendo upload..."
+  upload_successful: "Upload successful."
+  upload_no_file: "Please specify a file to be uploaded."
+  upload_no_data: "The uploaded file was empty."
   url: "URL"
   user: "Login"
   user_no_public_channels: "Este usuário não possui canais públicos."
@@ -288,6 +365,11 @@
   watched_empty: "Você não está monitorando nenhum canal."
   watched_find: "Encontrar algum canal para monitorar."
   watched_view: "Ver canais monitorados"
+  public_link: "Públicos"
+  private_link: "Private"
+  settings_link: "Settings"
+  api_key_link: "API Key"
+  data_import_link: "Data Import"
   width: "Largura"
   youtube: "YouTube"
 
@@ -296,8 +378,10 @@
   help_apps_thinghttp: "Crie POSTs ou GETs personalizados para outros webservices e receba os dados."
   help_apps_thingtweet: "Conecte sua conta do Twitter ao ThingSpeak e envie mensagens para o Twitter usando nossa API."
   help_apps_tweetcontrol: "Receba comandos via Twitter e execute ações."
+  help_apps_react: "Perform actions when conditions are met by your data in your channels."
   help_channel: "Crie um canal, pode ser para um dispositivo, aplicação ou qualquer outra coisa que envie dados para o ThingSpeak."
   help_channel_clear: "Clicando em \"Limpar Canal\" todos os registros recebidos por este canal serão apagados, porém as informações do canal permanecerão intactas."
+  help_channel_ranking: "Completeness will help your channel appear higher in the list of public channels."
   help_channel_feed: "Como ver os dados enviados"
   help_channel_fields: "Adiciona até 8 campos de registro. Você deve adicionar um campo antes de armazenar os dados."
   help_channel_import: "Seleciona um arquivo CSV do seu disco rígido e importe todos os dados diretamente para este canal. Seu arquivo CSV deve conter, no primeiro campo, a data do registro. Se seus dados não contém a zona horária, selecione o timezone correto."
@@ -326,7 +410,182 @@
   help_thinghttp_show: "Você pode enviar sua chamada via ThingHTTP com a seguinte URL:"
   help_thingtweet: "ThingTweet atua como um proxy para o Twitter. Assim seus dispositivos podem atualizar o status do Twitter sem precisar implementar o Open Authentication (OAuth)."
   help_tweetcontrol: "Use o TweetControl para monitorar hashtags específicas do Twitter, e então realizar ações personalizadas."
-  help_tweetcontrol_edit: "Preencha o login do Twitter e a hashtag que você deseja monitorar."
+  help_tweetcontrol_edit: "Preencha o login do Twitter."
   help_tweetcontrol_hashtag: "A hashtag #thingspeak deve estar presente no status do Twitter, por exemplo:"
   help_tweetcontrol_thinghttp: "Selecione uma chamada ThingHTTP para ser usada por este TweetControl.  A chamada ThingHTTP será executada quando o TweetControl for disparado."
+  help_tweetcontrol_trigger: "Preencha a hashtag que você deseja monitorar."
   help_options: "mais ajuda"
+  help_react: "React allow you to trigger a ThingHTTP request or send a tweet using ThingTweet when your ThingSpeak Channel meets a certain condition. "
+  help_react_create: "Create your React condition here."
+  help_react_edit: "Update your React condition here."
+  help_react_edit1: "Select a condition type to correspond with the type of data you wish to check and set your condition values."
+  help_react_edit2: "Use the Test Frequency setting to choose to test your condition on every insert or on a periodic basis."
+  help_react_edit3: "Select ThingTweet or ThingHTTP as the action to be performed if the condition is met."
+  window_map: "Channel Location"
+  window_status: "Channel Status Updates"
+  window_channel_video: "Channel Video"
+  window_field_chart: "Field Chart"
+  window_plugin: "%{name} (Plugin)"
+  portlets_available: "Available Portlets"
+  private_view: "Private View"
+  public_view: "Public View"
+  channel_settings: "Channel Settings"
+  data_import: "Data Import"
+  portlets_all_displayed: "All available portlets are being displayed"
+  portlets_add: "Click a rectangle to add that portlet to the dashboard"
+  add_portlets: "Add Windows"
+
+
+  number:
+    # Used in number_with_delimiter()
+    # These are also the defaults for 'currency', 'percentage', 'precision', and 'human'
+    format:
+      # Sets the separator between the units, for more precision (e.g. 1.0 / 2.0 == 0.5)
+      separator: "."
+      # Delimits thousands (e.g. 1,000,000 is a million) (always in groups of three)
+      delimiter: ","
+      # Number of decimals, behind the separator (the number 1 with a precision of 2 gives: 1.00)
+      precision: 3
+      # If set to true, precision will mean the number of significant digits instead
+      # of the number of decimal digits (1234 with precision 2 becomes 1200, 1.23543 becomes 1.2)
+      significant: false
+      # If set, the zeros after the decimal separator will always be stripped (eg.: 1.200 will be 1.2)
+      strip_insignificant_zeros: false
+
+    # Used in number_to_currency()
+    currency:
+      format:
+        # Where is the currency sign? %u is the currency unit, %n the number (default: $5.00)
+        format: "%u%n"
+        unit: "$"
+        # These five are to override number.format and are optional
+        separator: "."
+        delimiter: ","
+        precision: 2
+        significant: false
+        strip_insignificant_zeros: false
+
+    # Used in number_to_percentage()
+    percentage:
+      format:
+        # These five are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+        # significant: false
+        # strip_insignificant_zeros: false
+        format: "%n%"
+
+    # Used in number_to_precision()
+    precision:
+      format:
+        # These five are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        # precision:
+        # significant: false
+        # strip_insignificant_zeros: false
+
+    # Used in number_to_human_size() and number_to_human()
+    human:
+      format:
+        # These five are to override number.format and are optional
+        # separator:
+        delimiter: ""
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      # Used in number_to_human_size()
+      storage_units:
+        # Storage units output formatting.
+        # %u is the storage unit, %n is the number (default: 2 MB)
+        format: "%n %u"
+        units:
+          byte:
+            one:   "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+      # Used in number_to_human()
+      decimal_units:
+        format: "%n %u"
+        # Decimal units output formatting
+        # By default we will only quantify some of the exponents
+        # but the commented ones might be defined or overridden
+        # by the user.
+        units:
+          # femto: Quadrillionth
+          # pico: Trillionth
+          # nano: Billionth
+          # micro: Millionth
+          # mili: Thousandth
+          # centi: Hundredth
+          # deci: Tenth
+          unit: ""
+          # ten:
+          #   one: Ten
+          #   other: Tens
+          # hundred: Hundred
+          thousand: Thousand
+          million: Million
+          billion: Billion
+          trillion: Trillion
+          quadrillion: Quadrillion
+
+  # Used in distance_of_time_in_words(), distance_of_time_in_words_to_now(), time_ago_in_words()
+  datetime:
+    distance_in_words:
+      half_a_minute: "half a minute"
+      less_than_x_seconds:
+        one:   "less than 1 second"
+        other: "less than %{count} seconds"
+      x_seconds:
+        one:   "1 second"
+        other: "%{count} seconds"
+      less_than_x_minutes:
+        one:   "less than a minute"
+        other: "less than %{count} minutes"
+      x_minutes:
+        one:   "1 minute"
+        other: "%{count} minutes"
+      about_x_hours:
+        one:   "about 1 hour"
+        other: "about %{count} hours"
+      x_days:
+        one:   "1 day"
+        other: "%{count} days"
+      about_x_months:
+        one:   "about 1 month"
+        other: "about %{count} months"
+      x_months:
+        one:   "1 month"
+        other: "%{count} months"
+      about_x_years:
+        one:   "about 1 year"
+        other: "about %{count} years"
+      over_x_years:
+        one:   "over 1 year"
+        other: "over %{count} years"
+      almost_x_years:
+        one:   "almost 1 year"
+        other: "almost %{count} years"
+    prompts:
+      year:   "Year"
+      month:  "Month"
+      day:    "Day"
+      hour:   "Hour"
+      minute: "Minute"
+      second: "Seconds"
+
+  helpers:
+    select:
+      # Default value for :prompt => true in FormOptionsHelper
+      prompt: "Please select"
+
+    # Default translation keys for submit and button FormHelper
+    submit:
+      create: 'Create %{model}'
+      update: 'Update %{model}'
+      submit: 'Save %{model}'

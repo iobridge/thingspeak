@@ -1,0 +1,46 @@
+<html>
+<head>
+  <%= stylesheet_link_tag 'application' %>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+  <%= javascript_include_tag 'application' %>
+</head>
+
+<body>
+<div class="recent_status">
+<% @statuses.each do |r| %>
+<div  ><span class="status_messages" id="<%= r.entry_id %>"><%= r.status %><br /><abbr class="timeago" title="<%= r.created_at %>"><%= r.created_at %></abbr></div>
+<br />
+<% end %>
+<div>
+<script>
+    $(function () {
+    $(".timeago").timeago();
+    var refreshInterval = setInterval(refreshStatus, 1 * 60 * 1000);
+      });
+function refreshStatus() {
+    
+    $.getJSON("/channels/<%= @channel_id %>/status/recent", function(data){
+      //look for most recent status and only append if the new status has a greater entry_id
+
+      var firstId = $(".status_messages").first().attr('id');
+
+
+      for(var i in data) {
+
+          if (data[i].entry_id > firstId) {
+        $(".recent_status").prepend("<div><span class=\"status_messages\" id=\"" + 
+             data[i].entry_id + "\">"+ 
+             data[i].status +
+             "</span><br /><abbr class=\"timeago\" title=\"" + 
+             data[i].created_at +  "\">" + 
+             data[i].created_at + "</abbr></div></br>");
+          }
+          
+      }
+      $(".timeago").timeago();
+        });
+}
+
+</script>
+</body>
+</html>

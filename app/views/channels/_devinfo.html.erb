@@ -1,0 +1,29 @@
+<div id="devInfo" > 
+
+  <table class="table_no_header dev_info_table1" >
+    <tr>
+      <td class="left"><%= @channel.name %> <%= t(:channel_feed) %>:</td>
+      <td>
+        <%= link_to 'JSON', "#{@api_domain}channels/#{@channel.id}/feed.json", :target => "_blank" %>
+        <%= link_to 'XML', "#{@api_domain}channels/#{@channel.id}/feed.xml", :target => "_blank" %>
+        <%= link_to 'CSV', "#{@api_domain}channels/#{@channel.id}/feed.csv", :target => "_blank" %>
+      </td>
+    </tr>
+</table >
+  <table class="table_no_header dev_info_table2">
+    <% @channel.attribute_names.each do |attr| %>
+      <% if attr.index('field') and @channel[attr] and !@channel[attr].empty? %>
+        <tr>
+          <td class="left" ><%= t(:field) %> <%= attr[-1] %> <%= t(:data) %>:  <%= @channel[attr] %> </td>
+          <td>
+            <%= link_to 'JSON', "#{@api_domain}channels/#{@channel.id}/field/#{attr[-1]}.json", :target => "_blank" %>
+            <%= link_to 'XML', "#{@api_domain}channels/#{@channel.id}/field/#{attr[-1]}.xml", :target => "_blank" %>
+            <%= link_to 'CSV', "#{@api_domain}channels/#{@channel.id}/field/#{attr[-1]}.csv", :target => "_blank" %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  
+  </table>
+
+</div> <!-- end devInfo -->

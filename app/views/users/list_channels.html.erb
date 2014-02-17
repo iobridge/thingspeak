@@ -1,0 +1,19 @@
+<h3><%= t(:user_public_channels) %> <%= @user.login %></h3>
+
+<% if @channels.present? && @channels.count > 0 %>
+  <table class="table table-striped table-bordered">
+    <tr><th><%= t(:channel_name) %></th><th><%= t(:channel_description) %></th><th><%= t(:tags) %></th></tr>
+    <% @channels.each do |m| %>
+      <tr<%= cycle('', raw(' class="stripe"')) %>>
+        <td><%= link_to m.name, channel_path(m.id) %></td>
+        <td><%= m.description %></td>
+        <td><%= m.list_tags %></td>
+      </tr>
+    <% end %>
+  </table>
+  <br />
+  <%= will_paginate @channels %>
+<% else %>
+  <%= t(:user_no_public_channels) %>
+<% end %>
+

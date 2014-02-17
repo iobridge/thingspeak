@@ -1,0 +1,23 @@
+<div style="width:90%;">
+  <% @channels.each do |channel| %>
+
+    <% channel.ranking = channel.calc_ranking if channel.ranking.blank? %>
+    <div class="public_channel_box">
+      <div class="public_channel_inner">
+        <p class="public_channel_name">
+          <%= link_to channel.name, channel_path(channel.id), :id => "showsite_#{channel.id}" %>
+        </p>
+        <p class="public_channel_user" >by <%= channel.user.login %></p>
+        <p class="public_channel_desc"><%= channel.description %></p>
+        <div class="progressbar" rel="<%= channel.ranking %>"></div>
+        <p class="public_channel_tags">
+          <% channel.tags.each do |tag| %>
+            <a href="/channels/public?tag=<%=u tag.name %>"><%= tag.name %></a><% unless tag == channel.tags.last %>, <% end %>
+          <% end %>
+        </p>
+      </div>
+    </div>
+
+  <% end %>
+</div>
+

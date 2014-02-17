@@ -1,0 +1,24 @@
+<%= form_for :tag, :url => tags_path do |t| %>
+  <input name='userlogin' class='userlogin' />
+  <table>
+    <tr>
+      <td><%= t(:tags_search) %>:</td>
+      <td><%= t.text_field :name %><%= t.submit t(:submit) %></td>
+    </tr>
+  </table>
+  <br />
+
+  <% if @tag_name %>
+    <% if @results %>
+
+      <% @results.each do |channel| %>
+        <%= link_to channel.name, channel_path(channel.id) %>
+        <br />
+      <% end %>
+
+    <% else %>
+      <%= t(:search_empty) %>
+    <% end %>
+  <% end %>
+
+<% end %>

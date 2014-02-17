@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <script type="text/javascript" src="<%= @map_domain %>/maps/api/js?sensor=false"></script> 
+  <script type="text/javascript">
+    // when document is ready
+    $(function() { 
+  
+      // google maps options
+      var myOptions = {
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      var bounds = new google.maps.LatLngBounds();
+      var lat, lng, latlng, marker, title, field1, field2, field3, field4, field5, field6, field7, field8;
+
+      // get the data with a webservice call
+      $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed.json?callback=?&location=true&offset=0#{@qs}" %>', function(data) {
+        // if no access
+        if (data == '-1') {
+          $('#chart-container').append('<%= t(:chart_no_access) %>');
+        }
+  
+        // set channel field names
+        if (data.channel.field1) { field1 = data.channel.field1; }
+        if (data.channel.field2) { field2 = data.channel.field2; }
+        if (data.channel.field3) { field3 = data.channel.field3; }
+        if (data.channel.field4) { field4 = data.channel.field4; }
+        if (data.channel.field5) { field5 = data.channel.field5; }
+        if (data.channel.field6) { field6 = data.channel.field6; }
+        if (data.channel.field7) { field7 = data.channel.field7; }
+        if (data.channel.field8) { field8 = data.channel.field8; }
+
+        // iterate through each feed
+        $.each(data.feeds, function() {
+          lat = parseFloat(this.latitude);
+          lng = parseFloat(this.longitude);
+
+          // if there is data to add
+          if (lat && lng) {
+            latlng = new google.maps.LatLng(lat, lng);
+            title = '';
+            if (this.field1) { title += field1 + ': ' + this.field1 + '\n'; }
+            if (this.field2) { title += field2 + ': ' + this.field2 + '\n'; }
+            if (this.field3) { title += field3 + ': ' + this.field3 + '\n'; }
+            if (this.field4) { title += field4 + ': ' + this.field4 + '\n'; }
+            if (this.field5) { title += field5 + ': ' + this.field5 + '\n'; }
+            if (this.field6) { title += field6 + ': ' + this.field6 + '\n'; }
+            if (this.field7) { title += field7 + ': ' + this.field7 + '\n'; }
+            if (this.field8) { title += field8 + ': ' + this.field8 + '\n'; }
+            if (this.status) { title += this.status; }
+            marker = new google.maps.Marker({
+                position: latlng,
+                title: title
+              });
+
+            marker.setMap(map); 
+            bounds.extend(latlng); 
+          }
+
+        });
+
+        // if no latlng set, center map
+        if (latlng === undefined) {
+          latlng = new google.maps.LatLng(38.5111, -96.8005);
+          map.setCenter(latlng);
+          map.setZoom(3);
+        // if only one data point, set zoom level
+        } else if (data.feeds.length == 1) {
+          map.setCenter(latlng);
+          map.setZoom(8);
+        } else {
+          // extend the bounds
+          map.fitBounds(bounds);
+        }
+
+        // push data every 15 seconds
+        setInterval(function() {
+
+          // get the data with a webservice call
+          $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&location=true&offset=0#{@qs}" %>', function(data) {  
+            // if there is data to add
+            if (data) {
+              lat = parseFloat(data.latitude);
+              lng = parseFloat(data.longitude);
+  
+              if (lat && lng) {
+                latlng = new google.maps.LatLng(lat, lng);
+                title = '';
+                if (data.field1) { title += field1 + ': ' + data.field1 + '\n'; }
+                if (data.field2) { title += field2 + ': ' + data.field2 + '\n'; }
+                if (data.field3) { title += field3 + ': ' + data.field3 + '\n'; }
+                if (data.field4) { title += field4 + ': ' + data.field4 + '\n'; }
+                if (data.field5) { title += field5 + ': ' + data.field5 + '\n'; }
+                if (data.field6) { title += field6 + ': ' + data.field6 + '\n'; }
+                if (data.field7) { title += field7 + ': ' + data.field7 + '\n'; }
+                if (data.field8) { title += field8 + ': ' + data.field8 + '\n'; }
+                if (data.status) { title += data.status; }
+                marker = new google.maps.Marker({
+                    position: latlng,
+                    title: title
+                  });
+    
+                marker.setMap(map); 
+              }
+            }
+          });
+
+        }, 15000);
+
+      });
+    });
+  </script>
+</head>
+<body style="padding: 0; margin: 0;">
+  <div id="map_canvas" style="width: <%= params[:width] ? params[:width].to_i : @width.to_i %>px; height: <%= params[:height] ? params[:height].to_i : @height.to_i %>px;"></div>
+</body>
+</html>

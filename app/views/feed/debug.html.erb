@@ -1,0 +1,11 @@
+<%= @count %> records processed
+<br>
+<%= @time_start %> => start controller
+<br>
+<%= @time_after_db %> => after database operations (<%= @time_after_db - @time_start %> seconds)
+<br>
+<%= @time_after_sort %> => after sorting (<%= @time_after_sort - @time_after_db %> seconds)
+<br>
+<%= @time_after_json %> => after to_json is processed (<%= @time_after_json - @time_after_sort %> seconds)
+<br>
+<%= Time.now %> => after view output (<%= Time.now - @time_after_json %> seconds)

@@ -1,16 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title><%= @title.nil? ? (@menu.nil? ? t(:application_name) : @menu.capitalize + ' - ' + t(:application_name)) : @title + ' - ' + t(:application_name) %></title>
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tag %>  
-</head>
-<body>
-		<div id="wrapper">
-			<div id="header"><div class="fixedwidth"><%= render 'layouts/header' %></div></div>
-			<div id="menuwrap" class="fixedwidth"><%= render 'layouts/menu' %></div>
-			<div id="content" class="fixedwidth"><%= yield %></div>
-		</div>
-</body>
+  <head>
+    <title><%= @title.nil? ? (@menu.nil? ? 'ThingSpeak' : @menu.capitalize + ' - ThingSpeak') : @title + ' - ThingSpeak' %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= stylesheet_link_tag 'application' %>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type='text/javascript' src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <%= javascript_include_tag 'application' %>
+
+    <%= csrf_meta_tag %>
+    <% if Rails.env == 'production' %>
+      <%= render 'layouts/ga' %>
+    <% end %>
+
+    <%= yield :head %>
+  </head>
+
+  <body>
+
+    <div id="wrap">
+      <%= render 'layouts/header' %>
+      <div class="container">
+        <%= yield %>
+      </div>
+    </div>
+
+    <%= render 'layouts/footer' %>
+
+  </body>
 </html>
+

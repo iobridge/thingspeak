@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: daily_feeds
+#
+#  id          :integer          not null, primary key
+#  channel_id  :integer
+#  date        :date
+#  calculation :string(20)
+#  result      :string(255)
+#  field       :integer
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  channel_id: 1
+  date: 2014-01-21
+  calculation: MyString
+  result: MyString
+
+two:
+  channel_id: 1
+  date: 2014-01-21
+  calculation: MyString
+  result: MyString

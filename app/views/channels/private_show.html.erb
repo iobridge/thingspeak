@@ -1,0 +1,133 @@
+<%= render :partial => "devinfo" %>
+<%= render :partial => "addportlet" %>
+
+<div class="col-xs-12 col-sm-6">
+
+  <ol class="breadcrumb">
+    <li><%= link_to t(:channels), channels_path %></li>
+    <li class="active"><%= t(:channel) %> <%= @channel.id %></li>
+  </ol>
+
+</div>
+
+<%= render :partial => "socialbuttons" %>
+
+<div id="maincontent" >
+  <ul>
+    <li><a href="#privateview"><%= t("private_view") %></a></li>
+    <li><a href="#publicview"><%= t("public_view") %></a></li>
+    <li><a href="#channelsettings"><%= t("channel_settings") %></a></li>
+    <li><a href="#apikeys"><%= t("api_keys") %></a></li>
+    <li><a href="#dataimport"><%= t("data_import") %></a></li>
+  </ul>
+
+  <div id="privateview">
+    <%= render :partial => "private_show" %>
+  </div>
+
+  <div id="publicview">
+    <%= render :partial => "public_show" %>
+  </div>
+
+  <div id="channelsettings">
+    <%= render :partial => "edit" %>
+  </div>
+
+  <div id="apikeys">
+    <%= render :partial => "api_keys/index" %>
+  </div>
+
+  <div id="dataimport">
+    <%= render :partial => "import" %>
+  </div>
+
+
+</div>
+
+<script type="text/javascript">
+
+$('#watch').click(function() {
+		      $.update(
+			  '/channels/<%= @channel.id %>/watch',
+			  // data to send
+			  {
+			      flag: this.checked
+			  },
+			  // if post was successful
+			  function (response) {
+			      if ($("#watch").attr("checked")) {
+				  $("#watchText").text("Un-watch");
+			      }
+			      else {
+				  $("#watchText").text("Watch");
+			      }
+			  }
+
+		      );
+		  });
+
+
+$(function () {
+      $(".timeago").timeago();
+      if(document.location.hash!='') {
+
+	  $('html').animate({scrollTop:0}, 'normal');//IE, FF
+	  $('body').animate({scrollTop:0}, 'normal');//chrome, don't know if safari works
+      }
+      $('.fade').fadeIn('normal').fadeOut(3500, function() {
+					      $(this).remove();
+					  });
+      $("#devInfo").dialog({
+			       autoOpen:false,
+			       resizable:false,
+			       width:"500px",
+			       title: "<%= t('developer_info') %>",
+			       dialogClass: "dev-info-dialog"
+			   });
+
+      $("#addPortlets").dialog({
+				   modal:true,
+				   autoOpen:false,
+				   resizable:false,
+				   width:"500px",
+				   dialogClass: "dev-info-dialog"
+			       });
+
+      $("#watch").button();
+      if ($("#watch").attr("checked")) {
+	  $("#watchText").text("Un-watch");
+      }
+      else {
+	  $("#watchText").text("Watch");
+      }
+      $("#maincontent").tabs( {
+				  select: function( e, ui)
+				  {
+				      $.cookie('stickyTab', ui.index );
+				  }
+			      }
+			    );
+
+      stickyTab = $.cookie( 'stickyTab' );
+      anchor = window.location.hash;
+      if (anchor.length > 0) {
+	  stickyTab = anchor.substring(anchor.length - 1);
+      }
+      if( ! isNaN( stickyTab )  )
+      {
+          $("#maincontent").tabs( 'select', stickyTab );
+      }
+
+      var current_user = "<%= @mychannel %>";
+      var channel_id = <%= @channel.id %>;
+      setupColumns(current_user, channel_id);
+      $.getJSON('/channels/<%=@channel.id %>/private_windows.json', function(data) {
+		    createWindowsWithData (data, current_user, channel_id, "private");
+		    $.getJSON('/channels/<%=@channel.id %>/windows.json',
+			      createWindows (current_user, channel_id, "public")
+			     );
+		});
+  });
+
+</script>
+

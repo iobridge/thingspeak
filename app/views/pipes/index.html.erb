@@ -1,0 +1,19 @@
+<h2>Pipes</h2>
+<%= link_to 'New Pipe', new_pipe_path %>
+
+<br /><br />
+
+<table class="nicetable">
+  <tr class="header"><td>ID</td><td>Name</td><td>Slug</td><td>URL</td><td>Date</td></tr>
+  <% @pipes.each do |m| %>
+    <tr<%= cycle('', raw(' class="stripe"')) %>>
+      <td><%= link_to m.id, channel_path(m.id) %></td>
+      <td><%= link_to m.name, channel_path(m.id) %></td>
+      <td><%= link_to m.slug, channel_path(m.id) %></td>
+      <td><%= m.url %></td>
+      <td><%= raw(m.created_at.strftime("%m/%d/%Y&nbsp;%I:%M%p")) %></td>  
+    </tr>  
+  <% end %>
+</table>
+<br />
+<%= will_paginate @pipes %>

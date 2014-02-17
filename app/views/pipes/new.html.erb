@@ -1,0 +1,30 @@
+<h2>Add New Pipe</h2>
+
+<%= form_for @pipe, :url => pipes_path do |f| %>
+  <table class="table_no_header">
+    <tr>
+      <td class="left">Name</td>
+      <td><%= f.text_field :name %></td>
+    </tr>
+    <tr>
+      <td class="left">Slug</td>
+      <td><%= f.text_field :slug %></td>
+    </tr>
+    <tr>
+      <td class="left">URL</td>
+      <td><%= f.text_field :url %></td>
+    </tr>
+    <tr>
+      <td class="left">Parse String</td>
+      <td><%= f.text_field :parse %></td>
+    </tr>
+    <tr>
+      <td class="left">Minutes to Cache</td>
+      <td><%= f.text_field :cache %></td>
+    </tr>
+    <tr>
+      <td class="left"></td>
+      <td><%= f.submit 'Create Pipe' %></td>
+    </tr>
+  </table>
+<% end %>

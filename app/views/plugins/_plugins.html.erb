@@ -1,0 +1,8 @@
+<% if @plugin_windows.blank? %>
+<h4>All plugins are attached to a window.</h4>
+<% else %>
+<h4>Click a rectangle to view that Plugin in a dashboard window.</h4>
+<% @plugin_windows.each do |plugin| %>
+<div id="plugin-<%=plugin.id%>" class="ioplugin ui-widget-content addportlet"><%= plugin.name %></div>
+<% end %>
+<% end %>

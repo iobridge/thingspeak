@@ -10,7 +10,7 @@ Support for ThingSpeak is available on the "ThingSpeak Community":http://communi
 
 h3. Before You Begin
 
-1. Install Ruby, RubyGems, Rails 3, git, and a database like MySQL
+1. Install Ruby 2, RubyGems, Rails 4, git, and a database like MySQL
 2. Download the application using git: git clone git@github.com:iobridge/thingspeak.git
 3. Change to the thingspeak directory and install the appropriate gems: sudo bundle install
 
@@ -32,50 +32,20 @@ Make changes to config/locales/en.yml
 To avoid errors, please ensure your lines start with spaces, not tabs.
 Set your application name using the 'application_name' key.
 
-h2. (Optional) Memcached Support and Rate Limiting
-
-Please see our "official memcached fork":https://github.com/llawlor/thingspeak
-
 h2. (Optional) Email Setup
 
 Set your domain, user_name, and password in config/environment.rb
 
-h1. Installation on clean install of Ubuntu 10.10 and 11.10
+h1. Installation on clean install of Ubuntu 12.04 LTS
 
-Start Terminal
-
-<code>cd ~
-
-<code>sudo apt-get install aptitude</code>
-<code>sudo aptitude update</code>
-<code>sudo aptitude install build-essential git-core curl</code>
-
-<code>bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )</code>
-<code>echo '[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function' >> ~/.bash_profile</code>
-
-<code>source .bash_profile</code>
-
-<code>sudo aptitude install mysql-server libmysqlclient-dev libmysql-ruby</code>
-      Note: Enter and confirm a new MySQL password
-
-<code>sudo aptitude install libssl-dev libopenssl-ruby libxslt1.1 libxslt1-dev libxml2 libxml2-dev rubygems</code>
-
-<code>rvm pkg install openssl</code>
-<code>rvm pkg install iconv</code>
-<code>rvm install 1.9.2 -C --with-openssl-dir=$HOME/.rvm/usr,--with-iconv-dir=$HOME/.rvm/</code>
-<code>rvm --default use 1.9.2</code>
-
-<code>git clone git://github.com/iobridge/thingspeak.git</code>
-
-<code>cd thingspeak</code>
-
-<code>bundle install</code>
-
-<code>gedit config/database.yml.example</code>
-      Note: Change database username and password for development, test, and production databases and save the file as database.yml
-
-<code>rake db:create</code>
-<code>rake db:schema:load</code>
-
-<code>rails server</code>
+sudo apt-get update
+sudo apt-get -y install build-essential ruby1.9.3 git mysql-server mysql-client libmysqlclient-dev libxml2-dev libxslt-dev
+sudo gem install rails
+git clone https://github.com/iobridge/thingspeak.git
+cp thingspeak/config/database.yml.example thingspeak/config/database.yml
+cd thingspeak
+bundle install
+bundle exec rake db:create
+bundle exec rake db:schema:load
+rails server
 

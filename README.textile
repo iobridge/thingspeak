@@ -38,14 +38,14 @@ Set your domain, user_name, and password in config/environment.rb
 
 h1. Installation on clean install of Ubuntu 12.04 LTS
 
-sudo apt-get update
-sudo apt-get -y install build-essential ruby1.9.3 git mysql-server mysql-client libmysqlclient-dev libxml2-dev libxslt-dev
-sudo gem install rails
-git clone https://github.com/iobridge/thingspeak.git
-cp thingspeak/config/database.yml.example thingspeak/config/database.yml
-cd thingspeak
-bundle install
-bundle exec rake db:create
-bundle exec rake db:schema:load
-rails server
+<code>sudo apt-get upgrade</code>
+<code>sudo apt-get -y install build-essential mysql-server mysql-client libmysqlclient-dev libxml2-dev libxslt-dev git-core curl rubygems</code>
+<code>\curl -sSL https://get.rvm.io | bash -s stable</code>
+<code>rvm install 2.1</code>
+<code>git clone https://github.com/iobridge/thingspeak.git</code>
+<code>cd thingspeak</code>
+<code>bundle install</code>
+<code>cp config/database.yml.example config/database.yml</code>
+<code>rake db:create</code>
+<code>rails server</code>
 

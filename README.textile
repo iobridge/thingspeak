@@ -47,5 +47,6 @@ h1. Installation on clean install of Ubuntu 12.04 LTS
 <code>bundle install</code>
 <code>cp config/database.yml.example config/database.yml</code>
 <code>rake db:create</code>
+<code>rake db:schema:load</code>
 <code>rails server</code>
 

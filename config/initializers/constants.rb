@@ -14,6 +14,9 @@ APPLICATION_IP_ADDRESS = '127.0.0.1'
 # domain for the API
 API_DOMAIN = 'http://127.0.0.1:3000/'
 
+# admin email addresses
+ADMIN_EMAILS = []
+
 # get api key from HTTP headers if this value is present
 HTTP_HEADER_API_KEY_NAME = 'THINGSPEAKAPIKEY'
 

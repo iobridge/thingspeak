@@ -250,7 +250,7 @@ textarea.tweet { margin-top: 0.5em; width: 40em; height: 3em; }
 
 input#upload_csv { padding-top:5px;margin:20px 0;}
 
-#sidebar           {
+#sidebar_old           {
     font-size: 14px;
     width:50%;
     padding-right: 10px ;
@@ -262,19 +262,20 @@ input#upload_csv { padding-top:5px;margin:20px 0;}
     -webkit-border-radius: 15px;
     -moz-border-radius: 15px;
 }
-#sidebar ul             {
+#sidebar_old ul             {
     list-style: none;
     margin: 15px 20px 30px 0 ;}
-#sidebar ul li ul li    { margin:0; }
-#sidebar h2             {
+#sidebar_old ul li ul li    { margin:0; }
+#sidebar_old h2             {
     color:#666;
     margin: 0 0 6px 0;
     padding: 0 0;
 }
-#sidebar.wide           { width: 520px; }
-#sidebar.medium         { width: 470px; }
-#sidebar.narrow         { width: 470px; margin-left: 520px;}
-#sidebar .helplink      { float: right; margin-top: 5px; font-weight: normal; font-size: 12px; }
+#sidebar_old.wide           { width: 520px; }
+#sidebar_old.medium         { width: 470px; }
+#sidebar_old.narrow         { width: 470px; margin-left: 520px;}
+#sidebar .helplink,
+#sidebar_old .helplink      { float: right; margin-top: 5px; font-weight: normal; font-size: 12px; }
 
 /* shortcuts */
 .FL                     { float: left; }

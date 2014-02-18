@@ -18,10 +18,10 @@
 
 </div>
 
-<div id="sidebar" >
+<div id="sidebar_old" >
  <ul>
         <li>
-    
+
           <div class="helplink">(<a target="_blank" href="http://community.thingspeak.com/documentation/api/#send_data"><%= t(:help_options) %></a>)</div>
           <h2><%= t(:help_channel_update) %></h2>
           <%= t(:help_channel_post) %>
@@ -29,14 +29,14 @@
           <%= t(:help_channel_post_example) %>
           <div class="code"><%= "#{@api_domain}update?key=#{@key}&field1=0" %></div>
           <br /><br />
-    
+
           <div class="helplink">(<a target="_blank" href="http://community.thingspeak.com/documentation/api/#view_data"><%= t(:help_options) %></a>)</div>
           <h2><%= t(:help_channel_feed) %></h2>
           <%= t(:help_channel_view) %>
           <br />
           <div class="code"><%= link_to "#{@api_domain}channels/#{@channel.id}/feed.json?key=#{@key}", "#{@api_domain}channels/#{@channel.id}/feed.json?key=#{@key}", :target => '_blank' %></div>
           <br />
-    
+
         </li>
 
     <li>
@@ -46,3 +46,4 @@
     </li>
   </ul>
 </div>
+

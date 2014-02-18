@@ -1,4 +1,4 @@
-<div style="width:90%;">
+<div>
   <% @channels.each do |channel| %>
 
     <% channel.ranking = channel.calc_ranking if channel.ranking.blank? %>

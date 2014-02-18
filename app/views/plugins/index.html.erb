@@ -12,8 +12,12 @@
 
         <% @plugins.each do |p| %>
         <tr>
-          <td><%= link_to p.name, plugin_path(p.id) %></td>
-          <td><%= link_to t(:edit), edit_plugin_path(p.id) %></td>
+          <td><%= p.name %></td>
+          <td>
+            <%= link_to t(:view).downcase, plugin_path(p.id), :target => '_blank' %>
+            &nbsp;
+            <%= link_to t(:edit).downcase, edit_plugin_path(p.id) %>
+          </td>
         </tr>
         <% end %>
 

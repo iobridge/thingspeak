@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user_session, :current_user, :logged_in?, :is_admin?, :get_header_value, :to_bytes
   protect_from_forgery
   before_filter :allow_cross_domain_access, :set_variables
+  after_filter :remove_headers
 
   # responds with blank
   def respond_with_blank
@@ -52,6 +53,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+    # remove headers if necessary
+    def remove_headers
+      response.headers.delete_if {|key| true} if params[:headers] == 'false'
+    end
 
     # allow javascript requests from any domain
     def allow_cross_domain_access

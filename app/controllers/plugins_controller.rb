@@ -6,7 +6,7 @@ class PluginsController < ApplicationController
   def check_permission
     @plugin = Plugin.find(params[:id])
     if @plugin.user_id != current_user.id
-      render :text=> "#{t(:permission)} #{t(:plugin)}", :layout => true
+      render :text=> "#{t(:permission)} #{t(:plugin)}", :layout => true and return
       return true
     end
     return false
@@ -20,7 +20,7 @@ class PluginsController < ApplicationController
   def public_plugins
 
     channel_id = params[:channel_id].to_i
-    return if channel_id.nil? 
+    return if channel_id.nil?
     #private page should display all plugins
     #plugins = current_user.plugins.where("private_flag = true")
     @plugin_windows = []
@@ -28,7 +28,7 @@ class PluginsController < ApplicationController
     plugins.each do |plugin|
       plugin.make_windows channel_id, api_domain #will only make the window the first time
       @plugin_windows = @plugin_windows + plugin.public_dashboard_windows(channel_id)
-    
+
     end
 
     respond_to do |format|
@@ -39,7 +39,7 @@ class PluginsController < ApplicationController
 
   def private_plugins
     channel_id = params[:channel_id].to_i
-    return if channel_id.nil? 
+    return if channel_id.nil?
     #private page should display all plugins
     @plugin_windows = []
 
@@ -63,7 +63,7 @@ class PluginsController < ApplicationController
     @plugin.user_id = current_user.id
     @plugin.private_flag = true
     @plugin.save
-    
+
     # now that the plugin is saved, we can create the default name
     @plugin.name = "#{t(:plugin_default_name)} #{@plugin.id}"
     @plugin.save
@@ -81,11 +81,11 @@ class PluginsController < ApplicationController
     end
     @output = @plugin.html.sub('%%PLUGIN_CSS%%', @plugin.css).sub('%%PLUGIN_JAVASCRIPT%%', @plugin.js)
 
-    if @plugin.private? 
-      render :layout => false and return 
+    if @plugin.private?
+      render :layout => false and return
     else
       if request.url.include? api_domain
-        render :layout => false and return 
+        render :layout => false and return
       else
 
         protocol = ssl
@@ -93,27 +93,27 @@ class PluginsController < ApplicationController
 
         redirect_to :host => host,
         :protocol => protocol,
-        :controller => "plugins", 
-        :action => "show",  
-        :id => @plugin.id and return 
+        :controller => "plugins",
+        :action => "show",
+        :id => @plugin.id and return
       end
     end
   end
-  
+
   def show_public
-    
+
     @plugin = Plugin.find(params[:id])
     @output = @plugin.html.sub('%%PLUGIN_CSS%%', @plugin.css).sub('%%PLUGIN_JAVASCRIPT%%', @plugin.js)
-    if @plugin.private? 
+    if @plugin.private?
       render :layout => false
     else
       if request.url.include? 'api_domain'
         render :layout => false
       else
-          
-      redirect_to :host => api_domain, 
-            :controller => "plugins", 
-            :action => "show",  
+
+      redirect_to :host => api_domain,
+            :controller => "plugins",
+            :action => "show",
             :id => @plugin.id
       end
     end
@@ -130,7 +130,7 @@ class PluginsController < ApplicationController
     @plugin.update_attribute(:html,params[:plugin][:html])
 
     if @plugin.save
-      
+
       @plugin.update_all_windows
       redirect_to plugins_path and return
     end
@@ -159,3 +159,4 @@ class PluginsController < ApplicationController
     redirect_to plugins_path
   end
 end
+

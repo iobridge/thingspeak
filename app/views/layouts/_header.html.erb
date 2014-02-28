@@ -43,10 +43,10 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
 
-        <li class="dropdown">
+        <li class="<%= "active " if @menu == 'support' %>dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=t(:support)%> <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="http://community.thingspeak.com/documentation/"><%= t(:documentation) %></a></li>
+            <li><a href="/docs"><%= t(:documentation) %></a></li>
             <li><a href="http://community.thingspeak.com/tutorials/"><%= t(:tutorials) %></a></li>
             <li><a href="http://community.thingspeak.com/forum/"><%= t(:forum) %></a></li>
           </ul>

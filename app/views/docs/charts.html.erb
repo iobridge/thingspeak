@@ -1,0 +1,89 @@
+<div class="row">
+
+  <div class="col-sm-offset-1 col-sm-3 col-xs-12" id="leftcol">
+    <%= render 'docs/sidebar' %>
+  </div>
+
+  <div class="col-sm-7 col-xs-12">
+
+    <h1 id="charts">Charts</h1>
+    The Charts API allows you to create an instant visualization of your data. The chart displays properly in all modern browsers and mobile devices. The chart can also show dynamic data by loading new data automatically.
+    <br><br>
+    Use the Charts API to present numerical data stored in ThingSpeak Channels on charts. Supported chart types are line, bar, column, and step. Options include size, color, and labels.
+    <br><br>
+
+    <hr />
+    <h2 id="create">Creating a Chart</h2>
+
+    To create a chart, open the following URL, replacing <span class="customcode">CHANNEL_ID</span> and <span class="customcode">FIELD_ID</span> with values from one of your Channels.
+    <br><br>
+    <pre>http://api.thingspeak.com/channels/<span class="customcode">CHANNEL_ID</span>/charts/<span class="customcode">FIELD_ID</span></pre>
+
+    <br>
+    Valid chart parameters:
+    <ul>
+      <li><b>title</b> (string) Chart title, default: Channel name (optional)</li>
+      <li><b>xaxis</b> (string) Chart's x-axis label, default: "Date" (optional)</li>
+      <li><b>yaxis</b> (string) Chart's y-axis label, default: field name (optional)</li>
+      <li><b>color</b> (string) Line color, default: red (optional)</li>
+      <li><b>bgcolor</b> (string) Background color, default: white (optional)</li>
+      <li><b>type</b> (line/bar/column) Type of chart, default: line (optional)</li>
+      <li><b>width</b> (integer) Chart width in pixels, iframe width will be 20px larger, default chart width: 400 (optional)</li>
+      <li><b>height</b> (integer) Chart height in pixels, iframe height will be 20px larger, default chart height: 200 (optional)</li>
+      <li><b>dynamic</b> (true/false) Make chart update automatically every 15 seconds, default: false (optional)</li>
+      <li><b>step</b> (true/false) Draw chart as a step chart, default: false (optional)</li>
+      <li><b>export</b> (true/false) Show export buttons, so that chart can be saved as an image, default: false (optional)</li>
+    </ul>
+
+    <br>
+    Valid feed parameters:
+    <ul>
+      <li><b>key</b> (string) Read API Key for this specific Channel (optional--no key required for public channels)</li>
+      <li><b>results</b> (integer) Number of entries to retrieve, 8000 max, default of 100 (optional)</li>
+      <li><b>days</b> (integer) Days from now to include in feed (optional)</li>
+      <li><b>start</b> (datetime) Start date in format YYYY-MM-DD%20HH:NN:SS (optional)</li>
+      <li><b>end</b> (datetime) End date in format YYYY-MM-DD%20HH:NN:SS (optional)</li>
+      <li><b>offset</b> (integer)  Offset of your timezone without daylight savings time (optional)</li>
+      <li><b>status</b> (true/false) Include status updates in feed by setting "status=true" (optional)</li>
+      <li><b>location</b> (true/false) Include latitude, longitude, and elevation in feed by setting "location=true" (optional)</li>
+      <li><b>min</b> (decimal) Minimum value to include in response (optional)</li>
+      <li><b>max</b> (decimal) Maximum value to include in response (optional)</li>
+      <li><b>round</b> (integer) Round to this many decimal places (optional)</li>
+      <li><b>timescale</b> (integer or string) Get first value in this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+      <li><b>sum</b> (integer or string) Get sum of this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+      <li><b>average</b> (integer or string) Get average of this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+      <li><b>median</b> (integer or string) Get median of this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+    </ul>
+
+    <div class="alert alert-warning">
+      Please note that the results parameter is not compatible with timescale, sum, average, or median.
+    </div>
+
+    <br><br>
+
+    <hr />
+    <h2 id="embed">Embedding a Chart</h2>
+    To place a ThingSpeak Chart on your webpage, use the Chart API as the source of an iframe.
+    <br><br>
+    Chart Embed Code:
+    <br><br>
+    <pre>&lt;iframe width="450" height="250" style="border: 1px solid #cccccc;" src="http://thingspeak.com/channels/<span class="customcode">CHANNEL_ID</span>/charts/<span class="customcode">FIELD_ID</span>">&lt;/iframe></pre>
+    <br><br>
+    Example Chart:
+    <iframe width="100%" height="250" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" src="https://thingspeak.com/channels/3/charts/1?results=15"></iframe>
+
+    <br>
+    <h4>Embedding a Dynamic Chart</h4>
+    To place a dynamic ThingSpeak Chart on your webpage, use the Chart API as the source of an iframe and add the chart parameter ”dynamic=true”.
+    <br><br>
+    Chart Embed Code:
+    <br><br>
+    <pre>&lt;iframe width="450" height="250" style="border: 1px solid #cccccc;" src="http://thingspeak.com/channels/<span class="customcode">CHANNEL_ID</span>/charts/<span class="customcode">FIELD_ID</span>?dynamic=true">&lt;/iframe></pre>
+    <br><br>
+    Example Chart:
+    <iframe width="100%" height="250" marginwidth="0" marginheight="0" scrolling="auto" frameborder="0" src="https://thingspeak.com/channels/9/charts/1?dynamic=true&results=15&title=Dynamic+Light+Levels"></iframe>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+  </div>
+</div>
+

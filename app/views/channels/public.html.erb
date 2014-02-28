@@ -1,11 +1,55 @@
 <div class="row">
-  <div class="col-xs-12 col-sm-12">
 
+  <div class="col-xs-12 col-sm-9">
     <h4 class="breadcrumb"><%= flash[:notice] %></h4>
     <%= render :partial => 'list' %>
     <br />
     <%= will_paginate @channels %>
+  </div>
+
+  <div class="col-xs-12 col-sm-3">
+    <h4 class="breadcrumb"><%= t(:search).capitalize %></h4>
+
+    <div class="col-pad">
+      <form role="form">
+        <div class="form-group">
+          <label for="tag_input"><%= t(:search_by_tag) %></label>
+          <input type="text" class="form-control" id="tag_input" placeholder="<%= t(:search_input_tag) %>">
+        </div>
+        <button type="submit" id="search_tag" class="btn btn-primary btn-sm"><%= t(:submit) %></button>
+      </form>
+
+      <br><br>
+
+      <form role="form">
+        <div class="form-group">
+          <label for="username_input"><%= t(:search_by_username) %></label>
+          <input type="text" class="form-control" id="username_input" placeholder="<%= t(:search_input_username) %>">
+        </div>
+        <button type="submit" id="search_username" class="btn btn-primary btn-sm"><%= t(:submit) %></button>
+      </form>
+    </div>
 
   </div>
+
 </div>
+
+<script>
+  // when the document is ready
+  $(document).ready(function() {
+
+    // when search tag is clicked
+    $('#search_tag').on('click', function() {
+      window.location.href = '<%= @domain %>channels/public?tag=' + encodeURIComponent($('#tag_input').val());
+      return false;
+    });
+
+    // when search username is clicked
+    $('#search_username').on('click', function() {
+      window.location.href = '<%= @domain %>channels/public?username=' + encodeURIComponent($('#username_input').val());
+      return false;
+    });
+
+  });
+</script>
 

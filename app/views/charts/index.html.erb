@@ -23,7 +23,7 @@
 
   <% @channel.attribute_names.each do |attr| %>
     <% if attr.index('field') and @channel[attr] and !@channel[attr].empty? %>
-  
+
       <%= render :partial => 'config',
         :locals => {
                       :displayconfig => true,
@@ -35,7 +35,7 @@
           :height => @height
         }
       %>
-  
+
     <% end %>
   <% end %>
 </div>
@@ -43,7 +43,7 @@
 <div id="sidebar">
   <ul>
     <li>
-      <div class="helplink">(<a href="http://community.thingspeak.com/documentation/api/#charts"><%= t(:help_options) %></a>)</div>
+      <div class="helplink">(<a href="/docs/charts"><%= t(:help_options) %></a>)</div>
       <h2><%= t(:help_charts) %></h2>
       <%= t(:help_charts_options) %>
       <br /><br />
@@ -64,3 +64,4 @@
   });
 
 </script>
+

@@ -1,0 +1,8 @@
+<h2 id="importer">Importer</h2>
+
+<p>Using the ThingSpeak Importer, you are able to import data from a CSV file directly into a ThingSpeak Channel. The access the Importer, select a <em>Channel</em>, and click <em>Import Data</em>.</p>
+<p>The format for the CSV should be the following:</p>
+<pre>datetime,field1,field2,field3,field4,field5,field6,field7,field8,latitude,longitude,elevation,status</pre>
+<p>Here is an example CSV file: <a title="ThingSpeak Import Sample Data" href="/files/importer_sample.csv" target="_blank">Sample CSV File</a></p>
+You only have to send a datetime stamp and at least one field. The datetime stamp can be in many formats such as epoch, ISO 8601, or MySQL time. If the datetime includes a GMT/UTC offset, we will use that to properly import the data. If your datetime stamps do not have a GMT / UTC offset, you can specify a time zone that the data was logged in.
+

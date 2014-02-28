@@ -81,6 +81,11 @@ class Channel < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
+  # write key for a channel
+  def write_api_key
+    self.api_keys.where(:write_flag => true).first.api_key
+  end
+
   # select options
   def select_options
     only = [:name, :created_at, :updated_at, :id, :last_entry_id]

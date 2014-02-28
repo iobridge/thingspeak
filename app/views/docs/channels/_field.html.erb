@@ -1,0 +1,213 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="get_field">Get a Channel Field Feed</h2>
+</div>
+
+<br>
+To view a Channel's field feed, send an HTTP GET to <code><%= @ssl_api_domain %>channels/<span class="customcode">CHANNEL_ID</span>/fields/<span class="customcode">FIELD_ID</span><span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> ,
+replacing <span class="customcode">CHANNEL_ID</span> with the ID of your Channel and <span class="customcode">FIELD_ID</span> with the ID of your field.
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>key</b> (string) Read API Key for this specific Channel (optional--no key required for public channels)</li>
+  <li><b>results</b> (integer) Number of entries to retrieve, 8000 max, default of 100 (optional)</li>
+  <li><b>days</b> (integer) Days from now to include in feed (optional)</li>
+  <li><b>start</b> (datetime) Start date in format YYYY-MM-DD%20HH:NN:SS (optional)</li>
+  <li><b>end</b> (datetime) End date in format YYYY-MM-DD%20HH:NN:SS (optional)</li>
+  <li><b>offset</b> (integer)  Offset of your timezone without daylight savings time (optional)</li>
+  <li><b>status</b> (true/false) Include status updates in feed by setting "status=true" (optional)</li>
+  <li><b>location</b> (true/false) Include latitude, longitude, and elevation in feed by setting "location=true" (optional)</li>
+  <li><b>min</b> (decimal) Minimum value to include in response (optional)</li>
+  <li><b>max</b> (decimal) Maximum value to include in response (optional)</li>
+  <li><b>round</b> (integer) Round to this many decimal places (optional)</li>
+  <li><b>timescale</b> (integer or string) Get first value in this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+  <li><b>sum</b> (integer or string) Get sum of this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+  <li><b>average</b> (integer or string) Get average of this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+  <li><b>median</b> (integer or string) Get median of this many minutes, valid values: 10, 15, 20, 30, 60, 240, 720, 1440, "daily" (optional)</li>
+  <li><b>callback</b> (string) Function name to be used for JSONP cross-domain requests (optional)</li>
+</ul>
+
+<div class="alert alert-warning">
+  Please note that the results parameter is not compatible with timescale, sum, average, or median.
+</div>
+
+<br>
+Example GET:
+
+<pre>GET <span class="str"><%= @ssl_api_domain %>channels/<span class="customcode">9</span>/fields/<span class="customcode">1</span><span class="format format-json">.json</span><span class="format format-xml">.xml</span>?results=<span class="customcode">2</span></span></pre>
+
+<br>
+
+<div class="format format-block-xxl format-text">
+  The response will be an HTML page with the JSON Channel's field feed, for example:
+
+<pre class="prettyprint">
+{
+  "channel":
+  {
+    "id": 9,
+    "name": "my_house",
+    "description": "Netduino Plus connected to sensors around the house",
+    "latitude": "40.44",
+    "longitude": "-79.996",
+    "field1": "Light",
+    "field2": "Outside Temperature",
+    "created_at": "2010-12-13T20:20:06-05:00",
+    "updated_at": "2014-02-26T12:43:04-05:00",
+    "last_entry_id": 6060625
+  },
+  "feeds":
+  [
+    {
+      "created_at": "2014-02-26T12:42:49-05:00",
+      "entry_id": 6060624,
+      "field1": "188"
+    },
+    {
+      "created_at": "2014-02-26T12:43:04-05:00",
+      "entry_id": 6060625,
+      "field1": "164"
+    }
+  ]
+}
+</pre>
+</div>
+
+<div class="format format-block-xxl format-json">
+  The response will be a JSON object of the Channel's field feed, for example:
+
+<pre class="prettyprint">
+{
+  "channel":
+  {
+    "id": 9,
+    "name": "my_house",
+    "description": "Netduino Plus connected to sensors around the house",
+    "latitude": "40.44",
+    "longitude": "-79.996",
+    "field1": "Light",
+    "field2": "Outside Temperature",
+    "created_at": "2010-12-13T20:20:06-05:00",
+    "updated_at": "2014-02-26T12:43:04-05:00",
+    "last_entry_id": 6060625
+  },
+  "feeds":
+  [
+    {
+      "created_at": "2014-02-26T12:42:49-05:00",
+      "entry_id": 6060624,
+      "field1": "188"
+    },
+    {
+      "created_at": "2014-02-26T12:43:04-05:00",
+      "entry_id": 6060625,
+      "field1": "164"
+    }
+  ]
+}
+</pre>
+
+</div>
+
+<div class="format format-block-xxl format-xml">
+  The response will be an XML object of the Channel's field feed, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;channel>
+  &lt;id type="integer">9&lt;/id>
+  &lt;name>my_house&lt;/name>
+  &lt;description>Netduino Plus connected to sensors around the house&lt;/description>
+  &lt;latitude type="decimal">40.44&lt;/latitude>
+  &lt;longitude type="decimal">-79.996&lt;/longitude>
+  &lt;field1>Light&lt;/field1>
+  &lt;field2>Outside Temperature&lt;/field2>
+  &lt;created-at type="dateTime">2010-12-13T20:20:06-05:00&lt;/created-at>
+  &lt;updated-at type="dateTime">2014-02-26T12:49:19-05:00&lt;/updated-at>
+  &lt;last-entry-id type="integer">6060650&lt;/last-entry-id>
+  &lt;feeds type="array">
+    &lt;feed>
+      &lt;created-at type="dateTime">2014-02-26T12:49:04-05:00&lt;/created-at>
+      &lt;entry-id type="integer">6060649&lt;/entry-id>
+      &lt;field1>160&lt;/field1>
+      &lt;id type="integer" nil="true"/>
+    &lt;/feed>
+    &lt;feed>
+      &lt;created-at type="dateTime">2014-02-26T12:49:19-05:00&lt;/created-at>
+      &lt;entry-id type="integer">6060650&lt;/entry-id>
+      &lt;field1>171&lt;/field1>
+      &lt;id type="integer" nil="true"/>
+    &lt;/feed>
+  &lt;/feeds>
+&lt;/channel>
+</pre>
+
+</div>
+
+<br><br>
+
+<div>
+  <%= render 'response' %>
+  <h2>Get Last Entry in a Field Feed</h2>
+</div>
+
+<br>
+To get the last entry in a Channel's field feed, send an HTTP GET to <code><%= @ssl_api_domain %>channels/<span class="customcode">CHANNEL_ID</span>/fields/<span class="customcode">FIELD_ID</span>/last<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> ,
+replacing <span class="customcode">CHANNEL_ID</span> with the ID of your Channel and <span class="customcode">FIELD_ID</span> with the ID of your field.
+
+<br><br>
+Valid parameters:
+<ul class="format-block">
+  <li><b>key</b> (string) Read API Key for this specific Channel (optional--no key required for public channels)</li>
+  <li><b>offset</b> (integer)  Offset of your timezone without daylight savings time (optional)</li>
+  <li><b>status</b> (true/false) Include status updates in feed by setting "status=true" (optional)</li>
+  <li><b>location</b> (true/false) Include latitude, longitude, and elevation in feed by setting "location=true" (optional)</li>
+  <li><b>callback</b> (string) Function name to be used for JSONP cross-domain requests (optional)</li>
+  <li class="format format-text"><b>prepend</b> (string) Text to add before the API response (optional)</li>
+  <li class="format format-text"><b>append</b> (string) Text to add after the API response (optional)</li>
+</ul>
+
+<br>
+Example GET:
+
+<pre>GET <span class="str"><%= @ssl_api_domain %>channels/<span class="customcode">9</span>/fields/<span class="customcode">1</span>/last<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span></pre>
+
+<br>
+
+<div class="format format-block format-text">
+  The response will be the Channel field's most recent value, for example:
+
+<pre class="prettyprint">
+176
+</pre>
+</div>
+
+<div class="format format-block format-json">
+  The response will be a JSON object of the most recent feed, for example:
+
+<pre class="prettyprint">
+{
+  "created_at": "2014-02-26T21:27:21Z",
+  "entry_id": 6061519,
+  "field1": "176"
+}
+</pre>
+
+</div>
+
+<div class="format format-block format-xml">
+  The response will be an XML object of the most recent feed, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;feed>
+  &lt;created-at type="dateTime">2014-02-26T21:28:51Z&lt;/created-at>
+  &lt;entry-id type="integer">6061525&lt;/entry-id>
+  &lt;field1>200&lt;/field1>
+  &lt;id type="integer" nil="true"/>
+&lt;/feed>
+</pre>
+
+</div>
+

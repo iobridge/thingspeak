@@ -1,0 +1,99 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="update">Update a Channel</h2>
+</div>
+
+<br>
+To update a Channel, send an HTTP GET or POST to <code><%= @ssl_api_domain %>update<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>api_key</b> (string) - Write API Key for this specific Channel (required).  The Write API Key can optionally be sent via an X-THINGSPEAKAPIKEY HTTP header.</li>
+  <li><b>field1</b> (string) - Field 1 data (optional)</li>
+  <li><b>field2</b> (string) - Field 2 data (optional)</li>
+  <li><b>field3</b> (string) - Field 3 data (optional)</li>
+  <li><b>field4</b> (string) - Field 4 data (optional)</li>
+  <li><b>field5</b> (string) - Field 5 data (optional)</li>
+  <li><b>field6</b> (string) - Field 6 data (optional)</li>
+  <li><b>field7</b> (string) - Field 7 data (optional)</li>
+  <li><b>field8</b> (string) - Field 8 data (optional)</li>
+  <li><b>lat</b> (decimal) - Latitude in degrees (optional)</li>
+  <li><b>long</b> (decimal) - Longitude in degrees (optional)</li>
+  <li><b>elevation</b> (integer) - Elevation in meters (optional)</li>
+  <li><b>status</b> (string) - Status update message (optional)</li>
+  <li><b>twitter</b> (string) - Twitter username linked to <a href="/docs/thingtweet">ThingTweet</a> (optional)</li>
+  <li><b>tweet</b> (string) - Twitter status update (optional)</li>
+  <li><b>created_at</b> (datetime) - Date when this feed entry was created, in the format<br>YYYY-MM-DD%20HH:NN:SS (optional)</li>
+</ul>
+
+<br>
+Example POST:
+
+<pre>
+POST <span class="str"><%= @ssl_api_domain %>update<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
+     api_key=<span class="customcode"><%= @channel_api_key %></span>
+     field1=<span class="customcode">73</span>
+</pre>
+
+<br>
+
+<div class="format format-block-xl format-text">
+  The response will be the entry ID of the update, for example: <code>18</code>
+  <br><br>
+  If the response is <code>0</code> then the update failed.
+</div>
+
+<div class="format format-block-xl format-json">
+  The response will be a JSON object of the new feed, for example:
+
+<pre class="prettyprint">
+{
+  "channel_id": 3,
+  "field1": "73",
+  "field2": null,
+  "field3": null,
+  "field4": null,
+  "field5": null,
+  "field6": null,
+  "field7": null,
+  "field8": null,
+  "created_at": "2014-02-25T14:13:01-05:00",
+  "entry_id": 320,
+  "status": null,
+  "latitude": null,
+  "longitude": null,
+  "elevation": null,
+  "location":null
+}
+</pre>
+
+</div>
+
+<div class="format format-block-xl format-xml">
+  The response will be an XML object of the new feed, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;feed>
+  &lt;channel-id type="integer">3&lt;/channel-id>
+  &lt;field1>73&lt;/field1>
+  &lt;field2 nil="true"/>
+  &lt;field3 nil="true"/>
+  &lt;field4 nil="true"/>
+  &lt;field5 nil="true"/>
+  &lt;field6 nil="true"/>
+  &lt;field7 nil="true"/>
+  &lt;field8 nil="true"/>
+  &lt;created-at type="dateTime">2014-02-25T14:15:42-05:00&lt;/created-at>
+  &lt;entry-id type="integer">321&lt;/entry-id>
+  &lt;status nil="true"/>
+  &lt;latitude type="decimal" nil="true"/>
+  &lt;longitude type="decimal" nil="true"/>
+  &lt;elevation nil="true"/>
+  &lt;location nil="true"/>
+&lt;/feed>
+</pre>
+
+</div>
+

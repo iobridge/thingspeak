@@ -1,0 +1,127 @@
+<div class="row">
+
+  <div class="col-sm-offset-1 col-sm-3 col-xs-12" id="leftcol">
+    <%= render 'docs/sidebar' %>
+  </div>
+
+  <div class="col-sm-7 col-xs-12">
+
+    <h1 id="channels">Channels</h1>
+    Channels are where your application stores and retrieves any type of data. Each channel has a Private View and a Public View. The Private View is only accessible by signing into your ThingSpeak.com user account. The Public View is what other viewers will see when they visit your ThingSpeak Channel. You can have different info on each view, customize the view with Plugins, and even disable the Public View.    <br><br>
+    <br><br>
+    <%= image_tag 'channel_public_view.png', :size => '600x533' %>
+    <br><br><br>
+    Channel Views have the following features:
+    <br><br>
+    <ul>
+      <li>Channel Watch</li>
+      <li>Share via Social Networks</li>
+      <li>Developer Info</li>
+      <li>Ability to embed ThingSpeak Plugins</li>
+      <li>Drag-and-drop Organization</li>
+      <li>Tags</li>
+      <li>Comments</li>
+    </ul>
+    <br><br>
+    <h4>Channels API</h4>
+    To read and write to a ThingSpeak Channel, your application must make requests to the ThingSpeak API using HTTP requests. Each ThingSpeak Channel allows for 8 fields of data (both numeric and alphanumeric formats), location information, and a status update. Each entry is stored with a date and time stamp and is assigned a unique Entry ID (entry_id). After the data is stored, you can retrieve the data by time selection or by Entry ID. In addition to storing and retrieving numeric and alphanumeric data, the ThingSpeak API allows for numeric data processing such as timescaling, averaging, median, summing, and rounding. The channel feeds supports JSON, XML, and CSV formats for integration into applications.
+    <br><br>
+
+    <hr />
+    <h2 id="keywords">Keywords</h2>
+    Here are some keywords that are used in the API. An understanding of the terms will make the API documentation easier to understand.
+    <br><br>
+    <ul>
+      <li><strong>Channel </strong>- The name for where data can be inserted or retrieved within the ThingSpeak API,&nbsp;identified&nbsp;by a numerical Channel ID</li>
+      <li><strong>Channel ID </strong>- Every channel has a unique Channel ID. The Channel ID number is used to identify the channel when your application reads data from the channel</li>
+      <li><strong>Field </strong>- One of eight specific locations for data inside of a channel, identified by a number between 1 to 8 – A field can store numeric data from sensors or&nbsp;alphanumeric&nbsp;strings from serial devices or RFID readers</li>
+      <li><strong>Status </strong>- A short status message to augment the data stored in a channel</li>
+      <li><strong>Location </strong>- The latitude, longitude, and elevation&nbsp;of where data is being sent from</li>
+      <li><strong>Feed </strong>- The collective name for the data stored inside a channel, which may be any combination of field data, status updates, and location info</li>
+      <li><strong>Write API Key</strong> – A 16 digit code that allows an application to write data to a channel</li>
+      <li><strong>Read API Key</strong> – A 16 digit code that allows an application to read the data stored in a channel</li>
+    </ul>
+    <br><br>
+
+    <hr />
+    <h2 id="urls">Base URL Addresses and Locations</h2>
+    Regular URL:
+    <br><br>
+    <pre>http://api.thingspeak.com</pre>
+    <br>
+    Secure URL:
+    <br><br>
+    <pre>https://api.thingspeak.com</pre>
+    <br>
+    IP Address:
+    <br><br>
+    <pre>http://184.106.153.149</pre>
+    <br>
+    Cross-domain XML:
+    <br><br>
+    <pre>http://api.thingspeak.com/crossdomain.xml</pre>
+    <br><br>
+
+    <hr />
+    <h2 id="api_keys">API Keys</h2>
+    <br><br>
+    <h4>Private / Public Channels</h4>
+    By default, your channel is private and requires a Read API Key to access its feed. You can make a channel public which gives other users the ability to use your feed without a Read API Key.
+    <br><br><br>
+    <h4>Write API Key</h4>
+    In order to update a channel, you need to know your Write API Key. If your Write API Key gets compromised you can generate a new key.
+    <br><br>
+    Follow these steps to get your Write API Key:
+    <br><br>
+    <ul>
+      <li>Select&nbsp;Channels</li>
+      <li>Select the&nbsp;Channel&nbsp;to update</li>
+      <li>Select&nbsp;Manage API Keys</li>
+    </ul>
+    <br><br>
+    <h4>Read API Key</h4>
+    The Read API Key allows your application to read data from the API. You can generate multiple Read API Keys for different applications.
+    <br><br>
+    Follow these steps to get a Read API Key:
+    <br><br>
+    <ul>
+      <li>Select&nbsp;Channels</li>
+      <li>Select the&nbsp;Channel&nbsp;to update</li>
+      <li>Select&nbsp;Manage API Keys</li>
+      <li>Select Generate New Read API Key</li>
+    </ul>
+    <br><br><br>
+
+    <hr />
+    <h2 id="rate_limits">Rate Limits</h2>
+    The open service via ThingSpeak.com has a rate limit of an update per channel every 15 seconds. This limit is so that the service can remain free and give everyone a high-level of service. The API source will also be made available on <a href="https://github.com/iobridge/ThingSpeak">GitHub</a> so that you can run this locally or via a shared web host provider. At that point you will be able to to tweak settings for your application requirements.
+    <br><br>
+
+    <h4>Caching</h4>
+    Caching is implemented on JSON and XML formats on feeds. Feeds that return more than 100 entries are cached for 5 minutes. This will allow great performance for popular applications. The Last API call and feeds that specify "results=100" or less are not cached, so that you can produce real-time applications.
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <hr />
+    <%= render 'docs/channels/update' %>
+
+    <hr />
+    <%= render 'docs/channels/feed' %>
+
+    <hr />
+    <%= render 'docs/channels/field' %>
+
+    <hr />
+    <%= render 'docs/channels/status' %>
+
+    <hr />
+    <%= render 'docs/channels/public_index' %>
+
+    <br><br>
+    <hr />
+    <%= render 'docs/channels/importer' %>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+  </div>
+</div>
+

@@ -47,7 +47,8 @@ Thingspeak::Application.routes.draw do
   # specific feeds
   get 'channels/:channel_id/feed(s)(.:format)' => 'feed#index'
   get 'channels/:channel_id/field(s)/:field_id(.:format)' => 'feed#index'
-  get 'channels/:channel_id/field(s)/:field_id/:id(.:format)' => 'feed#show'
+  get 'channels/:channel_id/field/:field_id/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
+  get 'channels/:channel_id/fields/:field_id/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
   get 'channels/:channel_id/feed(s)/last_average(.:format)' => 'feed#last_average'
   get 'channels/:channel_id/feed(s)/last_median(.:format)' => 'feed#last_median'
   get 'channels/:channel_id/feed(s)/last_sum(.:format)' => 'feed#last_sum'
@@ -159,8 +160,8 @@ Thingspeak::Application.routes.draw do
   end
 
   # talkback api
-  delete 'talkbacks/:id/commands', :to => 'commands#destroy_all'
-  delete 'talkbacks/:id/commands/destroy_all', :to => 'commands#destroy_all'
+  delete 'talkbacks/:talkback_id/commands', :to => 'commands#destroy_all'
+  delete 'talkbacks/:talkback_id/commands/destroy_all', :to => 'commands#destroy_all'
   resources :talkbacks do
     resources :commands do
       collection do

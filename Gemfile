@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 gem 'jquery-rails', '3.0.4'
 gem 'rails_autolink'
 gem 'mysql2'
@@ -30,7 +30,7 @@ gem 'rack-utf8_sanitizer'
 gem 'newrelic_rpm'
 gem 'actionpack-xml_parser'
 
-# To use debugger
+# to use debugger
 # gem 'ruby-debug'
 
 # assets

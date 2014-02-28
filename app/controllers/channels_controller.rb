@@ -29,10 +29,19 @@ class ChannelsController < ApplicationController
 
   # list public channels
   def public
+    @domain = domain
+    # default blank response
+    @channels = Channel.where(:id => 0).paginate :page => params[:page]
+
     # get channels by ids
     if params[:channel_ids].present?
       flash[:notice] = t(:selected_channels)
       @channels = Channel.public_viewable.by_array(params[:channel_ids]).order('ranking desc, updated_at DESC').paginate :page => params[:page]
+    # get channels that match a user
+    elsif params[:username].present?
+      flash[:notice] = "#{t(:user).capitalize}: #{params[:username]}"
+      searched_user = User.find_by_login(params[:username])
+      @channels = searched_user.channels.public_viewable.active.order('ranking desc, updated_at DESC').paginate :page => params[:page] if searched_user.present?
     # get channels that match a tag
     elsif params[:tag].present?
       flash[:notice] = "#{t(:tag).capitalize}: #{params[:tag]}"
@@ -40,6 +49,7 @@ class ChannelsController < ApplicationController
     # normal channel list
     else
       flash[:notice] = t(:featured_channels)
+      respond_with_error(:error_resource_not_found) and return if params[:page] == '0'
       @channels = Channel.public_viewable.active.order('ranking desc, updated_at DESC').paginate :page => params[:page]
     end
 
@@ -311,8 +321,12 @@ class ChannelsController < ApplicationController
     # if there is a talkback_key but no command
     respond_with_blank and return if params[:talkback_key].present? && command.blank?
 
-    # normal route, respond with the entry id of the feed
-    render :text => status
+    # normal route, respond with the feed
+    respond_to do |format|
+      format.html { render :text => status }
+      format.json { render :json => feed.to_json }
+      format.xml { render :xml => feed.to_xml(Feed.public_options) }
+    end and return
   end
 
   # import view

@@ -29,6 +29,8 @@ body                    { padding-top: 70px; }
 .format-xml             { display: none; }
 .format-block           { min-height: 200px; }
 .format-block-lg        { min-height: 350px; }
+.format-block-xl        { min-height: 400px; }
+.format-block-xxl       { min-height: 600px; }
 
 
 /* Sticky footer styles
@@ -70,7 +72,6 @@ body {
 .apps a:hover,
 .apps:hover div         { text-decoration: none; }
 .commentarea 						{	width: 300px;	height: 80px; }
-#options                { float: right; text-align: right; }
 #login                  {
     padding: 6px;
     border: 1px solid #bbbbbb;

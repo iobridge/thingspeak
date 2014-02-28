@@ -33,8 +33,15 @@ class ApplicationController < ActionController::Base
     @ssl_api_domain ||= ssl_api_domain
     @locale ||= get_locale
     I18n.locale = @locale
+
     # sets timezone for current user, all DateTime outputs will be automatically formatted
     Time.zone = current_user.time_zone if current_user
+
+    # allows use of daily params
+    params[:timescale] = '1440' if params[:timescale] == 'daily'
+    params[:average] = '1440' if params[:average] == 'daily'
+    params[:median] = '1440' if params[:median] == 'daily'
+    params[:sum] = '1440' if params[:sum] == 'daily'
   end
 
   # get the locale, but don't fail if header value doesn't exist
@@ -90,21 +97,12 @@ class ApplicationController < ActionController::Base
       return output.join(', ')
     end
 
-    def set_channels_menu
-      @menu = 'channels'
-    end
-
-    def set_apps_menu
-      @menu = 'apps'
-    end
-
-    def set_plugins_menu
-      @menu = 'plugins'
-    end
-
-    def set_devices_menu
-      @menu = 'devices'
-    end
+    # set menus
+    def set_support_menu; @menu = 'support'; end
+    def set_channels_menu; @menu = 'channels'; end
+    def set_apps_menu; @menu = 'apps'; end
+    def set_plugins_menu; @menu = 'plugins'; end
+    def set_devices_menu; @menu = 'devices'; end
 
     def current_user_session
       return @current_user_session if defined?(@current_user_session)

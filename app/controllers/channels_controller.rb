@@ -326,6 +326,7 @@ class ChannelsController < ApplicationController
       format.html { render :text => status }
       format.json { render :json => feed.to_json }
       format.xml { render :xml => feed.to_xml(Feed.public_options) }
+      format.any { render :text => status }
     end and return
   end
 

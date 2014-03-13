@@ -32,7 +32,7 @@
 
         </table>
 
-        <br />
+        <br>
 
       <% end %>
 
@@ -43,16 +43,16 @@
 
       <% if is_admin? %>
 
-        <br /><br /><br />
+        <br><br><br>
 
         <% @channels.each do |c| %>
           <% if c.social %>
             <%= t(:social_channel) %>: <%= link_to c.name, (Rails.env == 'production') ? "http://www.socialsensornetwork.com/#{c.slug}" : "/s/#{c.slug}" %>
-            <br />
+            <br>
           <% end %>
         <% end %>
 
-        <br />
+        <br>
 
         <%= link_to t(:social_channel_create), :controller => 'channels', :action => 'social_new' %>
       <% end %>

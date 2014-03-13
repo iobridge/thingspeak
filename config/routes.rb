@@ -10,6 +10,13 @@ Thingspeak::Application.routes.draw do
 
   root :to => 'pages#home'
 
+  # for api: login and get token
+  match 'users/api_login', :to => 'users#api_login', :via => [:get, :post]
+
+  # devise for authentication
+  # override devise controllers and use custom sessions_controller and registrations_controller
+  devise_for :users, :controllers => {:sessions => 'sessions', :registrations => 'registrations'}
+
   resource :pages do
     collection do
       get :home
@@ -192,9 +199,10 @@ Thingspeak::Application.routes.draw do
   get 'docs(/:action)', :to => 'docs'
 
   # users
-  match 'login' => 'user_sessions#new', :as => :login, :via => [:get, :post]
-  match 'logout' => 'user_sessions#destroy', :as => :logout, :via => [:get, :post]
-  match 'forgot_password', :to => 'users#forgot_password', :as => 'forgot_password', :via => [:get, :post]
+  devise_scope :user do
+    match 'login', to: "devise/sessions#new", :via => [:get, :post]
+    match 'logout', to: "devise/sessions#destroy", :via => [:get, :post]
+  end
 
   # add support for CORS preflighting (matches any OPTIONS route up to 4 levels deep)
   # examples: /talkbacks, /talkbacks/4, /talkbacks/4/commands, /talkbacks/4/commands/6

@@ -1,11 +1,14 @@
 class ApplicationController < ActionController::Base
+  skip_before_filter :verify_authenticity_token
   # include all helpers for controllers
   helper :all
   # include these helper methods for views
   helper_method :current_user_session, :current_user, :logged_in?, :is_admin?, :get_header_value, :to_bytes
   protect_from_forgery
   before_filter :allow_cross_domain_access, :set_variables
+  before_filter :configure_permitted_parameters, if: :devise_controller?
   after_filter :remove_headers
+  before_filter :authenticate_user_from_token!
 
   # responds with blank
   def respond_with_blank
@@ -44,6 +47,9 @@ class ApplicationController < ActionController::Base
     params[:sum] = '1440' if params[:sum] == 'daily'
   end
 
+  # change default devise sign_in page
+  def after_sign_in_path_for(resource); channels_path; end
+
   # get the locale, but don't fail if header value doesn't exist
   def get_locale
     locale = get_header_value('HTTP_ACCEPT_LANGUAGE')
@@ -59,7 +65,29 @@ class ApplicationController < ActionController::Base
     return locale
   end
 
+  protected
+
+    def configure_permitted_parameters
+      devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:login, :email, :password, :password_confirmation, :remember_me) }
+      devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:login, :email, :password, :remember_me) }
+      devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:login, :email, :password, :password_confirmation, :time_zone, :password_current) }
+    end
+
   private
+
+    # authenticates user based on token from users#api_login
+    def authenticate_user_from_token!
+      # exit if no login or token
+      return false if params[:login].blank? || params[:token].blank?
+
+      # get the user by login or email
+      user = User.find_by_login_or_email(params[:login])
+
+      # safe compare, avoids timing attacks
+      if user.present? && Devise.secure_compare(user.authentication_token, params[:token])
+        sign_in user, store: false
+      end
+    end
 
     # remove headers if necessary
     def remove_headers
@@ -80,7 +108,7 @@ class ApplicationController < ActionController::Base
 
     # check that user's email address matches admin
     def is_admin?
-      current_user && ADMIN_EMAILS.include?(current_user.email)
+      current_user.present? && ADMIN_EMAILS.include?(current_user.email)
     end
 
     def set_admin_menu
@@ -103,16 +131,6 @@ class ApplicationController < ActionController::Base
     def set_apps_menu; @menu = 'apps'; end
     def set_plugins_menu; @menu = 'plugins'; end
     def set_devices_menu; @menu = 'devices'; end
-
-    def current_user_session
-      return @current_user_session if defined?(@current_user_session)
-      @current_user_session = UserSession.find
-    end
-
-    def current_user
-      return @current_user if defined?(@current_user)
-      @current_user = current_user_session && current_user_session.record
-    end
 
     def require_user
       logger.info "Require User"
@@ -273,9 +291,6 @@ class ApplicationController < ActionController::Base
 
     # options: days = how many days ago, start = start date, end = end date, offset = timezone offset
     def get_date_range(params)
-      # set timezone correctly
-      set_time_zone(params)
-
       # allow more past data if necessary
       get_old_data = (params[:results].present? || params[:start].present? || params[:days].present?) ? true : false
 
@@ -289,8 +304,6 @@ class ApplicationController < ActionController::Base
       date_range = (end_date - 30.days..end_date) if ((end_date - start_date) > 30.days and !get_old_data)
       return date_range
     end
-
-
 
     def set_time_zone(params)
       # set timezone correctly

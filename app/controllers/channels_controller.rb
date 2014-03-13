@@ -35,20 +35,20 @@ class ChannelsController < ApplicationController
 
     # get channels by ids
     if params[:channel_ids].present?
-      flash[:notice] = t(:selected_channels)
+      @header = t(:selected_channels)
       @channels = Channel.public_viewable.by_array(params[:channel_ids]).order('ranking desc, updated_at DESC').paginate :page => params[:page]
     # get channels that match a user
     elsif params[:username].present?
-      flash[:notice] = "#{t(:user).capitalize}: #{params[:username]}"
+      @header = "#{t(:user).capitalize}: #{params[:username]}"
       searched_user = User.find_by_login(params[:username])
       @channels = searched_user.channels.public_viewable.active.order('ranking desc, updated_at DESC').paginate :page => params[:page] if searched_user.present?
     # get channels that match a tag
     elsif params[:tag].present?
-      flash[:notice] = "#{t(:tag).capitalize}: #{params[:tag]}"
+      @header = "#{t(:tag).capitalize}: #{params[:tag]}"
       @channels = Channel.public_viewable.active.order('ranking desc, updated_at DESC').with_tag(params[:tag]).paginate :page => params[:page]
     # normal channel list
     else
-      flash[:notice] = t(:featured_channels)
+      @header = t(:featured_channels)
       respond_with_error(:error_resource_not_found) and return if params[:page] == '0'
       @channels = Channel.public_viewable.active.order('ranking desc, updated_at DESC').paginate :page => params[:page]
     end

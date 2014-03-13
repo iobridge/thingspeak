@@ -8,8 +8,8 @@
 <body>
 <div class="recent_status">
 <% @statuses.each do |r| %>
-<div  ><span class="status_messages" id="<%= r.entry_id %>"><%= r.status %><br /><abbr class="timeago" title="<%= r.created_at %>"><%= r.created_at %></abbr></div>
-<br />
+<div  ><span class="status_messages" id="<%= r.entry_id %>"><%= r.status %><br><abbr class="timeago" title="<%= r.created_at %>"><%= r.created_at %></abbr></div>
+<br>
 <% end %>
 <div>
 <script>
@@ -31,7 +31,7 @@ function refreshStatus() {
         $(".recent_status").prepend("<div><span class=\"status_messages\" id=\"" + 
              data[i].entry_id + "\">"+ 
              data[i].status +
-             "</span><br /><abbr class=\"timeago\" title=\"" + 
+             "</span><br><abbr class=\"timeago\" title=\"" + 
              data[i].created_at +  "\">" + 
              data[i].created_at + "</abbr></div></br>");
           }

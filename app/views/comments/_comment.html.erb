@@ -13,7 +13,7 @@
           <% end %>
           <span class="username"><%= link_to User.find(comment.user_id).login, list_channels_path(User.find(comment.user_id).login) %></span>
           <span class="prettydate"><%= time_ago_in_words(comment.created_at) %> <%= t(:ago) %></span>
-          <br />
+          <br>
           <div>
             <%= auto_link_urls(comment.body) %>
           </div>
@@ -32,7 +32,7 @@
               <input name='userlogin' class='userlogin' />
               <%= hidden_field_tag :parent_id, comment.id %>
               <%= f.text_area :body, :value => '', :class => 'commentarea' %>
-              <br />
+              <br>
               <%= submit_tag %>
             <% end %>
           </div>

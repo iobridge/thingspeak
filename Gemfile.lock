@@ -53,13 +53,13 @@ GEM
       rake (>= 0.8.7)
     arel (4.0.2)
     atomic (1.1.14)
-    authlogic (3.3.0)
-      activerecord (>= 3.2)
-      activesupport (>= 3.2)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
     autotest-rails (4.2.1)
       ZenTest (~> 4.5)
+    bcrypt (3.1.7)
+    bcrypt-ruby (3.1.5)
+      bcrypt (>= 3.1.3)
     builder (3.1.4)
     capistrano (2.15.4)
       highline
@@ -78,6 +78,12 @@ GEM
     daemons (1.1.9)
     dalli (2.7.0)
     database_cleaner (1.2.0)
+    devise (3.2.3)
+      bcrypt-ruby (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     dynamic_form (1.1.4)
     easy_translate (0.4.0)
@@ -157,6 +163,7 @@ GEM
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     oauth (0.4.7)
+    orm_adapter (0.5.0)
     polyglot (0.3.4)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
@@ -275,6 +282,8 @@ GEM
       json (>= 1.8.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
+    warden (1.2.3)
+      rack (>= 1.0)
     webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
@@ -290,7 +299,6 @@ DEPENDENCIES
   acts_as_list
   acts_as_tree
   annotate (~> 2.6.1)
-  authlogic
   autotest
   autotest-rails
   capistrano (~> 2.15.4)
@@ -298,6 +306,7 @@ DEPENDENCIES
   daemons
   dalli
   database_cleaner (~> 1.2.0)
+  devise
   dynamic_form
   exception_notification
   factory_girl_rails

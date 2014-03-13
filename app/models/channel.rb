@@ -81,6 +81,13 @@ class Channel < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
+  # how often the channel is updated
+  def update_rate
+    last_feeds = self.feeds.order('entry_id desc').limit(2)
+    rate = (last_feeds.first.created_at - last_feeds.last.created_at) if last_feeds.length == 2
+    return rate
+  end
+
   # write key for a channel
   def write_api_key
     self.api_keys.where(:write_flag => true).first.api_key

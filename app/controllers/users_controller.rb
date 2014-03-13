@@ -1,7 +1,27 @@
 class UsersController < ApplicationController
   include KeyUtilities
-  before_filter :require_no_user, :only => [:new, :create, :forgot_password]
-  before_filter :require_user, :only => [:show, :edit, :update, :change_password, :edit_profile]
+  skip_before_filter :verify_authenticity_token, :only => [:api_login]
+  before_filter :require_user, :only => [:show, :edit, :update, :edit_profile]
+
+  # allow login via api
+  def api_login
+    # get the user by login or email
+    user = User.find_by_login_or_email(params[:login])
+
+    # exit if no user or invalid password
+    respond_with_error(:error_auth_required) and return if user.blank? || !user.valid_password?(params[:password])
+
+    # save new authentication token
+    user.authentication_token = Devise.friendly_token
+    user.save
+
+    # output the user with token
+    respond_to do |format|
+      format.json { render :json => user.as_json(User.private_options_plus(:authentication_token)) }
+      format.xml { render :xml => user.to_xml(User.private_options_plus(:authentication_token)) }
+      format.any { render :text => user.authentication_token }
+    end
+  end
 
   # generates a new api key
   def new_api_key
@@ -34,8 +54,8 @@ class UsersController < ApplicationController
 
     # if a json or xml request
     if request.format == :json || request.format == :xml
-      # authenticate the user if api key matches the target user
-      authenticated = (User.find_by_api_key(get_apikey) == @user)
+      # authenticate the user if the user is logged in (can be via token) or api key matches the target user
+      authenticated = (current_user == @user) || (User.find_by_api_key(get_apikey) == @user)
       # set options correctly
       options = authenticated ? User.private_options : User.public_options(@user)
     end
@@ -75,27 +95,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def new
-    @title = t(:signup)
-    @user = User.new
-  end
-
-  def create
-    @user = User.new(user_params)
-    @user.api_key = generate_api_key(16, 'user')
-
-    # save user
-    if @user.valid?
-
-      if @user.save
-        redirect_back_or_default channels_path and return
-      end
-    else
-      render :action => :new
-    end
-
-  end
-
   def show
     @menu = 'account'
     @user = @current_user
@@ -106,48 +105,18 @@ class UsersController < ApplicationController
     @user = @current_user
   end
 
-  # displays forgot password page
-  def forgot_password
-    @user = User.new
-  end
-
-  # this action is called from an email link when a password reset is requested
-  def reset_password
-    # if user has been logged in (due to previous form submission)
-    if !current_user.nil?
-      @user = current_user
-      @user.errors.add(:base, t(:password_problem))
-      @valid_link = true
-    else
-      @user = User.find_by_id(params[:id])
-      # make sure tokens match and password reset is within last 10 minutes
-      if @user.perishable_token == params[:token] && @user.updated_at > 600.seconds.ago
-        @valid_link = true
-        # log the user in
-        @user_session = UserSession.new(@user)
-        @user_session.save
-      end
-    end
-  end
-
-  # do the actual password change
-  def change_password
-    @user = current_user
-    # if no password entered, redirect
-    redirect_to reset_password_path and return if params[:user][:password].empty?
-    # check current password and update
-    if @user.update_attributes(user_params)
-      redirect_to account_path
-    else
-      redirect_to reset_password_path
-    end
-  end
-
   def update
     @menu = 'account'
     @user = @current_user # makes our views "cleaner" and more consistent
+
+    # delete password and confirmation from params if not present
+    params[:user].delete(:password) if params[:user][:password].blank?
+
     # check current password and update
-    if @user.valid_password?(params[:password_current]) && @user.update_attributes(user_params)
+    if @user.valid_password?(params[:user][:password_current]) && @user.update_attributes(user_params)
+      # sign the user back in, since devise will log the user out on update
+      sign_in(current_user, :bypass => true)
+      flash[:notice] = t('devise.registrations.updated')
       redirect_to account_path
     else
       @user.errors.add(:base, t(:password_incorrect))

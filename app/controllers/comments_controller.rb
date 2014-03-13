@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
     @comment.body = params[:comment][:body].gsub(/<\/?[^>]*>/, '').gsub(/\n/, '<br />')
     # save comment
     if @comment.save
-      flash[:success] = "Thanks for adding a comment!"
+      flash[:notice] = "Thanks for adding a comment!"
     else
       flash[:error] = "Comment can't be blank!"
     end
@@ -45,3 +45,4 @@ class CommentsController < ApplicationController
     redirect_to :back
   end
 end
+

@@ -7,6 +7,7 @@
 body                    { padding-top: 70px; }
 .break-word             { word-break: break-word; }
 .col-pad                { padding: 0 15px; }
+.dismiss                { float: right; cursor: pointer; position: relative; top: -12px; left: 7px; }
 
 /* multiline forms */
 .form-horizontal .multiline-label { margin-top: -10px; }
@@ -229,10 +230,9 @@ input[type="text"].midfield { width: 120px; }
 textarea.tweet { margin-top: 0.5em; width: 40em; height: 3em; }
 
 /* error messages */
-.errorExplanation       { width: 95%; background-color: #ffffe0; display: table; margin-bottom: 20px; padding: 10px; border: 1px solid #aaaaaa; }
-#error {
-    color: red;
-}
+.errorExplanation,
+#error_explanation      { padding: 15px; margin-bottom: 20px; border: 1px solid transparent; border-radius: 4px; background-color: #f2dede; border-color: #ebccd1; color: #a94442; }
+#error                  { color: red; }
 .field_with_errors      { display: inline; }
 /*.error_box              { margin-top: 15px; padding: 5px; background-color: #f99; color: #300; border: 1px solid #f66; }*/
 .warning_box            { margin: 15px 0 15px 0; padding: 10px; background-color: #fc3; color: #000; border: 1px solid #f90; }

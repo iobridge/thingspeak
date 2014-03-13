@@ -1,11 +1,11 @@
 <div class="FL">
   <h3><%= t(:api_key_write) %></h3>
   <%= @write_key %>
-  <br /><br />
+  <br><br>
 
   <%= button_to t(:api_key_write_new), channel_api_keys_path(@channel, :write => 1), :data => { :confirm => t(:confirm_new_api_key) } %>
 
-  <br /><br />
+  <br><br>
 
   <h3><%= t(:api_key_read) %></h3>
   <% @read_keys.each do |read_key| %>
@@ -29,12 +29,12 @@
             <%= button_to t(:api_key_delete), channel_api_key_path(@channel, read_key), :method => 'delete', :data => { :confirm => t(:confirm_read_key_delete) } %></td>
         </tr>
       </table>
-      <br /><br />
+      <br><br>
 
   <% end %>
 
   <%= button_to t(:api_key_read_new), channel_api_keys_path(@channel, :write => 0) %>
-  <br />
+  <br>
 </div>
 <div id="sidebar_old">
   <ul>
@@ -42,9 +42,9 @@
       <div class="helplink">(<a target="_blank" href="/docs/channels#api_keys"><%= t(:help_options) %></a>)</div>
       <h2><%= t(:help) %></h2>
       <%= t(:help_channel_write_key) %>
-      <br /><br />
+      <br><br>
       <%= t(:help_channel_read_key) %>
-      <br /><br />
+      <br><br>
       <%= t(:help_channel_read_key_note) %>
     </li>
   </ul>

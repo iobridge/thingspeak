@@ -23,6 +23,12 @@
     <div id="wrap">
       <%= render 'layouts/header' %>
       <div class="container">
+        <% if notice.present? %>
+          <p class="flash alert alert-success"><%= notice %><span class="dismiss">X</span></p>
+        <% end %>
+        <% if alert.present? %>
+          <p class="flash alert alert-danger"><%= alert %><span class="dismiss">X</span></p>
+        <% end %>
         <%= yield %>
       </div>
     </div>

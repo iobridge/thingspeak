@@ -5,7 +5,7 @@
 
     <% if @channels.empty? %>
       <%= t(:watched_empty) %>
-      <br /><br />
+      <br><br>
       <%= link_to t(:watched_find), public_channels_path %>
     <% else %>
       <%= render :partial => 'list' %>

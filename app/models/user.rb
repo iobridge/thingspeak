@@ -32,19 +32,19 @@
 class User < ActiveRecord::Base
   include KeyUtilities
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
-  has_many :channels
+  has_many :channels, :dependent => :destroy
   has_many :twitter_accounts, :dependent => :destroy
   has_many :thinghttps, :dependent => :destroy
   has_many :tweetcontrols, :dependent => :destroy
   has_many :reacts, :dependent => :destroy
   has_many :scheduled_thinghttps, :dependent => :destroy
   has_many :talkbacks, :dependent => :destroy
-  has_many :plugins
-  has_many :devices
-  has_many :api_keys
+  has_many :plugins, :dependent => :destroy
+  has_many :devices, :dependent => :destroy
+  has_many :api_keys, :dependent => :destroy
   has_many :watchings, :dependent => :destroy
-  has_many :watched_channels, :through => :watchings, :source => :channel
-  has_many :comments
+  has_many :watched_channels, :through => :watchings, :source => :channel, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
 
   self.include_root_in_json = false
 

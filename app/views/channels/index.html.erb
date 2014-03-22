@@ -41,7 +41,7 @@
         <%= d.submit t(:channel_create), :class => 'btn btn-primary' %>
       <% end %>
 
-      <% if is_admin? %>
+      <% if current_admin_user.present? %>
 
         <br><br><br>
 

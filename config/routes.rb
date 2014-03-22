@@ -1,5 +1,9 @@
 Thingspeak::Application.routes.draw do
 
+  # admin routes
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
   # main data posts using this route
   match 'update', :to => 'channels#post_data', :via => ((GET_SUPPORT) ? [:get, :post] : :post)
   match 's/update', :to => 'channels#post_data', :via => [:get, :post]
@@ -180,16 +184,10 @@ Thingspeak::Application.routes.draw do
 
   resources :apps, :only => ['index']
 
-  get 'admin', :to => 'admin#index', :as => 'admin'
-  namespace :admin do
-    resources :users
-    resources :channels
-    resources :twitter_accounts
-    resources :thinghttps
-    resources :devices
-    resources :failedlogins
-    resources :emails
-  end
+  # admin signups by day
+  get 'admin/signups', :as => 'admin_signups', :to => 'admin/users#signups'
+  # admin list of all email addresses
+  get 'admin/emails', :as => 'admin_emails', :to => 'admin/users#emails'
 
   # app shortcuts
   get 'apps/thingtweet', :to => 'thingtweets#index'

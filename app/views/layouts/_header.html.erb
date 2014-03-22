@@ -34,6 +34,9 @@
               <li><%= link_to t(:profile_edit), edit_profile_path %></li>
             </ul>
           </li>
+          <% if current_admin_user.present? %>
+            <li><%= link_to t(:admin), "/admin" %></li>
+          <% end %>
 
         <% else %>
             <li <%= "class=active" if @menu == 'channels' %>><%= link_to t(:channels), public_channels_path %></li>

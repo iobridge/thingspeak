@@ -4,7 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   # use defaults from devise
   def new; super; end
-  def new; super; end
+  def edit; super; end
   def create; super; end
 
   private

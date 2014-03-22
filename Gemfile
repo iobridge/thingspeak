@@ -29,6 +29,7 @@ gem 'capistrano', '~> 2.15.4'
 gem 'rack-utf8_sanitizer'
 gem 'newrelic_rpm'
 gem 'actionpack-xml_parser'
+gem 'activeadmin', github: 'gregbell/active_admin'
 
 # to use debugger
 # gem 'ruby-debug'

@@ -10,11 +10,10 @@
 
     <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :class => 'form-horizontal' }) do |f| %>
       <%= devise_error_messages! %>
-      <input name='userlogin' class='userlogin' />
 
       <div class="form-group">
         <label class="col-sm-3 col-xs-3 control-label"><%= t(:email) %></label>
-        <div class="col-sm-9 col-xs-9"><%= f.text_field :login, :class => 'form-control' %></div>
+        <div class="col-sm-9 col-xs-9"><%= f.text_field :email, :class => 'form-control' %></div>
       </div>
 
 
@@ -30,6 +29,6 @@
 
 
 <script type="text/javascript">
-  document.getElementById('user_login').focus();
+  document.getElementById('user_email').focus();
 </script>
 

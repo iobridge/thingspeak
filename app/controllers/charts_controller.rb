@@ -55,8 +55,8 @@ class ChartsController < ApplicationController
     params[:bgcolor] = fix_color(params[:bgcolor])
 
     # set ssl
-    @ssl = (get_header_value('x_ssl') == 'true')
-    @domain = domain(@ssl)
+    ssl = (get_header_value('x_ssl') == 'true')
+    @domain = domain(ssl)
 
     # should data be pushed off the end in dynamic chart
     @push = (params[:push] and params[:push] == 'false') ? false : true

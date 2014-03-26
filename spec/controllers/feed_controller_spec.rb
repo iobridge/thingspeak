@@ -6,7 +6,6 @@ describe FeedController do
     @channel = FactoryGirl.create(:channel)
     now = Time.utc(2013,1,1)
     @feed1 = FactoryGirl.create(:feed, :field1 => 10, :channel => @channel, :created_at => now, :entry_id => 1)
-
     @feed = FactoryGirl.create(:feed, :field1 => 10, :channel => @channel, :created_at => now, :entry_id => 2)
     @feed = FactoryGirl.create(:feed, :field1 => 9, :channel => @channel, :created_at => now, :entry_id => 3)
     @feed = FactoryGirl.create(:feed, :field1 => 7, :channel => @channel, :created_at => now, :entry_id => 4)
@@ -58,7 +57,6 @@ describe FeedController do
     jsonResponse = JSON.parse(response.body)
     jsonResponse["field1"].should eq("51.0")
   end
-
 
 end
 

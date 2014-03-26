@@ -32,7 +32,7 @@ body                    { padding-top: 70px; }
 .format-block-lg        { min-height: 350px; }
 .format-block-xl        { min-height: 400px; }
 .format-block-xxl       { min-height: 600px; }
-
+.format-block-xxxl      { min-height: 1000px; }
 
 /* Sticky footer styles
 -------------------------------------------------- */

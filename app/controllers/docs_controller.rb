@@ -12,10 +12,12 @@ class DocsController < ApplicationController
   def channels
     # default values
     @channel_api_key = 'XXXXXXXXXXXXXXXX'
+    @user_api_key = 'XXXXXXXXXXXXXXXX'
 
     # if user is signed in
     if current_user && current_user.channels.any?
       @channel_api_key = current_user.channels.order('updated_at desc').first.write_api_key
+      @user_api_key = current_user.api_key
     end
   end
 

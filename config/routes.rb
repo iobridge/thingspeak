@@ -67,6 +67,7 @@ Thingspeak::Application.routes.draw do
   get 'channels/:channel_id/feeds/entry/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
   get 'channels/:channel_id/social_feed' => 'channels#social_feed'
   get 'channels/:channel_id/feed(s)/debug' => 'feed#debug'
+  delete 'channels/:id/feeds' => 'channels#clear'
 
   # maps
   get 'channels/:channel_id/maps/channel_show' => 'maps#channel_show'

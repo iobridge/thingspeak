@@ -20,8 +20,10 @@ class UsersController < ApplicationController
     respond_with_error(:error_auth_required) and return if user.blank? || !user.valid_password?(params[:password])
 
     # save new authentication token
-    user.authentication_token = Devise.friendly_token
-    user.save
+    if user.authentication_token.blank?
+      user.authentication_token = Devise.friendly_token
+      user.save
+    end
 
     # output the user with token
     respond_to do |format|

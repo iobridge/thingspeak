@@ -21,7 +21,7 @@ describe ChannelsController do
     it "should allow a new channel to be created" do
       post :create
       response.should be_redirect
-      channel_id = Channel.find(:all).last.id
+      channel_id = Channel.all.last.id
       response.should redirect_to( channel_path(channel_id, :anchor => "channelsettings"))
     end
 
@@ -38,8 +38,6 @@ describe ChannelsController do
       @channel_no_more = Channel.find_by_id(@channel.id)
       @channel_no_more.should be_nil
     end
-
-
   end
 
   describe "Not Logged In" do
@@ -104,6 +102,73 @@ describe ChannelsController do
           Nokogiri::XML(response.body).css('position').text.should eq('')
           Nokogiri::XML(response.body).css('executed-at').text.should_not eq('')
         end
+      end
+    end
+
+  end
+
+  describe "API" do
+    before :each do
+      @user = FactoryGirl.create(:user)
+      @channel = FactoryGirl.create(:channel)
+      @feed = FactoryGirl.create(:feed, :field1 => 10, :channel => @channel)
+    end
+
+    describe "create channel" do
+      it 'creates a channel' do
+        post :create, {:key => @user.api_key, :name => 'mychannel'}
+        response.should be_redirect
+        channel_id = Channel.all.last.id
+        response.should redirect_to(channel_path(channel_id, :anchor => "channelsettings"))
+      end
+      it 'returns JSON' do
+        post :create, {:key => @user.api_key, :name => 'mychannel', :format => 'json'}
+        JSON.parse(response.body)['name'].should eq("mychannel")
+      end
+      it 'returns XML' do
+        post :create, {:key => @user.api_key, :name => 'mychannel', :description => 'mydesc', :format => 'xml'}
+        Nokogiri::XML(response.body).css('description').text.should eq("mydesc")
+      end
+    end
+
+    describe "clear channel" do
+      it 'clears a channel' do
+        @channel.feeds.count.should eq(1)
+        delete :clear, {:id => @channel.id, :key => @user.api_key}
+        @channel.feeds.count.should eq(0)
+        response.should be_redirect
+        response.should redirect_to(channel_path(@channel.id))
+      end
+      it 'returns JSON' do
+        @channel.feeds.count.should eq(1)
+        delete :clear, {:id => @channel.id, :key => @user.api_key, :format => 'json'}
+        @channel.feeds.count.should eq(0)
+        JSON.parse(response.body).should eq([])
+      end
+      it 'returns XML' do
+        @channel.feeds.count.should eq(1)
+        delete :clear, {:id => @channel.id, :key => @user.api_key, :format => 'xml'}
+        @channel.feeds.count.should eq(0)
+        Nokogiri::XML(response.body).css('nil-classes').text.should eq('')
+      end
+    end
+
+    describe "delete channel" do
+      it 'deletes a channel' do
+        delete :destroy, {:id => @channel.id, :key => @user.api_key}
+        Channel.find_by_id(@channel.id).should be_nil
+        response.should be_redirect
+        response.should redirect_to(channels_path)
+      end
+      it 'returns JSON' do
+        delete :destroy, {:id => @channel.id, :key => @user.api_key, :format => 'json'}
+        Channel.find_by_id(@channel.id).should be_nil
+        JSON.parse(response.body)['name'].should eq(@channel.name)
+      end
+      it 'returns XML' do
+        delete :destroy, {:id => @channel.id, :key => @user.api_key, :format => 'xml'}
+        Channel.find_by_id(@channel.id).should be_nil
+        Nokogiri::XML(response.body).css('name').text.should eq(@channel.name)
       end
     end
 

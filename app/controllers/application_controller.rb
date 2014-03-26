@@ -131,7 +131,7 @@ class ApplicationController < ActionController::Base
 
     def require_user
       logger.info "Require User"
-      if current_user.nil?
+      if current_user.nil? && User.find_by_api_key(get_apikey).nil?
         respond_to do |format|
           format.html   {
             session[:link_back] = request.url

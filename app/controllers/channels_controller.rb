@@ -3,7 +3,7 @@ class ChannelsController < ApplicationController
   before_filter :require_user, :except => [ :show, :post_data, :social_show, :social_feed, :public]
   before_filter :set_channels_menu
   layout 'application', :except => [:social_show, :social_feed]
-  protect_from_forgery :except => :post_data
+  protect_from_forgery :except => [:post_data, :create, :destroy, :clear]
   require 'csv'
 
   # view list of watched channels
@@ -129,11 +129,10 @@ class ChannelsController < ApplicationController
   end
 
   def index
-
     @channels = current_user.channels
     respond_to do |format|
       format.html
-      format.json { render :json => @channels }
+      format.json { render :json => @channels.to_json(:root => false) }
     end
   end
 
@@ -190,29 +189,51 @@ class ChannelsController < ApplicationController
 
     flash[:notice] = t(:channel_update_success)
     redirect_to channel_path(@channel.id)
-
   end
 
   def create
-    channel = current_user.channels.create(:field1 => "#{t(:channel_default_field)} 1")
+    # get the current user or find the user via their api key
+    @user = current_user || User.find_by_api_key(get_apikey)
+    channel = @user.channels.create(:field1 => "#{t(:channel_default_field)} 1")
+
+    # make updating attributes easier
+    params[:channel] = params
+    channel.update_attributes(channel_params)
+
     channel.set_windows
     channel.save
     channel.add_write_api_key
     @channel_id = channel.id
-    redirect_to channel_path(@channel_id, :anchor => "channelsettings")
+    respond_to do |format|
+      format.json { render :json => channel.to_json(Channel.public_options) }
+      format.xml { render :xml => channel.to_xml(Channel.public_options) }
+      format.any { redirect_to channel_path(@channel_id, :anchor => "channelsettings") }
+    end
   end
 
   # clear all data from a channel
   def clear
-    channel = current_user.channels.find(params[:id])
+    # get the current user or find the user via their api key
+    @user = current_user || User.find_by_api_key(get_apikey)
+    channel = @user.channels.find(params[:id])
     channel.delete_feeds
-    redirect_to channel_path(channel.id)
+    respond_to do |format|
+      format.json { render :json => [] }
+      format.xml { render :xml => [] }
+      format.any { redirect_to channel_path(channel.id) }
+    end
   end
 
   def destroy
-    channel = current_user.channels.find(params[:id])
-    channel.destroy
-    redirect_to channels_path
+    # get the current user or find the user via their api key
+    @user = current_user || User.find_by_api_key(get_apikey)
+    @channel = @user.channels.find(params[:id])
+    @channel.destroy
+    respond_to do |format|
+      format.json { render :json => @channel.to_json(Channel.public_options) }
+      format.xml { render :xml => @channel.to_xml(Channel.public_options) }
+      format.any { redirect_to channels_path, :status => 303 }
+    end
   end
 
   # response is '0' if failure, 'entry_id' if success

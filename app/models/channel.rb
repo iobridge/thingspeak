@@ -54,10 +54,11 @@ class Channel < ActiveRecord::Base
   has_many :feeds
   has_many :daily_feeds
   has_many :api_keys, :dependent => :destroy
-  has_many :taggings
+  has_many :taggings, :dependent => :destroy
   has_many :tags, :through => :taggings
   has_many :comments, :dependent => :destroy
   has_many :windows, :dependent => :destroy, :autosave => true
+  accepts_nested_attributes_for :tags
 
   self.include_root_in_json = true
 

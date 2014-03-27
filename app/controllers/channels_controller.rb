@@ -202,6 +202,7 @@ class ChannelsController < ApplicationController
 
     channel.set_windows
     channel.save
+    channel.save_tags(params[:channel][:tags]) if params[:channel][:tags].present?
     channel.add_write_api_key
     @channel_id = channel.id
     respond_to do |format|

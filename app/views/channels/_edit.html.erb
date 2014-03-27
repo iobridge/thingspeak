@@ -107,7 +107,7 @@
   <br><br>
 
   <h4><%= t(:channel_clear_message) %></h4>
-  <%= button_to t(:channel_clear), { :controller => 'channels', :action => 'clear', :id => @channel.id }, :data => { :confirm => t(:confirm_channel_clear) } %>
+  <%= button_to t(:channel_clear), "/channels/#{@channel.id}/clear", :data => { :confirm => t(:confirm_channel_clear) } %>
 
   <br><br>
 

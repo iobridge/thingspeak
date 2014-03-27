@@ -23,14 +23,14 @@ describe FeedController do
 
   end
 
-  it "should get feeds" do
-    get :show, {id: @feed1.id, channel_id: @channel.id}
+  it "should get first feed" do
+    get :show, {id: @feed1.id, channel_id: @channel.id, format: 'json'}
     response.should be_successful
     response.body.should eq("{\"created_at\":\"2013-01-01T00:00:00+00:00\",\"entry_id\":1}" )
   end
 
   it "should get last feed" do
-    get :show, {id: 'last', channel_id: @channel.id}
+    get :show, {id: 'last', channel_id: @channel.id, format: 'json'}
     response.should be_successful
     response.body.should eq("{\"created_at\":\"2013-01-01T00:00:00+00:00\",\"entry_id\":7}" )
   end

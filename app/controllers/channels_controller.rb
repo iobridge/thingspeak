@@ -206,8 +206,8 @@ class ChannelsController < ApplicationController
     channel.add_write_api_key
     @channel_id = channel.id
     respond_to do |format|
-      format.json { render :json => channel.to_json(Channel.public_options) }
-      format.xml { render :xml => channel.to_xml(Channel.public_options) }
+      format.json { render :json => channel.to_json(Channel.private_options) }
+      format.xml { render :xml => channel.to_xml(Channel.private_options) }
       format.any { redirect_to channel_path(@channel_id, :anchor => "channelsettings") }
     end
   end

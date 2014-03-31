@@ -172,6 +172,19 @@ class Channel < ActiveRecord::Base
     }
   end
 
+  # used when creating a channel
+  def self.private_options
+    {
+      :root => false,
+      :only => [:id, :name, :description, :latitude, :longitude, :last_entry_id, :elevation, :created_at, :ranking],
+      :methods => :username,
+      :include => {
+        :tags => {:only => [:id, :name]},
+        :api_keys => {:only => [:api_key, :write_flag]}
+      }
+    }
+  end
+
   # login name of the user who created the channel
   def username; self.user.try(:login); end
 

@@ -58,7 +58,11 @@ POST <span class="str"><%= @ssl_api_domain %>channels<span class="format format-
   "last_entry_id": null,
   "ranking": 15,
   "username": "hans",
-  "tags": []
+  "tags": [],
+  "api_keys": [{
+      "api_key": "XXXXXXXXXXXXXXXX",
+      "write_flag": true
+  }]
 }
 </pre>
 
@@ -81,6 +85,12 @@ POST <span class="str"><%= @ssl_api_domain %>channels<span class="format format-
     &lt;ranking type="integer">15&lt;/ranking>
     &lt;username>hans&lt;/username>
     &lt;tags type="array" />
+    &lt;api-keys type="array">
+        &lt;api-key>
+            &lt;api-key>XXXXXXXXXXXXXXXX&lt;/api-key>
+            &lt;write-flag type="boolean">true&lt;/write-flag>
+        &lt;/api-key>
+    &lt;/api-keys>
 &lt;/channel>
 </pre>
 

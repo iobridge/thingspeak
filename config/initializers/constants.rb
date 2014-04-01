@@ -17,6 +17,9 @@ API_DOMAIN = 'http://127.0.0.1:3000/'
 # get api key from HTTP headers if this value is present
 HTTP_HEADER_API_KEY_NAME = 'THINGSPEAKAPIKEY'
 
+# whether to use Redis or not
+REDIS_ENABLED = false
+
 # Twitter api credentials
 CONSUMER_KEY = ''
 CONSUMER_SECRET = ''

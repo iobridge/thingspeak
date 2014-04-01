@@ -347,14 +347,15 @@ class Channel < ActiveRecord::Base
   end
 
   def delete_feeds
-    if self.feeds.count < 1000
+    # if a small number of feeds or redis is not present
+    if self.feeds.count < 1000 || REDIS_ENABLED == false
       Feed.delete_all(["channel_id = ?", self.id])
       DailyFeed.delete_all(["channel_id = ?", self.id])
       begin
         self.update_attribute(:last_entry_id, nil)
       rescue Exception => e
       end
-
+    # else delete via background resque job
     else
       self.update_attribute(:clearing, true)
       Resque.enqueue(ClearChannelJob, self.id)

@@ -203,6 +203,9 @@ Thingspeak::Application.routes.draw do
     match 'logout', to: "devise/sessions#destroy", :via => [:get, :post]
   end
 
+  # streaming routes
+  match '/stream/channels/:id/feeds(.:format)', to: 'stream#channel_feed', :via => [:get, :post]
+
   # add support for CORS preflighting (matches any OPTIONS route up to 4 levels deep)
   # examples: /talkbacks, /talkbacks/4, /talkbacks/4/commands, /talkbacks/4/commands/6
   match '/:foo(/:foo(/:foo)(/:foo))', :to => 'cors#preflight', :via => 'options'

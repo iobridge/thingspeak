@@ -42,7 +42,7 @@ gem 'uglifier'
 group :development do
   gem 'annotate', '~> 2.6.1'
   gem 'quiet_assets'
-  gem 'thin'
+  gem 'puma'
   gem 'i18n-tasks', '~> 0.2.10'
 end
 

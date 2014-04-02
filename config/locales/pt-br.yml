@@ -369,7 +369,7 @@
   private_link: "Private"
   settings_link: "Settings"
   api_key_link: "API Key"
-  data_import_link: "Data Import"
+  data_import_link: "Data Import / Export"
   width: "Largura"
   youtube: "YouTube"
 
@@ -430,7 +430,7 @@
   private_view: "Private View"
   public_view: "Public View"
   channel_settings: "Channel Settings"
-  data_import: "Data Import"
+  data_import: "Data Import / Export"
   portlets_all_displayed: "All available portlets are being displayed"
   portlets_add: "Click a rectangle to add that portlet to the dashboard"
   add_portlets: "Add Windows"

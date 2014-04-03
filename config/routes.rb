@@ -57,7 +57,8 @@ Thingspeak::Application.routes.draw do
 
   # specific feeds
   get 'channels/:channel_id/feed(s)(.:format)' => 'feed#index'
-  get 'channels/:channel_id/field(s)/:field_id(.:format)' => 'feed#index'
+  get 'channels/:channel_id/field/:field_id(.:format)' => 'feed#index' # not sure why this doesn't work with (s)
+  get 'channels/:channel_id/fields/:field_id(.:format)' => 'feed#index' # not sure why this doesn't work with (s)
   get 'channels/:channel_id/field/:field_id/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
   get 'channels/:channel_id/fields/:field_id/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
   get 'channels/:channel_id/feed(s)/last_average(.:format)' => 'feed#last_average'

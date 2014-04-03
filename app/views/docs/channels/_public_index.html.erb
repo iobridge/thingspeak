@@ -1,0 +1,149 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="list_public">List Public Channels</h2>
+</div>
+
+<br>
+To view a list of public Channels, send an HTTP GET to
+<br>
+<code><%= @ssl_api_domain %>channels/public<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>page</b> (integer) Page number to retrieve (optional)</li>
+  <li><b>tag</b> (string) Name of tag to search for (optional)</li>
+  <li><b>username</b> (string) Person's username that you want to search Channels for (optional)</li>
+</ul>
+
+<br>
+Example GET:
+
+<pre>GET <span class="str"><%= @ssl_api_domain %>channels/public<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span></pre>
+
+<br>
+
+<div class="format format-block-xxxl format-text">
+  The response will be a webpage with a <a href="/channels/public">list of public Channels</a>.
+</div>
+
+<div class="format format-block-xxxl format-json">
+  The response will be a JSON object of public Channels, for example:
+
+<pre class="prettyprint">
+{
+  "pagination":
+  {
+    "current_page": 1,
+    "per_page": 15,
+    "total_entries": 653
+  },
+  "channels":
+  [
+    {
+      "id": 9,
+      "name": "my_house",
+      "description": "Netduino Plus connected to sensors around the house",
+      "latitude": "40.44",
+      "longitude": "-79.996",
+      "created_at": "2010-12-13T20:20:06-05:00",
+      "elevation": "",
+      "last_entry_id": 6062691,
+      "ranking" :100,
+      "username":"hans",
+      "tags":
+      [
+        {
+          "id": 9,
+          "name": "temp"
+        },{
+          "id": 25,
+          "name": "light"
+        }
+      ]
+    },
+    {
+      "id": 5683,
+      "name": "Residential Data Points",
+      "description": "Arduino Uno + Ethernet Shield",
+      "latitude": "35.664548",
+      "longitude": "-78.654972",
+      "created_at": "2013-05-15T12:33:57-04:00",
+      "elevation": "100",
+      "last_entry_id": 731713,
+      "ranking": 100,
+      "username": "samlro",
+      "tags":
+      [
+        {
+          "id": 950,
+          "name": "Analog Inputs"
+        }
+      ]
+    }
+  ]
+}
+</pre>
+
+</div>
+
+<div class="format format-block-xxxl format-xml">
+  The response will be an XML object of public Channels, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;response>
+  &lt;pagination>
+    &lt;current-page type="WillPaginate::PageNumber">1&lt;/current-page>
+    &lt;per-page type="integer">15&lt;/per-page>
+    &lt;total-entries type="integer">654&lt;/total-entries>
+  &lt;/pagination>
+  &lt;channels type="array">
+    &lt;channel>
+      &lt;id type="integer">9&lt;/id>
+      &lt;name>my_house&lt;/name>
+      &lt;description>
+      Netduino Plus connected to sensors around the house
+      &lt;/description>
+      &lt;latitude type="decimal">40.44&lt;/latitude>
+      &lt;longitude type="decimal">-79.996&lt;/longitude>
+      &lt;created-at type="dateTime">2010-12-13T20:20:06-05:00&lt;/created-at>
+      &lt;elevation/>
+      &lt;last-entry-id type="integer">6062720&lt;/last-entry-id>
+      &lt;ranking type="integer">100&lt;/ranking>
+      &lt;username>hans&lt;/username>
+      &lt;tags type="array">
+        &lt;tag>
+          &lt;id type="integer">9&lt;/id>
+          &lt;name>temp&lt;/name>
+        &lt;/tag>
+        &lt;tag>
+          &lt;id type="integer">25&lt;/id>
+          &lt;name>light&lt;/name>
+        &lt;/tag>
+      &lt;/tags>
+    &lt;/channel>
+    &lt;channel>
+      &lt;id type="integer">5683&lt;/id>
+      &lt;name>Residential Data Points&lt;/name>
+      &lt;description>Arduino Uno + Ethernet Shield&lt;/description>
+      &lt;latitude type="decimal">35.664548&lt;/latitude>
+      &lt;longitude type="decimal">-78.654972&lt;/longitude>
+      &lt;created-at type="dateTime">2013-05-15T12:33:57-04:00&lt;/created-at>
+      &lt;elevation>100&lt;/elevation>
+      &lt;last-entry-id type="integer">731720&lt;/last-entry-id>
+      &lt;ranking type="integer">100&lt;/ranking>
+      &lt;username>samlro&lt;/username>
+      &lt;tags type="array">
+        &lt;tag>
+          &lt;id type="integer">950&lt;/id>
+          &lt;name>Analog Inputs&lt;/name>
+        &lt;/tag>
+      &lt;/tags>
+    &lt;/channel>
+  &lt;/channels>
+&lt;/response>
+</pre>
+
+</div>
+

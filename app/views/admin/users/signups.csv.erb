@@ -1,0 +1,2 @@
+<%= CSV.generate_line @csv_headers %><% @days.each do |day| %><% row = [] %><% @csv_headers.each do |attr| %><% row.push(day.to_json) %><% end %><%= CSV.generate_line(day).html_safe %><% end %>
+

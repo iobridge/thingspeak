@@ -1,0 +1,136 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="list_user_channels">List User's Channels</h2>
+</div>
+
+<br>
+To get a list of a user's Channels, send an HTTP GET to <code><%= @ssl_api_domain %>users/<span class="customcode">USERNAME</span>/channels<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> ,
+replacing <span class="customcode">USERNAME</span> with the person's username.
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>api_key</b> (string) - User's API Key which, if provided, will also show private channels. (optional)</li>
+</ul>
+
+<br>
+Example GET:
+
+<pre>
+GET <span class="str"><%= @ssl_api_domain %>users/hans/channels<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
+</pre>
+
+<br>
+
+<div class="format format-block-xl format-text">
+  The response will be a webpage with a list of the user's Channels.
+</div>
+
+<div class="format format-block-xl format-json">
+  The response will be a JSON object of the user's Channels, for example:
+
+<pre class="prettyprint">
+{
+  "channels":
+  [
+    {
+      "id": 3,
+      "name": "ioBridge Server",
+      "description": "ioBridge IO-204 connected to web server",
+      "latitude": null,
+      "longitude": null,
+      "created_at": "2010-12-03T09:26:23-05:00",
+      "elevation": "",
+      "last_entry_id": 163690,
+      "ranking": 85,
+      "username": "hans",
+      "tags":
+      [
+        {
+          "id": 24,
+          "name": "temperature"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "my_house",
+      "description": "Netduino Plus connected to sensors around the house",
+      "latitude": "40.44",
+      "longitude": "-79.996",
+      "created_at": "2010-12-13T20:20:06-05:00",
+      "elevation": "",
+      "last_entry_id": 6062844,
+      "ranking": 100,
+      "username": "hans",
+      "tags":
+      [
+        {
+          "id": 9,
+          "name": "temp"
+        },
+        {
+          "id": 25,
+          "name": "light"
+        }
+      ]
+    }
+  ]
+}
+</pre>
+
+</div>
+
+<div class="format format-block-xl format-xml">
+  The response will be an XML object of the user's Channels, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;response>
+  &lt;channels type="array">
+    &lt;channel>
+      &lt;id type="integer">3&lt;/id>
+      &lt;name>ioBridge Server&lt;/name>
+      &lt;description>ioBridge IO-204 connected to web server&lt;/description>
+      &lt;latitude nil="true"/>
+      &lt;longitude nil="true"/>
+      &lt;created-at type="dateTime">2010-12-03T09:26:23-05:00&lt;/created-at>
+      &lt;elevation/>
+      &lt;last-entry-id type="integer">163690&lt;/last-entry-id>
+      &lt;ranking type="integer">85&lt;/ranking>
+      &lt;username>hans&lt;/username>
+      &lt;tags type="array">
+        &lt;tag>
+          &lt;id type="integer">24&lt;/id>
+          &lt;name>temperature&lt;/name>
+        &lt;/tag>
+      &lt;/tags>
+    &lt;/channel>
+    &lt;channel>
+      &lt;id type="integer">9&lt;/id>
+      &lt;name>my_house&lt;/name>
+      &lt;description>Netduino Plus connected to sensors around the house&lt;/description>
+      &lt;latitude type="decimal">40.44&lt;/latitude>
+      &lt;longitude type="decimal">-79.996&lt;/longitude>
+      &lt;created-at type="dateTime">2010-12-13T20:20:06-05:00&lt;/created-at>
+      &lt;elevation/>
+      &lt;last-entry-id type="integer">6062860&lt;/last-entry-id>
+      &lt;ranking type="integer">100&lt;/ranking>
+      &lt;username>hans&lt;/username>
+      &lt;tags type="array">
+        &lt;tag>
+          &lt;id type="integer">9&lt;/id>
+          &lt;name>temp&lt;/name>
+        &lt;/tag>
+        &lt;tag>
+          &lt;id type="integer">25&lt;/id>
+          &lt;name>light&lt;/name>
+        &lt;/tag>
+      &lt;/tags>
+    &lt;/channel>
+  &lt;/channels>
+&lt;/response>
+</pre>
+
+</div>
+

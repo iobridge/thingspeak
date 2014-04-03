@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-sm-8 col-xs-12">
+
+    <h4 class="breadcrumb"><%= t(:signup_header) %></h4>
+
+    <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-horizontal'}) do |f| %>
+      <%= devise_error_messages! %>
+      <input name='userlogin' class='userlogin' />
+
+      <div class="form-group">
+        <label class="col-sm-4 col-xs-3 control-label"><%= t(:userid) %></label>
+        <div class="col-sm-8 col-xs-6"><%= f.text_field :login, :class => 'form-control' %></div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-4 col-xs-3 control-label"><%= t(:email) %></label>
+        <div class="col-sm-8 col-xs-6"><%= f.text_field :email, :class => 'form-control' %></div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-4 col-xs-3 control-label"><%= t(:time_zone) %></label>
+        <div class="col-sm-8 col-xs-8">
+          <p class="form-control-static">
+            <%= time_zone_select 'user', 'time_zone', nil, {:default => 'Eastern Time (US & Canada)'}, {:class => 'form-control'} %>
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-4 col-xs-3 control-label"><%= t(:password) %></label>
+        <div class="col-sm-8 col-xs-6"><%= f.password_field :password, :class => 'form-control' %></div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-4 col-xs-3 control-label"><%= t(:password_confirmation) %></label>
+        <div class="col-sm-8 col-xs-6"><%= f.password_field :password_confirmation, :class => 'form-control' %></div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-sm-4 control-label"></label>
+        <div class="col-sm-8"><p class="form-control-static"><%= f.submit t(:create_account), :id => "user_submit", :class => 'btn btn-primary' %></p></div>
+      </div>
+
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  document.getElementById('user_login').focus();
+</script>
+

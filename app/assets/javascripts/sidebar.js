@@ -1,9 +1,12 @@
-$(document).ready(function() {
+// execute on window load (and not document.ready), so that the sidebar is positioned correctly
+$(window).load(function() {
   // if affix function exists
   if ($.fn.affix) {
 
-    // add sidebar affix
-    $('#bootstrap-sidebar').affix();
+    // add sidebar affix, wrapped in a timeout so that it displays correctly
+    setTimeout(function() {
+      $('#bootstrap-sidebar').affix();
+    }, 100);
 
     // add sidebar scrollspy
     $(document.body).scrollspy({ target: '#leftcol', offset: 300 });

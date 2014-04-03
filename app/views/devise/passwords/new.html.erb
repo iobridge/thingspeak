@@ -1,0 +1,34 @@
+<div class="col-sm-7 col-xs-12">
+
+  <h4 class="breadcrumb"><%= t(:password_forgot) %></h4>
+
+  <div class="col-pad">
+
+    <%= t(:password_forgot_message) %>
+
+    <br><br>
+
+    <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :class => 'form-horizontal' }) do |f| %>
+      <%= devise_error_messages! %>
+
+      <div class="form-group">
+        <label class="col-sm-3 col-xs-3 control-label"><%= t(:email) %></label>
+        <div class="col-sm-9 col-xs-9"><%= f.text_field :email, :class => 'form-control' %></div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9 col-xs-offset-3 col-xs-9"><p class="form-control-static"><%= f.submit t(:submit), :class => 'btn btn-primary' %></p></div>
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+  document.getElementById('user_email').focus();
+</script>
+

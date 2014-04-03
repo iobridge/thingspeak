@@ -1,10 +1,5 @@
 <div class="FL">
-<% flash.each do |name, msg| %>
-<div id="<%= name %>" class="fade" >
-  <p><%= msg %></p>
-  <div class="clear"></div>
-</div>
-<% end %>
+
   <%= form_for @channel, :html => {:method => 'put'} do |c| %>
    <% unless session[:errors].nil?
       session[:errors].each do |attr, msg|
@@ -109,12 +104,12 @@
     </table>
   <% end %>
 
-  <br /><br />
+  <br><br>
 
   <h4><%= t(:channel_clear_message) %></h4>
-  <%= button_to t(:channel_clear), { :controller => 'channels', :action => 'clear', :id => @channel.id }, :data => { :confirm => t(:confirm_channel_clear) } %>
+  <%= button_to t(:channel_clear), "/channels/#{@channel.id}/clear", :data => { :confirm => t(:confirm_channel_clear) } %>
 
-  <br /><br />
+  <br><br>
 
   <h4><%= t(:channel_delete_message) %></h4>
   <%= button_to t(:channel_delete), channel_path(@channel.id), :method => 'delete', :data => { :confirm => t(:confirm_channel_delete) } %>
@@ -124,17 +119,17 @@
     <li>
       <h2><%= t(:help) %></h2>
       <%= t(:help_channel_public) %>
-      <br /><br />
+      <br><br>
       <%= t(:help_channel_url) %>
-      <br /><br />
+      <br><br>
       <%= t(:help_channel_video) %>
-      <br /><br />
+      <br><br>
       <%= t(:help_channel_fields) %>
-      <br /><br />
+      <br><br>
       <%= t(:help_channel_clear) %>
-      <br /><br />
+      <br><br>
       <%= t(:help_channel_ranking) %>
-      <br /><br />
+      <br><br>
     </li>
   </ul>
 </div>

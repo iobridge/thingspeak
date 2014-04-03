@@ -1,0 +1,72 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="delete">Delete a Channel</h2>
+</div>
+
+<br>
+To create a new Channel, send an HTTP DELETE to <code><%= @ssl_api_domain %>channels/<span class="customcode">CHANNEL_ID</span><span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> ,
+replacing <span class="customcode">CHANNEL_ID</span> with the ID of your Channel.
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>api_key</b> (string) - User's API Key; please note that this is different than a Channel API key, and can be found in <a href="/account">your account details</a>. (required).</li>
+</ul>
+
+<br>
+Example DELETE:
+
+<pre>
+DELETE <span class="str"><%= @ssl_api_domain %>channels/<span class="customcode">4</span><span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
+       api_key=<span class="customcode"><%= @user_api_key %></span>
+</pre>
+
+<br>
+
+<div class="format format-block-xl format-text">
+  The response will be a webpage with a list of Channels.
+</div>
+
+<div class="format format-block-xl format-json">
+  The response will be a JSON object of the Channel before it was deleted, for example:
+
+<pre class="prettyprint">
+{
+  "id": 4,
+  "name": "My New Channel",
+  "description": null,
+  "latitude": null,
+  "longitude": null,
+  "created_at": "2014-03-25T13:12:50-04:00",
+  "elevation": null,
+  "last_entry_id": null,
+  "ranking": 15,
+  "username": "hans",
+  "tags": []
+}
+</pre>
+
+</div>
+
+<div class="format format-block-xl format-xml">
+  The response will be an XML object of the Channel before it was deleted, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;channel>
+    &lt;id type="integer">4&lt;/id>
+    &lt;name>My New Channel&lt;/name>
+    &lt;description nil="true" />
+    &lt;latitude type="decimal" nil="true" />
+    &lt;longitude type="decimal" nil="true" />
+    &lt;created-at type="dateTime">2014-03-25T20:17:44-04:00&lt;/created-at>
+    &lt;elevation nil="true" />
+    &lt;last-entry-id type="integer" nil="true" />
+    &lt;ranking type="integer">15&lt;/ranking>
+    &lt;username>hans&lt;/username>
+    &lt;tags type="array" />
+&lt;/channel>
+</pre>
+
+</div>
+

@@ -18,7 +18,7 @@
       <%= f.error_messages %>
       <input name='userlogin' class='userlogin' />
       <%= f.text_area :body, :rows => 7, :cols => 54 %>
-      <br />
+      <br>
       <%= submit_tag %>
     <% end %>
   </div>
@@ -56,7 +56,7 @@ function commentflag(m_id, user_id)
          type: 'POST',
          data: {user_id : user_id},
          success: function(data) {
-       $('#commentflag' + m_id).parent().parent().append("<span id='votemsg" + m_id + "'><br /><br /><%= t(:comment_reported) %></span>");
+       $('#commentflag' + m_id).parent().parent().append("<span id='votemsg" + m_id + "'><br><br><%= t(:comment_reported) %></span>");
        $('#imgflag' + m_id).attr('src', '/images/flag_red.gif');
        $('#flaglink' + m_id).removeAttr('onclick');
        $('#flaglink' + m_id).unbind('mouseenter mouseleave');

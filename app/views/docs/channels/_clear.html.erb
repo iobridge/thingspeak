@@ -1,0 +1,47 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="clear">Clear a Channel</h2>
+</div>
+
+<br>
+To clear all feed data from a Channel, send an HTTP DELETE to <code><%= @ssl_api_domain %>channels/<span class="customcode">CHANNEL_ID</span>/feeds<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>api_key</b> (string) - User's API Key; please note that this is different than a Channel API key, and can be found in <a href="/account">your account details</a>. (required).</li>
+</ul>
+
+<br>
+Example DELETE:
+
+<pre>
+DELETE <span class="str"><%= @ssl_api_domain %>channels/<span class="customcode">4</span>/feeds<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
+       api_key=<span class="customcode"><%= @user_api_key %></span>
+</pre>
+
+<br>
+
+<div class="format format-block format-text">
+  The response will be a webpage with your Channel.
+</div>
+
+<div class="format format-block format-json">
+  The response will be an empty JSON array, for example:
+
+<pre class="prettyprint">
+[]
+</pre>
+</div>
+
+
+<div class="format format-block format-xml">
+  The response will be an empty XML array, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;nil-classes type="array" />
+</pre>
+
+</div>
+

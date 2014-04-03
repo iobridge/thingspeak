@@ -34,6 +34,9 @@
               <li><%= link_to t(:profile_edit), edit_profile_path %></li>
             </ul>
           </li>
+          <% if current_admin_user.present? %>
+            <li><%= link_to t(:admin), "/admin" %></li>
+          <% end %>
 
         <% else %>
             <li <%= "class=active" if @menu == 'channels' %>><%= link_to t(:channels), public_channels_path %></li>
@@ -43,10 +46,10 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
 
-        <li class="dropdown">
+        <li class="<%= "active " if @menu == 'support' %>dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%=t(:support)%> <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="http://community.thingspeak.com/documentation/"><%= t(:documentation) %></a></li>
+            <li><a href="/docs"><%= t(:documentation) %></a></li>
             <li><a href="http://community.thingspeak.com/tutorials/"><%= t(:tutorials) %></a></li>
             <li><a href="http://community.thingspeak.com/forum/"><%= t(:forum) %></a></li>
           </ul>
@@ -58,7 +61,7 @@
           <li><%= link_to t(:signout), logout_path %></li>
         <% else %>
           <li><%= link_to t(:signin), login_path %></li>
-          <li><%= link_to t(:signup), new_account_path %></li>
+          <li><%= link_to t(:signup), new_user_registration_path %></li>
         <% end %>
 
       </ul>

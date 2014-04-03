@@ -54,10 +54,11 @@ class Channel < ActiveRecord::Base
   has_many :feeds
   has_many :daily_feeds
   has_many :api_keys, :dependent => :destroy
-  has_many :taggings
+  has_many :taggings, :dependent => :destroy
   has_many :tags, :through => :taggings
   has_many :comments, :dependent => :destroy
   has_many :windows, :dependent => :destroy, :autosave => true
+  accepts_nested_attributes_for :tags
 
   self.include_root_in_json = true
 
@@ -80,6 +81,18 @@ class Channel < ActiveRecord::Base
   # pagination variables
   cattr_reader :per_page
   @@per_page = 15
+
+  # how often the channel is updated
+  def update_rate
+    last_feeds = self.feeds.order('entry_id desc').limit(2)
+    rate = (last_feeds.first.created_at - last_feeds.last.created_at) if last_feeds.length == 2
+    return rate
+  end
+
+  # write key for a channel
+  def write_api_key
+    self.api_keys.where(:write_flag => true).first.api_key
+  end
 
   # select options
   def select_options
@@ -156,6 +169,19 @@ class Channel < ActiveRecord::Base
       :only => [:id, :name, :description, :latitude, :longitude, :last_entry_id, :elevation, :created_at, :ranking],
       :methods => :username,
       :include => { :tags => {:only => [:id, :name]}}
+    }
+  end
+
+  # used when creating a channel
+  def self.private_options
+    {
+      :root => false,
+      :only => [:id, :name, :description, :latitude, :longitude, :last_entry_id, :elevation, :created_at, :ranking],
+      :methods => :username,
+      :include => {
+        :tags => {:only => [:id, :name]},
+        :api_keys => {:only => [:api_key, :write_flag]}
+      }
     }
   end
 
@@ -321,14 +347,15 @@ class Channel < ActiveRecord::Base
   end
 
   def delete_feeds
-    if self.feeds.count < 1000
+    # if a small number of feeds or redis is not present
+    if self.feeds.count < 1000 || REDIS_ENABLED == false
       Feed.delete_all(["channel_id = ?", self.id])
       DailyFeed.delete_all(["channel_id = ?", self.id])
       begin
         self.update_attribute(:last_entry_id, nil)
       rescue Exception => e
       end
-
+    # else delete via background resque job
     else
       self.update_attribute(:clearing, true)
       Resque.enqueue(ClearChannelJob, self.id)

@@ -32,7 +32,7 @@
 
         </table>
 
-        <br />
+        <br>
 
       <% end %>
 
@@ -41,18 +41,18 @@
         <%= d.submit t(:channel_create), :class => 'btn btn-primary' %>
       <% end %>
 
-      <% if is_admin? %>
+      <% if current_admin_user.present? %>
 
-        <br /><br /><br />
+        <br><br><br>
 
         <% @channels.each do |c| %>
           <% if c.social %>
             <%= t(:social_channel) %>: <%= link_to c.name, (Rails.env == 'production') ? "http://www.socialsensornetwork.com/#{c.slug}" : "/s/#{c.slug}" %>
-            <br />
+            <br>
           <% end %>
         <% end %>
 
-        <br />
+        <br>
 
         <%= link_to t(:social_channel_create), :controller => 'channels', :action => 'social_new' %>
       <% end %>
@@ -66,7 +66,7 @@
     <div class="col-pad">
 
       <%= t(:help_channel) %>
-      (<a href="http://community.thingspeak.com/documentation/api/"><%= t(:help_options) %></a>)
+      (<a href="/docs/channels"><%= t(:help_options) %></a>)
       <ul>
         <li><a href="http://community.thingspeak.com/tutorials/arduino/using-an-arduino-ethernet-shield-to-update-a-thingspeak-channel/">Arduino Tutorial</a></li>
         <li><a href="http://community.thingspeak.com/tutorials/netduino/create-your-own-web-of-things-using-the-netduino-plus-and-thingspeak/">Netduino Plus Tutorial</a></li>

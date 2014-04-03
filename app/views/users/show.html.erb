@@ -4,7 +4,7 @@
 
   <div class="col-pad">
     <%= link_to t(:account_edit), edit_account_path, :class => 'btn btn-primary btn-sm' %>
-    <br /><br />
+    <br><br>
     <table class="table">
       <tr>
         <td><%= t(:userid) %></td>
@@ -29,13 +29,13 @@
     </table>
   </div>
 
-  <br /><br />
+  <br><br>
   <h4 class="breadcrumb"><%= t(:public_profile) %></h4>
   <div class="col-pad">
     <%= link_to t(:profile_edit), edit_profile_path, :class => 'btn btn-primary btn-sm' %>
-    <br /><br />
+    <br><br>
     <%= link_to t(:profile_view), user_profile_path(@user.login) %>
-    <br /><br />
+    <br><br>
     <% if @user.public_flag %>
       <table class="table">
         <tr>

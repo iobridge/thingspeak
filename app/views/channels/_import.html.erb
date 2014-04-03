@@ -1,46 +1,48 @@
 <div class="FL">
+  <h3><%= t(:import) %></h3>
   <%= t(:upload_select) %>
-  <br /><br />
-<% flash.each do |name, msg| %>
-<div id="<%= name %>" class="fade" >
-    <p><%= msg %></p>
-    <div class="clear"></div>
-  </div>
-<% end %>
+  <br>
+
   <%= form_for :upload, :url => upload_channel_path(@channel), :html => { :multipart => true } do |f| %>
     <%= f.file_field :csv %>
-    <br /><br />
+    <br><br>
     <%= t(:time_zone) %>
     <%= time_zone_select 'feed', 'time_zone', nil, :default => 'UTC' %>
-    <br /><br />
+    <br><br>
     <%= f.submit t(:upload), :disable_with => t(:uploading) %>
   <% end %>
 
+  <br><br>
+
+  <h3><%= t(:export) %></h3>
+  <%= t(:download_feeds) %>
+  <br><br>
+  <%= button_to t(:download), "#{@ssl_api_domain}stream/channels/#{@channel.id}/feeds?api_key=#{@channel.write_api_key}" %>
 </div>
 
 <div id="sidebar_old" >
  <ul>
         <li>
 
-          <div class="helplink">(<a target="_blank" href="http://community.thingspeak.com/documentation/api/#send_data"><%= t(:help_options) %></a>)</div>
+          <div class="helplink">(<a target="_blank" href="/docs/channels#update"><%= t(:help_options) %></a>)</div>
           <h2><%= t(:help_channel_update) %></h2>
           <%= t(:help_channel_post) %>
           <div class="code"><%= "#{@api_domain}update" %></div>
           <%= t(:help_channel_post_example) %>
           <div class="code"><%= "#{@api_domain}update?key=#{@key}&field1=0" %></div>
-          <br /><br />
+          <br><br>
 
-          <div class="helplink">(<a target="_blank" href="http://community.thingspeak.com/documentation/api/#view_data"><%= t(:help_options) %></a>)</div>
+          <div class="helplink">(<a target="_blank" href="/docs/channels#get_feed"><%= t(:help_options) %></a>)</div>
           <h2><%= t(:help_channel_feed) %></h2>
           <%= t(:help_channel_view) %>
-          <br />
+          <br>
           <div class="code"><%= link_to "#{@api_domain}channels/#{@channel.id}/feed.json?key=#{@key}", "#{@api_domain}channels/#{@channel.id}/feed.json?key=#{@key}", :target => '_blank' %></div>
-          <br />
+          <br>
 
         </li>
 
     <li>
-      <div class="helplink">(<a target="_blank" href="http://community.thingspeak.com/documentation/#importer"><%= t(:help_options) %></a>)</div>
+      <div class="helplink">(<a target="_blank" href="/docs/channels#importer"><%= t(:help_options) %></a>)</div>
       <h2><%= t(:help) %></h2>
       <%= t(:help_channel_import) %>
     </li>

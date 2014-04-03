@@ -2,24 +2,27 @@
 #
 # Table name: users
 #
-#  id                :integer          not null, primary key
-#  login             :string(255)      not null
-#  email             :string(255)      not null
-#  crypted_password  :string(255)      not null
-#  password_salt     :string(255)      not null
-#  persistence_token :string(255)      not null
-#  perishable_token  :string(255)      not null
-#  current_login_at  :datetime
-#  last_login_at     :datetime
-#  current_login_ip  :string(255)
-#  last_login_ip     :string(255)
-#  created_at        :datetime
-#  updated_at        :datetime
-#  time_zone         :string(255)
-#  public_flag       :boolean          default(FALSE)
-#  bio               :text
-#  website           :string(255)
-#  api_key           :string(16)
+#  id                     :integer          not null, primary key
+#  login                  :string(255)      not null
+#  email                  :string(255)      not null
+#  encrypted_password     :string(255)      not null
+#  password_salt          :string(255)
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  time_zone              :string(255)
+#  public_flag            :boolean          default(FALSE)
+#  bio                    :text
+#  website                :string(255)
+#  api_key                :string(16)
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0), not null
+#  authentication_token   :string(255)
 #
 
 ####### NOTE #######
@@ -28,27 +31,59 @@
 ####################
 class User < ActiveRecord::Base
   include KeyUtilities
-  has_many :channels
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
+  has_many :channels, :dependent => :destroy
   has_many :twitter_accounts, :dependent => :destroy
   has_many :thinghttps, :dependent => :destroy
   has_many :tweetcontrols, :dependent => :destroy
   has_many :reacts, :dependent => :destroy
   has_many :scheduled_thinghttps, :dependent => :destroy
   has_many :talkbacks, :dependent => :destroy
-  has_many :plugins
-  has_many :devices
-  has_many :api_keys
+  has_many :plugins, :dependent => :destroy
+  has_many :devices, :dependent => :destroy
+  has_many :api_keys, :dependent => :destroy
   has_many :watchings, :dependent => :destroy
-  has_many :watched_channels, :through => :watchings, :source => :channel
-  has_many :comments
-
-  acts_as_authentic
+  has_many :watched_channels, :through => :watchings, :source => :channel, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
 
   self.include_root_in_json = false
 
   # pagination variables
   cattr_reader :per_page
   @@per_page = 50
+
+  # allow login by login name also
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login_param = conditions.delete(:login)
+      where(conditions).where(["lower(login) = :value OR lower(email) = :value", { :value => login_param.downcase }]).first
+    else
+      where(conditions).first
+    end
+  end
+
+  # allow users to sign in with passwords from old authlogic authentication
+  alias :devise_valid_password? :valid_password?
+  def valid_password?(password)
+    begin
+      devise_valid_password?(password)
+    rescue BCrypt::Errors::InvalidHash
+      stretches = 20
+      digest  = "#{password}#{self.password_salt}"
+      stretches.times {digest = Digest::SHA512.hexdigest(digest)}
+      if digest == self.encrypted_password
+        #Here update old Authlogic SHA512 Password with new Devise ByCrypt password
+        # SOURCE: https://github.com/plataformatec/devise/blob/master/lib/devise/models/database_authenticatable.rb
+        # Digests the password using bcrypt.
+        self.encrypted_password = self.password_digest(password)
+        self.save
+        return true
+      else
+        # If not BCryt password and not old Authlogic SHA512 password don't authenticate user
+        return false
+      end
+    end
+  end
 
   # find a user using login or email
   def self.find_by_login_or_email(login)
@@ -81,6 +116,12 @@ class User < ActiveRecord::Base
     { :only => [:id, :login, :created_at, :email, :website, :bio] }
   end
 
+  # add an extra attribute to private_options
+  def self.private_options_plus(array)
+    { :only => User.private_options[:only].push(array).flatten }
+  end
+
+
   # set new api key
   def set_new_api_key!
     new_api_key = generate_api_key(16, 'user')
@@ -89,5 +130,4 @@ class User < ActiveRecord::Base
   end
 
 end
-
 

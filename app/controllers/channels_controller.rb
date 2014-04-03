@@ -3,7 +3,7 @@ class ChannelsController < ApplicationController
   before_filter :require_user, :except => [ :show, :post_data, :social_show, :social_feed, :public]
   before_filter :set_channels_menu
   layout 'application', :except => [:social_show, :social_feed]
-  protect_from_forgery :except => :post_data
+  protect_from_forgery :except => [:post_data, :create, :destroy, :clear]
   require 'csv'
 
   # view list of watched channels
@@ -29,17 +29,27 @@ class ChannelsController < ApplicationController
 
   # list public channels
   def public
+    @domain = domain
+    # default blank response
+    @channels = Channel.where(:id => 0).paginate :page => params[:page]
+
     # get channels by ids
     if params[:channel_ids].present?
-      flash[:notice] = t(:selected_channels)
+      @header = t(:selected_channels)
       @channels = Channel.public_viewable.by_array(params[:channel_ids]).order('ranking desc, updated_at DESC').paginate :page => params[:page]
+    # get channels that match a user
+    elsif params[:username].present?
+      @header = "#{t(:user).capitalize}: #{params[:username]}"
+      searched_user = User.find_by_login(params[:username])
+      @channels = searched_user.channels.public_viewable.active.order('ranking desc, updated_at DESC').paginate :page => params[:page] if searched_user.present?
     # get channels that match a tag
     elsif params[:tag].present?
-      flash[:notice] = "#{t(:tag).capitalize}: #{params[:tag]}"
+      @header = "#{t(:tag).capitalize}: #{params[:tag]}"
       @channels = Channel.public_viewable.active.order('ranking desc, updated_at DESC').with_tag(params[:tag]).paginate :page => params[:page]
     # normal channel list
     else
-      flash[:notice] = t(:featured_channels)
+      @header = t(:featured_channels)
+      respond_with_error(:error_resource_not_found) and return if params[:page] == '0'
       @channels = Channel.public_viewable.active.order('ranking desc, updated_at DESC').paginate :page => params[:page]
     end
 
@@ -119,11 +129,10 @@ class ChannelsController < ApplicationController
   end
 
   def index
-
     @channels = current_user.channels
     respond_to do |format|
       format.html
-      format.json { render :json => @channels }
+      format.json { render :json => @channels.to_json(:root => false) }
     end
   end
 
@@ -180,29 +189,52 @@ class ChannelsController < ApplicationController
 
     flash[:notice] = t(:channel_update_success)
     redirect_to channel_path(@channel.id)
-
   end
 
   def create
-    channel = current_user.channels.create(:field1 => "#{t(:channel_default_field)} 1")
+    # get the current user or find the user via their api key
+    @user = current_user || User.find_by_api_key(get_apikey)
+    channel = @user.channels.create(:field1 => "#{t(:channel_default_field)} 1")
+
+    # make updating attributes easier
+    params[:channel] = params
+    channel.update_attributes(channel_params)
+
     channel.set_windows
     channel.save
+    channel.save_tags(params[:channel][:tags]) if params[:channel][:tags].present?
     channel.add_write_api_key
     @channel_id = channel.id
-    redirect_to channel_path(@channel_id, :anchor => "channelsettings")
+    respond_to do |format|
+      format.json { render :json => channel.to_json(Channel.private_options) }
+      format.xml { render :xml => channel.to_xml(Channel.private_options) }
+      format.any { redirect_to channel_path(@channel_id, :anchor => "channelsettings") }
+    end
   end
 
   # clear all data from a channel
   def clear
-    channel = current_user.channels.find(params[:id])
+    # get the current user or find the user via their api key
+    @user = current_user || User.find_by_api_key(get_apikey)
+    channel = @user.channels.find(params[:id])
     channel.delete_feeds
-    redirect_to channel_path(channel.id)
+    respond_to do |format|
+      format.json { render :json => [] }
+      format.xml { render :xml => [] }
+      format.any { redirect_to channel_path(channel.id) }
+    end
   end
 
   def destroy
-    channel = current_user.channels.find(params[:id])
-    channel.destroy
-    redirect_to channels_path
+    # get the current user or find the user via their api key
+    @user = current_user || User.find_by_api_key(get_apikey)
+    @channel = @user.channels.find(params[:id])
+    @channel.destroy
+    respond_to do |format|
+      format.json { render :json => @channel.to_json(Channel.public_options) }
+      format.xml { render :xml => @channel.to_xml(Channel.public_options) }
+      format.any { redirect_to channels_path, :status => 303 }
+    end
   end
 
   # response is '0' if failure, 'entry_id' if success
@@ -311,8 +343,13 @@ class ChannelsController < ApplicationController
     # if there is a talkback_key but no command
     respond_with_blank and return if params[:talkback_key].present? && command.blank?
 
-    # normal route, respond with the entry id of the feed
-    render :text => status
+    # normal route, respond with the feed
+    respond_to do |format|
+      format.html { render :text => status }
+      format.json { render :json => feed.to_json }
+      format.xml { render :xml => feed.to_xml(Feed.public_options) }
+      format.any { render :text => status }
+    end and return
   end
 
   # import view

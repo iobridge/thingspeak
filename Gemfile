@@ -1,10 +1,10 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 gem 'jquery-rails', '3.0.4'
 gem 'rails_autolink'
 gem 'mysql2'
-gem 'authlogic'
+gem 'devise'
 gem 'twitter_oauth', git: 'git://github.com/moomerman/twitter_oauth.git'
 gem 'therubyracer'
 gem 'exception_notification'
@@ -29,8 +29,9 @@ gem 'capistrano', '~> 2.15.4'
 gem 'rack-utf8_sanitizer'
 gem 'newrelic_rpm'
 gem 'actionpack-xml_parser'
+gem 'activeadmin', github: 'gregbell/active_admin'
 
-# To use debugger
+# to use debugger
 # gem 'ruby-debug'
 
 # assets
@@ -41,7 +42,7 @@ gem 'uglifier'
 group :development do
   gem 'annotate', '~> 2.6.1'
   gem 'quiet_assets'
-  gem 'thin'
+  gem 'puma'
   gem 'i18n-tasks', '~> 0.2.10'
 end
 

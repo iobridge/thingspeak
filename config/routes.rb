@@ -1,5 +1,9 @@
 Thingspeak::Application.routes.draw do
 
+  # admin routes
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
   # main data posts using this route
   match 'update', :to => 'channels#post_data', :via => ((GET_SUPPORT) ? [:get, :post] : :post)
   match 's/update', :to => 'channels#post_data', :via => [:get, :post]
@@ -9,6 +13,13 @@ Thingspeak::Application.routes.draw do
   get 'crossdomain', :to => 'subdomains#crossdomain', :constraints => { :subdomain => 'api' }
 
   root :to => 'pages#home'
+
+  # for api: login and get token
+  match 'users/api_login', :to => 'users#api_login', :via => [:get, :post]
+
+  # devise for authentication
+  # override devise controllers and use custom sessions_controller and registrations_controller
+  devise_for :users, :controllers => {:sessions => 'sessions', :registrations => 'registrations'}
 
   resource :pages do
     collection do
@@ -47,7 +58,8 @@ Thingspeak::Application.routes.draw do
   # specific feeds
   get 'channels/:channel_id/feed(s)(.:format)' => 'feed#index'
   get 'channels/:channel_id/field(s)/:field_id(.:format)' => 'feed#index'
-  get 'channels/:channel_id/field(s)/:field_id/:id(.:format)' => 'feed#show'
+  get 'channels/:channel_id/field/:field_id/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
+  get 'channels/:channel_id/fields/:field_id/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
   get 'channels/:channel_id/feed(s)/last_average(.:format)' => 'feed#last_average'
   get 'channels/:channel_id/feed(s)/last_median(.:format)' => 'feed#last_median'
   get 'channels/:channel_id/feed(s)/last_sum(.:format)' => 'feed#last_sum'
@@ -55,6 +67,7 @@ Thingspeak::Application.routes.draw do
   get 'channels/:channel_id/feeds/entry/:id(.:format)' => 'feed#show' # not sure why this doesn't work with (s)
   get 'channels/:channel_id/social_feed' => 'channels#social_feed'
   get 'channels/:channel_id/feed(s)/debug' => 'feed#debug'
+  delete 'channels/:id/feeds' => 'channels#clear'
 
   # maps
   get 'channels/:channel_id/maps/channel_show' => 'maps#channel_show'
@@ -159,8 +172,8 @@ Thingspeak::Application.routes.draw do
   end
 
   # talkback api
-  delete 'talkbacks/:id/commands', :to => 'commands#destroy_all'
-  delete 'talkbacks/:id/commands/destroy_all', :to => 'commands#destroy_all'
+  delete 'talkbacks/:talkback_id/commands', :to => 'commands#destroy_all'
+  delete 'talkbacks/:talkback_id/commands/destroy_all', :to => 'commands#destroy_all'
   resources :talkbacks do
     resources :commands do
       collection do
@@ -172,16 +185,10 @@ Thingspeak::Application.routes.draw do
 
   resources :apps, :only => ['index']
 
-  get 'admin', :to => 'admin#index', :as => 'admin'
-  namespace :admin do
-    resources :users
-    resources :channels
-    resources :twitter_accounts
-    resources :thinghttps
-    resources :devices
-    resources :failedlogins
-    resources :emails
-  end
+  # admin signups by day
+  get 'admin/signups', :as => 'admin_signups', :to => 'admin/users#signups'
+  # admin list of all email addresses
+  get 'admin/emails', :as => 'admin_emails', :to => 'admin/users#emails'
 
   # app shortcuts
   get 'apps/thingtweet', :to => 'thingtweets#index'
@@ -191,9 +198,13 @@ Thingspeak::Application.routes.draw do
   get 'docs(/:action)', :to => 'docs'
 
   # users
-  match 'login' => 'user_sessions#new', :as => :login, :via => [:get, :post]
-  match 'logout' => 'user_sessions#destroy', :as => :logout, :via => [:get, :post]
-  match 'forgot_password', :to => 'users#forgot_password', :as => 'forgot_password', :via => [:get, :post]
+  devise_scope :user do
+    match 'login', to: "devise/sessions#new", :via => [:get, :post]
+    match 'logout', to: "devise/sessions#destroy", :via => [:get, :post]
+  end
+
+  # streaming routes
+  match '/stream/channels/:id/feeds(.:format)', to: 'stream#channel_feed', :via => [:get, :post]
 
   # add support for CORS preflighting (matches any OPTIONS route up to 4 levels deep)
   # examples: /talkbacks, /talkbacks/4, /talkbacks/4/commands, /talkbacks/4/commands/6

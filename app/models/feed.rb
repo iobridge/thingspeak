@@ -33,6 +33,13 @@ class Feed < ActiveRecord::Base
 
   attr_readonly :created_at
 
+  # for to_xml, return only the public attributes
+  def self.public_options
+    {
+      :except => [:id, :updated_at]
+    }
+  end
+
   # only output these fields for feed
   def self.select_options(channel, params)
     only = [:created_at]
@@ -96,7 +103,7 @@ class Feed < ActiveRecord::Base
 
   # custom json output
   def as_json(options = {})
-    super(options.merge(:except => [:updated_at, :id]))
+    super(Feed.public_options)
   end
 
   # check if a field value is a number

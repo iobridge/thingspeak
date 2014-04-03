@@ -3,19 +3,7 @@ require 'spec_helper'
 describe UsersController do
   before :each do
     @user = FactoryGirl.create(:user)
-    # controller.stub(:current_user).and_return(@user)
-    # controller.stub(:current_user_session).and_return(true)
-    # @channel = FactoryGirl.create(:channel)
   end
-
-  # create a valid authlogic session
-  #def create_valid_session
-  #  activate_authlogic
-  #  UserSession.create(@user, true) #create an authlogic session
-  #end
-
-  # get the curent_user
-  #def current_user; @current_user ||= @user; end
 
   describe "api" do
     render_views
@@ -34,46 +22,42 @@ describe UsersController do
       get :profile, :glob => @user.login, :format => 'json', :key => @user.api_key
       JSON.parse(response.body)['email'].should eq(@user.email)
     end
-
   end
 
-  #describe "existing account" do
-    #render_views
-
-    #it "has a current_user" do
-    #  create_valid_session
-    #  current_user.should_not be_false
-    #end
-
-    #it "generates a new api_key" do
-    #  create_valid_session
-    #  old_key = @user.set_new_api_key!
-    #  post :new_api_key
-    #  response.should be_successful
-    #  assigns[:user].api_key.should != old_key
-    #end
-  #end
-
-  describe "new account" do
-    render_views
-
-    it "assigns new user" do
-      get :new
-      response.should be_successful
-      response.should have_selector("#user_submit")
-      assigns[:user].should_not be_nil
-    end
-    it "should create a new user if user parameters are complete" do
-      post :create, :user => {"login"=>"xxx", "email"=>"xxx@insomnia-consulting.org", "time_zone"=>"Eastern Time (US & Canada)", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
-      response.code.should == "302"
-      response.should redirect_to(channels_path)
+  describe "login via api" do
+    it "should return a token" do
+      post :api_login, :login => @user.login, :password => @user.password
+      @user.reload
+      response.body.should eq(@user.authentication_token)
     end
 
-    it "should have a valid api_key" do
-      post :create, :user => {"login"=>"xxx", "email"=>"xxx@insomnia-consulting.org", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}
-      assigns[:user].api_key.length.should eq(16)
+    it "returns JSON" do
+      post :api_login, :login => @user.login, :password => @user.password, :format => 'json'
+      @user.reload
+      JSON.parse(response.body)['login'].should eq(@user.login)
+      JSON.parse(response.body)['authentication_token'].should eq(@user.authentication_token)
     end
 
+    it "returns XML" do
+      post :api_login, :login => @user.login, :password => @user.password, :format => 'xml'
+      @user.reload
+      Nokogiri::XML(response.body).css('login').text.should eq(@user.login)
+      Nokogiri::XML(response.body).css('authentication-token').text.should eq(@user.authentication_token)
+    end
+  end
+
+  describe "authentication via api" do
+    it "should not allow authentication via incorrect token" do
+      # attempt to get private profile info
+      get :profile, :glob => @user.login, :format => 'json', :login => @user.login, :token => 'bad token'
+      JSON.parse(response.body)['email'].should eq(nil)
+    end
+
+    it "should allow authentication via correct token" do
+      # attempt to get private profile info
+      get :profile, :glob => @user.login, :format => 'json', :login => @user.login, :token => @user.authentication_token
+      JSON.parse(response.body)['email'].should eq(@user.email)
+    end
   end
 
 end

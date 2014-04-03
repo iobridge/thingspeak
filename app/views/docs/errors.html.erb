@@ -1,0 +1,75 @@
+<div class="row">
+
+  <div class="col-sm-offset-1 col-sm-3 col-xs-12" id="leftcol">
+    <%= render 'docs/sidebar' %>
+  </div>
+
+  <div class="col-sm-7 col-xs-12">
+
+    <div>
+      <%= render 'response' %>
+      <h2 id="errors">Error Codes</h2>
+    </div>
+
+    <br><br>
+
+    <table class="table table-striped table-bordered table-condensed">
+      <tr>
+        <th><%= t(:error_code) %></th>
+        <th><%= t(:error_http_status) %></th>
+        <th><%= t(:error_message) %></th>
+        <th><%= t(:error_details) %></th>
+      </tr>
+
+      <% t(:error_codes).each do |key, values| %>
+        <tr>
+          <td><code><%= key %></code></td>
+          <td><%= values[:http_status] %></td>
+          <td><%= values[:message] %></td>
+          <td><%= values[:details] %></td>
+        </tr>
+      <% end %>
+
+    </table>
+
+    <div>
+      All errors will be sent with their corresponding <a href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank">HTTP status code</a>.
+      <br><br>
+    </div>
+
+    <div class="format format-block format-text">
+      Example error response: <code>error_auth_required</code>
+    </div>
+
+    <div class="format format-block format-json">
+      The response will be a JSON error object, for example:
+
+    <pre class="prettyprint">
+{
+  "status": "401",
+  "error":
+  {
+    "error_code": "error_auth_required",
+    "message": "Authorization Required",
+    "details": "Please make sure that your API key is correct."
+  }
+}
+    </pre>
+    </div>
+
+    <div class="format format-block format-xml">
+      The response will be an XML error object, for example:
+
+    <pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;error>
+  &lt;error-code>error_auth_required&lt;/error-code>
+  &lt;message>Authorization Required&lt;/message>
+  &lt;details>Please make sure that your API key is correct.&lt;/details>
+&lt;/error>
+    </pre>
+
+    </div>
+  </div>
+</div>
+

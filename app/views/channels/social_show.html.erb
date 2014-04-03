@@ -93,7 +93,7 @@
     
     <% if !@channel.description.blank? %>
       <div class="default_text"><%= t(:channel_directions) %>: <%= @channel.description %></div>
-      <br />
+      <br>
     <% end %>
   
     <%= form_tag "#{@post_url}" do %>
@@ -122,19 +122,19 @@
       </table>
     <% end %>
     
-    <br /><br />
+    <br><br>
   
     <div style="float: left; width: 600px;">
       
       <iframe width="600" height="300" frameborder="0" scrolling="no" style="border: 1px solid #cccccc;" src="<%= @api_domain %>channels/<%= @channel.id %>/maps/default?width=600&height=300&results=100&round=2&status=true&dynamic=true"></iframe>
       
       <% @fields.each do |f| %>
-        <br /><br />
+        <br><br>
         <iframe width="600" height="300" frameborder="0" style="border: 1px solid #cccccc;" src="<%= @api_domain %>channels/<%= @channel.id %>/charts/<%= f[-1] %>?width=600&height=300&results=100&round=2&color=C46353&location=true&dynamic=true&push=false&max=20000&min=-20000"></iframe>
       <% end %>
    
       <div id="footer">
-        <br /><br />
+        <br><br>
         &copy;2011 Social Sensor Network - Powered by <a href="https://www.thingspeak.com/">ThingSpeak</a>
       </div>
 

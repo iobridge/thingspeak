@@ -194,13 +194,13 @@ class FeedController < ApplicationController
         output = @feed.to_xml
       elsif params[:format] == 'csv'
         @csv_headers = Feed.select_options(@channel, params)
-      elsif (params[:format] == 'txt' or params[:format] == 'text')
+      elsif (params[:format] == 'txt' || params[:format] == 'text' || params[:format] == 'html' || params[:format].blank?)
         output = add_prepend_append(@feed["field#{params[:field_id]}"])
       else
         output = @feed.to_json
-
       end
-      # else set error code
+
+    # else set error code
     else
       if params[:format] == 'xml'
         output = bad_feed_xml
@@ -211,7 +211,7 @@ class FeedController < ApplicationController
 
     # output data in proper format
     respond_to do |format|
-      format.html { render :json => output }
+      format.html { render :text => output }
       format.json { render :json => output, :callback => params[:callback] }
       format.xml { render :xml => output }
       format.csv

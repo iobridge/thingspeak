@@ -1,0 +1,59 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="get_user">Get User Information</h2>
+</div>
+
+<br>
+To get a user's information, send an HTTP GET to <code><%= @ssl_api_domain %>users/<span class="customcode">USERNAME</span><span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> ,
+replacing <span class="customcode">USERNAME</span> with the person's username.
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>api_key</b> (string) - User's API Key which, if provided, will show private information such as email addresses. (optional)</li>
+</ul>
+
+<br>
+Example GET:
+
+<pre>
+GET <span class="str"><%= @ssl_api_domain %>users/hans<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
+</pre>
+
+<br>
+
+<div class="format format-block format-text">
+  The response will be a webpage with information about the user.
+</div>
+
+<div class="format format-block format-json">
+  The response will be a JSON object of the user, for example:
+
+<pre class="prettyprint">
+{
+  "id": 4,
+  "login": "hans",
+  "created_at": "2010-12-03T09:17:52-05:00",
+  "bio": "Web Developer @iobridge, @thingspeak",
+  "website": "http://www.iamshadowlord.com"
+}
+</pre>
+
+</div>
+
+<div class="format format-block format-xml">
+  The response will be an XML object of the user, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;user>
+  &lt;id type="integer">4&lt;/id>
+  &lt;login>hans&lt;/login>
+  &lt;created-at type="dateTime">2010-12-03T09:17:52-05:00&lt;/created-at>
+  &lt;bio>Web Developer @iobridge, @thingspeak&lt;/bio>
+  &lt;website>http://www.iamshadowlord.com&lt;/website>
+&lt;/user>
+</pre>
+
+</div>
+

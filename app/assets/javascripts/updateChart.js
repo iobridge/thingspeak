@@ -30,11 +30,11 @@ function updateChart(index,
     }
 
     src = iframe.split('?')[0];
-    // if not a line chart, a timeslice should be present or set timescale=30
-    if ($('#type_' + index).val() != 'line') {
-    if ($('#timescale_' + index).val().length == 0 && $('#average_' + index).val().length == 0 && $('#median_' + index).val().length == 0 && $('#sum_' + index).val().length == 0) {
-        $('#timescale_' + index).val(30);
-    }
+    // if bar or column chart, a timeslice should be present or set timescale=30
+    if ($('#type_' + index).val() === 'bar' || $('#type_' + index).val() === 'column') {
+      if ($('#timescale_' + index).val().length == 0 && $('#average_' + index).val().length == 0 && $('#median_' + index).val().length == 0 && $('#sum_' + index).val().length == 0) {
+          $('#timescale_' + index).val(30);
+      }
     }
 
     // add inputs to array

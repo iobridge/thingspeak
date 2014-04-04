@@ -28,6 +28,7 @@
     <option>line</option>
     <option>bar</option>
     <option>column</option>
+    <option>spline</option>
   </select>
       </td>
     </tr>
@@ -171,7 +172,7 @@
      // draw initial chart with saved options
      var width = <%= (@width) ? @width : 450 %>;
      var height = <%= @height ? @height : 260 %>;
-     updateChart(<%= index %>, false, width, height, <%= @channel.id %>);    
+     updateChart(<%= index %>, false, width, height, <%= @channel.id %>);
 
   });
 
@@ -179,7 +180,7 @@
   $('#button<%= index %>').click(function() {
    var width = <%= (@width) ? @width : 450 %>;
      var height = <%= @height ? @height : 260 %>;
-  updateChart(<%= index %>, true, width, height, <%= @channel.id %>);    
+  updateChart(<%= index %>, true, width, height, <%= @channel.id %>);
 
   });
 
@@ -192,5 +193,6 @@
     $(this).val(selectedValue);
   });
 
-  
+
 </script>
+

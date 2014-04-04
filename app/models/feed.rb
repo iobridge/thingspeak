@@ -33,6 +33,22 @@ class Feed < ActiveRecord::Base
 
   attr_readonly :created_at
 
+  # delete feeds in batches
+  def self.delete_in_batches(channel_id)
+    channel = Channel.find(channel_id)
+    connection = ActiveRecord::Base.connection
+
+    # while there are still feeds left
+    while channel.feeds.count > 0
+      # create the sql query to delete 1000 feeds from the channel
+      sql = "DELETE FROM feeds WHERE channel_id=#{channel_id} LIMIT 1000"
+      # execute the sql query
+      connection.execute(sql)
+      # wait a bit before the next delete
+      sleep 0.1
+    end
+  end
+
   # for to_xml, return only the public attributes
   def self.public_options
     {

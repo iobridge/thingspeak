@@ -8,6 +8,7 @@ class DocsController < ApplicationController
   def importer; ; end
   def charts; ; end
   def users; ; end
+  def tutorials; ; end
 
   def channels
     # default values

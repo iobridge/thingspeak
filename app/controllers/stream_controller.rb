@@ -19,19 +19,24 @@ class StreamController < ApplicationController
     # get the feed headers
     csv_headers = Feed.select_options(channel, params)
 
-    # set the total records and batch size
-    total_records = channel.feeds.count
-    batch = 1000
-
     # write the headers row
     response.stream.write "#{CSV.generate_line(csv_headers)}"
 
-    # for every 1000 records
-    (0..(total_records - batch).abs).step(batch) do |i|
+    # set loop variables
+    batch_size = 1000
+    last_entry_id = channel.last_entry_id
+    current_entry_id = 0
+
+    # while there are still entries to process
+    while current_entry_id < last_entry_id
       # variable to hold the streaming output for this batch
       batch_output = ""
-      # feeds query
-      feeds = Feed.where(:channel_id => channel.id).order('entry_id asc').offset(i).limit(batch)
+
+      # get the feeds
+      feeds = Feed.where(:channel_id => channel.id).where("entry_id > ? AND entry_id <= ?", current_entry_id, current_entry_id + batch_size).order('entry_id asc').limit(batch_size)
+
+      # set the current entry id
+      current_entry_id += batch_size
 
       # for each feed, add the data according to the csv_headers
       feeds.each do |feed|
@@ -41,7 +46,8 @@ class StreamController < ApplicationController
       end
 
       # write the output for this batch
-      response.stream.write batch_output
+      response.stream.write batch_output if batch_output.present?
+
       # add a slight delay between database queries
       sleep 0.1
     end

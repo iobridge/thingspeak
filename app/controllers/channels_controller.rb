@@ -265,6 +265,8 @@ class ChannelsController < ApplicationController
       entry_id = channel.next_entry_id
       channel.last_entry_id = entry_id
       feed.entry_id = entry_id
+      # set user agent
+      channel.user_agent = get_header_value('USER_AGENT')
 
       # try to get created_at datetime if appropriate
       if params[:created_at].present?

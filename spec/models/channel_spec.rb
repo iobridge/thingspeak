@@ -46,6 +46,7 @@
 #  video_type    :string(255)
 #  clearing      :boolean          default(FALSE), not null
 #  ranking       :integer
+#  user_agent    :string(255)
 #
 
 require 'spec_helper'

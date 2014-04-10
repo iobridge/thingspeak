@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140320200307) do
+ActiveRecord::Schema.define(version: 20140410174033) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 20140320200307) do
     t.string   "video_type"
     t.boolean  "clearing",                                default: false, null: false
     t.integer  "ranking"
+    t.string   "user_agent"
   end
 
   add_index "channels", ["public_flag", "last_entry_id", "updated_at"], name: "channels_public_viewable", using: :btree

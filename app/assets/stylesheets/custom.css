@@ -214,8 +214,6 @@ padding-top:20px;
 .username a							{	color: #3478E3;	font-weight: bold; }
 
 .timeago {
-
-
     font-size: 0.8em;
     color: #ccc;
 }
@@ -562,6 +560,6 @@ clear:right; float:right;width:475px;padding-top:23px
 font-weight:bold;font-size:1.2em
 }
 .channel_time_text {
-color:black;font-size:1em;
+  color:black !important; font-size:1em !important;
 }
 

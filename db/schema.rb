@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 20140410174033) do
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
-    t.string   "resource_id",   limit: 50, null: false
-    t.string   "resource_type", limit: 50, null: false
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
     t.integer  "author_id"
     t.string   "author_type"
     t.datetime "created_at"
@@ -402,6 +402,7 @@ ActiveRecord::Schema.define(version: 20140410174033) do
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                     default: 0,     null: false
     t.string   "authentication_token"
+    t.datetime "terms_agreed_at"
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", using: :btree

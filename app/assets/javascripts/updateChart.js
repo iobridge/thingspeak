@@ -21,13 +21,11 @@ function updateChart(index,
     // default width and height
     var width = width;
     var height = height;
-    // get old src
 
+    // get old src
     var iframe = $('#iframe' + index).attr("default_src");
 
-    if (!iframe) {
-    iframe = $('#iframe' + index).attr('src');
-    }
+    if (!iframe) { iframe = $('#iframe' + index).attr('src'); }
 
     src = iframe.split('?')[0];
     // if bar or column chart, a timeslice should be present or set timescale=30
@@ -83,26 +81,22 @@ function updateChart(index,
     $('#iframe' + index).attr('height', height);
 }
 function updateSelectValues() {
-    selectedValue = $(this).val();
-    $(".mutuallyexclusive"+index).each(function () { $(this).val("");  });
-    $(this).val(selectedValue);
+  selectedValue = $(this).val();
+  $(".mutuallyexclusive"+index).each(function () { $(this).val("");  });
+  $(this).val(selectedValue);
 }
 
 function setupChartForm(channelIndex) {
-    return function(index, value) {
+  return function(index, value) {
     if (value.length > 0) {
-        $('#' + value.split('=')[0] + "_" + channelIndex).val(decodeURIComponent(value.split('=')[1]));
+      $('#' + value.split('=')[0] + "_" + channelIndex).val(decodeURIComponent(value.split('=')[1]));
     }
-    };
+  };
 }
 
-
-
-
-function setupColumns(current_user, channel_id)
-{
-    $( sortColumnSetup(current_user, channel_id) ) ;
-    $( ".column" ).disableSelection();
+function setupColumns(current_user, channel_id) {
+  $( sortColumnSetup(current_user, channel_id) );
+  $( ".column" ).disableSelection();
 }
 
 function createWindowsWithData (data, current_user, channel_id, colName) {

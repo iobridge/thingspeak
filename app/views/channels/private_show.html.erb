@@ -100,13 +100,14 @@ $(function () {
       else {
 	  $("#watchText").text("Watch");
       }
-      $("#maincontent").tabs( {
-				  select: function( e, ui)
-				  {
-				      $.cookie('stickyTab', ui.index );
-				  }
-			      }
-			    );
+      $("#maincontent").tabs({
+			  select: function( e, ui) {
+				  $.cookie('stickyTab', ui.index );
+				},
+				activate: function( event, ui ) {
+				  reloadCharts();
+				}
+			});
 
       stickyTab = $.cookie( 'stickyTab' );
       anchor = window.location.hash;

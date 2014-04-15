@@ -1,3 +1,24 @@
+// reload all charts on the page
+function reloadCharts() {
+  // exit if this is not firefox
+  if (navigator.userAgent.toLowerCase().indexOf('firefox') === -1) { return false; }
+
+  // for each iframe that is about to be activated
+  $('.ui-widget-content [aria-expanded="false"]').find('iframe').each(function() {
+    // get the src of the iframe
+    var iframe_src = $(this).attr('src');
+    // if this is a chart
+    if (iframe_src.indexOf('charts') !== -1) {
+      // hide the chart
+      $(this).hide();
+      // reload the src
+      $(this).attr('src', iframe_src);
+      // show the chart
+      $(this).show();
+    }
+  });
+}
+
 // update the chart with all the textbox values
 function openDialogCenter(element) {
     element.dialog("open");

@@ -30,6 +30,7 @@ gem 'rack-utf8_sanitizer'
 gem 'newrelic_rpm'
 gem 'actionpack-xml_parser'
 gem 'activeadmin', github: 'gregbell/active_admin'
+gem 'chronic'
 
 # to use debugger
 # gem 'ruby-debug'

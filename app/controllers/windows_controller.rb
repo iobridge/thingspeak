@@ -4,7 +4,7 @@ class WindowsController < ApplicationController
   def hide
     window = Window.find(params[:id])
     window.show_flag = false
-    if window.save 
+    if window.save
       render :text => window.id.to_s
     else
       render :text => '-1'
@@ -19,7 +19,7 @@ class WindowsController < ApplicationController
   def display
     @visibility = params[:visibility_flag]
 
-    window = Window.find(params[:id])    
+    window = Window.find(params[:id])
     window = Window.new if window.nil?
     window.show_flag = true
     #Just save this change, then modify the object before rendering the JSON
@@ -103,7 +103,7 @@ class WindowsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render :json => @windows.as_json( :include => [:window_detail] )   }
     end
   end
@@ -150,7 +150,7 @@ class WindowsController < ApplicationController
     channel.update_chart_portlets if (channel.windows.select { |w| w.wtype == :chart } )
 
     windows = channel.private_windows(true).order(:position) unless params[:channel_id].nil?
-    
+
     if channel.recent_statuses.nil? || channel.recent_statuses.size <= 0
       @windows = windows.delete_if { |w| w.wtype == "status" }
     else
@@ -173,7 +173,7 @@ class WindowsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render :json => @windows.as_json( :include => [:window_detail] )   }
     end
   end
@@ -185,14 +185,14 @@ class WindowsController < ApplicationController
     #  page"=>"{\"col\":0,\"positions\":[1,2,3]}"
     #So.. the position values are Windows.id  They should get updated with the ordinal value based
     # on their array position and the column should get updated according to col value.
-    # Since the windows are order by position, when a window record changes from 
-    # col1,position0 -> col0,position0 the entire new column is reordered.  
-    # The old column is missing a position, but the remaining are just left to their order 
+    # Since the windows are order by position, when a window record changes from
+    # col1,position0 -> col0,position0 the entire new column is reordered.
+    # The old column is missing a position, but the remaining are just left to their order
     # (ie., 0,1,2 become 1,2)  Unless they are also changed
 
     # First parse the JSON in params["page"] ...
     values = JSON(params[:page])
-    
+
     # .. then find each window and update with new ordinal position and col.
     logger.info "Channel id = " + params[:channel_id].to_s
     @channel = current_user.channels.find(params[:channel_id])
@@ -217,3 +217,4 @@ class WindowsController < ApplicationController
 
   end
 end
+

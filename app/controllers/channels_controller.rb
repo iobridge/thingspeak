@@ -372,6 +372,7 @@ class ChannelsController < ApplicationController
 
     # set time zone
     Time.zone = params[:feed][:time_zone]
+    Chronic.time_class = Time.zone
 
     # read data from uploaded file
     csv_array = CSV.parse(params[:upload][:csv].read)
@@ -409,8 +410,8 @@ class ChannelsController < ApplicationController
 
     # if 2 or more rows
     if !csv_array[1].blank?
-      date1 = parse_date ? Time.parse(csv_array[0][0]) : Time.at(csv_array[0][0])
-      date2 = parse_date ? Time.parse(csv_array[1][0]) : Time.at(csv_array[1][0])
+      date1 = Chronic.parse(csv_array[0][0]) if parse_date
+      date2 = Chronic.parse(csv_array[1][0]) if parse_date
 
       # reverse the array if 1st date is larger than 2nd date
       csv_array = csv_array.reverse if date1 > date2
@@ -440,7 +441,7 @@ class ChannelsController < ApplicationController
 
         # set feed data
         feed.channel_id = channel.id
-        feed.created_at = parse_date ? Time.zone.parse(row[0]) : Time.zone.at(row[0].to_f)
+        feed.created_at = Chronic.parse(row[0]) if parse_date
         feed.field1 = row[1]
         feed.field2 = row[2]
         feed.field3 = row[3]

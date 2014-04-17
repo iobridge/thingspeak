@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
     I18n.locale = @locale
 
     # sets timezone for current user, all DateTime outputs will be automatically formatted
-    Time.zone = current_user.time_zone if current_user
+    Time.zone = current_user.present? ? current_user.time_zone : 'UTC'
 
     # allows use of daily params
     params[:timescale] = '1440' if params[:timescale] == 'daily'
@@ -323,26 +323,21 @@ class ApplicationController < ActionController::Base
     # use the offset to find an appropriate timezone
     def set_timezone_from_offset(offset)
       offset = offset.to_i
-      # keep track of whether a match was found
-      found = false
+      # keep track of the currently matched time zone
+      current_zone = nil
 
       # loop through each timezone
       ActiveSupport::TimeZone.zones_map.each do |z|
-        # set time zone
-        Time.zone = z[0]
-        timestring = Time.zone.now.to_s
+        current_zone = z[0]
+        # get time string in time zone without daylight savings time
+        timestring = Time.parse('2000-01-01').in_time_zone(current_zone).to_s
 
-        # if time zone matches the offset, leave it as the current timezone
-        if (timestring.slice(-5..-3).to_i == offset and timestring.slice(-2..-1).to_i == 0)
-          found = true
-          break
-        end
+        # if time zone matches the offset, leave current_zone alone
+        break if (timestring.slice(-5..-3).to_i == offset && timestring.slice(-2..-1).to_i == 0)
       end
 
       # if no time zone found, set to utc
-      Time.zone = 'UTC' if !found
-
-      return Time.zone
+      return current_zone.present? ? current_zone : 'UTC'
     end
 
     def help

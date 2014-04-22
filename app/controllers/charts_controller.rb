@@ -69,13 +69,11 @@ class ChartsController < ApplicationController
 
   # save chart options
   def update
-    #Check to see if we're using the new options, or the old
-
     @channel = Channel.find(params[:channel_id])
     @status = 0
 
     # check permissions
-    if @channel.user_id == current_user.id
+    if current_user.present? && @channel.user_id == current_user.id
       logger.debug "Saving Data with new options " + params[:newOptions].to_s
       # save data
       if params[:newOptions]

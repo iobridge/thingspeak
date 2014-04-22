@@ -40,9 +40,11 @@ class ChartsController < ApplicationController
     # allow these parameters when creating feed querystring
     feed_params = ['key','days','start','end','round','timescale','average','median','sum','results','location','status']
 
-    # default chart size
-    @width = Chart.default_width
-    @height = Chart.default_height
+    # set chart size
+    width = params[:width].present? ? params[:width] : Chart.default_width
+    @width_style = (width == 'auto') ? '' : "width: #{width.to_i - 25}px;"
+    height = params[:height].present? ? params[:height] : Chart.default_height
+    @height_style = (height == 'auto') ? '' : "height: #{height.to_i - 25}px;"
 
     # add extra parameters to querystring
     @qs = ''

@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   # include these helper methods for views
   helper_method :current_user_session, :current_user, :logged_in?, :get_header_value, :to_bytes
   protect_from_forgery
-  before_filter :allow_cross_domain_access, :set_variables
+  before_filter :allow_cross_domain_access, :set_variables, :set_time_zone
   before_filter :configure_permitted_parameters, if: :devise_controller?
   after_filter :remove_headers
   before_filter :authenticate_user_from_token!
@@ -36,9 +36,6 @@ class ApplicationController < ActionController::Base
     @ssl_api_domain ||= ssl_api_domain
     @locale ||= get_locale
     I18n.locale = @locale
-
-    # sets timezone for current user, all DateTime outputs will be automatically formatted
-    Time.zone = current_user.present? ? current_user.time_zone : 'UTC'
 
     # allows use of daily params
     params[:timescale] = '1440' if params[:timescale] == 'daily'
@@ -304,16 +301,13 @@ class ApplicationController < ActionController::Base
       return date_range
     end
 
-    def set_time_zone(params)
-      # set timezone correctly
-      if params[:offset]
-        # check for 0 offset first since it's the most common
-        if params[:offset] == '0'
-          Time.zone = 'UTC'
-        else
-          Time.zone = set_timezone_from_offset(params[:offset])
-        end
-      elsif current_user
+    # set timezone correctly
+    def set_time_zone
+      if params[:timezone].present?
+        Time.zone = ActiveSupport::TimeZone::MAPPING.key(params[:timezone])
+      elsif params[:offset].present?
+        Time.zone = set_timezone_from_offset(params[:offset])
+      elsif current_user.present?
         Time.zone = current_user.time_zone
       else
         Time.zone = 'UTC'
@@ -329,11 +323,12 @@ class ApplicationController < ActionController::Base
       # loop through each timezone
       ActiveSupport::TimeZone.zones_map.each do |z|
         current_zone = z[0]
-        # get time string in time zone without daylight savings time
-        timestring = Time.parse('2000-01-01').in_time_zone(current_zone).to_s
+
+        # get time string in time zone
+        timestring = Time.now.in_time_zone(current_zone).to_s
 
         # if time zone matches the offset, leave current_zone alone
-        break if (timestring.slice(-5..-3).to_i == offset && timestring.slice(-2..-1).to_i == 0)
+        break if (current_zone != 'UTC' && timestring.slice(-5..-3).to_i == offset && timestring.slice(-2..-1).to_i == 0)
       end
 
       # if no time zone found, set to utc

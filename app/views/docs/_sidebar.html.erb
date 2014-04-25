@@ -1,6 +1,14 @@
 <ul class="nav nav-stacked" id="bootstrap-sidebar">
 
-  <li class="<%= 'active' if params[:action] == 'index' %>"><a href="/docs">Getting Started</a></li>
+  <% if params[:action] == 'index' %>
+    <li><a href="#start">Getting Started</a></li>
+    <li class="subitem"><a href="#support">Support</a></li>
+    <li class="subitem"><a href="#opensource">Open Source</a></li>
+    <li class="subitem"><a href="#headers">HTTP Headers</a></li>
+    <li class="subitem"><a href="#timezones">Time Zones</a></li>
+  <% else %>
+    <li><a href="/docs">Getting Started</a></li>
+  <% end %>
 
   <% if params[:action] == 'channels' %>
     <li><a href="#channels">Channels</a></li>

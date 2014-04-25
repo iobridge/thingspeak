@@ -169,14 +169,12 @@ class ChannelsController < ApplicationController
 
 
   def update
-
     @channel = current_user.channels.find(params[:id])
-    puts params[:channel].inspect
-    # make sure channel isn't social
-    #render :text => '' and return if @channel.social
+
     if params["channel"]["video_type"].blank? && !params["channel"]["video_id"].blank?
       @channel.errors.add(:base, t(:channel_video_type_blank))
     end
+
     if @channel.errors.count <= 0
       @channel.save_tags(params[:tags][:name])
       @channel.assign_attributes(channel_params)
@@ -457,9 +455,6 @@ class ChannelsController < ApplicationController
 
       end
     end
-
-    # set the user's time zone back
-    set_time_zone(params)
 
     # redirect
     flash[:notice] = t(:upload_successful)

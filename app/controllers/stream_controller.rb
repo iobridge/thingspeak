@@ -6,9 +6,6 @@ class StreamController < ApplicationController
     channel = Channel.find(params[:id])
     api_key = ApiKey.find_by_api_key(get_apikey)
 
-    # set timezone correctly
-    set_time_zone(params)
-
     # output proper http response if error
     render :text => '-1', :status => 400 and return if !channel_permission?(channel, api_key)
 

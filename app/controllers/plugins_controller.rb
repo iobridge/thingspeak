@@ -5,7 +5,7 @@ class PluginsController < ApplicationController
 
   def check_permission
     @plugin = Plugin.find(params[:id])
-    if @plugin.user_id != current_user.id
+    if current_user.present? && @plugin.user_id != current_user.id
       render :text=> "#{t(:permission)} #{t(:plugin)}", :layout => true and return
       return true
     end

@@ -6,7 +6,7 @@
 
   <div class="col-sm-7 col-xs-12">
 
-    <h1>Getting Started</h1>
+    <h1 id="start">Getting Started</h1>
 
     <ul>
       <li>Sign Up for a New User Account -&nbsp;<a title="Create New ThingSpeak User Account" href="https://thingspeak.com/account/new">https://thingspeak.com/account/new</a></li>
@@ -15,11 +15,11 @@
     </ul>
 
     <br>
-    <h4>Support</h4>
+    <h4 id="support">Support</h4>
     <p>Please post your questions, comments, and feature requests in the <a title="ThingSpeak Forum" href="http://community.thingspeak.com/forum/">ThingSpeak Forum</a>.</p>
 
     <br><br>
-    <h4>Open Source</h4>
+    <h4 id="opensource">Open Source</h4>
 
     <p>The ThingSpeak API is&nbsp;available&nbsp;on <a title="ThingSpeak Open Source Web of Things API on GitHub" href="https://github.com/iobridge/thingspeak" target="_blank">GitHub</a> and includes the complete ThingSpeak API for processing HTTP requests, storing numeric and&nbsp;alphanumeric&nbsp;data, numeric data processing, location tracking, and status updates. &nbsp;The open source version follows the same documentation as the ThingSpeak hosted service.</p>
 
@@ -29,8 +29,36 @@
     </ul>
 
     <br><br>
-    <h4>HTTP Headers</h4>
+    <h4 id="headers">HTTP Headers</h4>
     If you would like to reduce the number of HTTP headers sent by our application, please add the parameter "headers=false" to any HTTP request.
+
+    <br><br><br><br>
+    <h4 id="timezones">Time Zones Reference</h4>
+    Time zones can be specified for any request by adding the <i>timezone</i> parameter with a value corresponding to any identifier found below.
+    Identifier names are case-sensitive, and should be URL-encoded in HTTP GET requests, for example:
+    <br><br>
+<pre>GET <span class="str"><%= @ssl_api_domain %>channels/9/fields/1/last.json?timezone=<span class="customcode">America%2FNew_York</span></span></pre>
+    <br>
+    <table class="table table-striped table-bordered table-condensed">
+      <tr>
+        <th>Identifier</th>
+        <th>Description</th>
+        <th>Current Offset</th>
+      </tr>
+      <% @timezones.each do |identifier, hash| %>
+        <tr>
+          <td><%= identifier %></td>
+          <td><%= raw(hash[:description]) %></td>
+          <td>UTC <%= hash[:offset] %></td>
+        </tr>
+      <% end %>
+    </table>
+
+    <div class="alert alert-warning">
+      <b>Note:</b>
+      <br>
+      If both the <i>offset</i> and <i>timezone</i> parameters are present, <i>offset</i> will be ignored in favor of the more accurate <i>timezone</i> parameter.
+    </div>
 
     <br><br><br><br><br><br><br><br><br><br><br><br>
 

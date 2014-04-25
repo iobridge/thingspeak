@@ -1,7 +1,26 @@
 class DocsController < ApplicationController
   before_filter :set_support_menu
 
-  def index; ;  end
+  def index
+    @timezones = {}
+
+    # for each timezone
+    ActiveSupport::TimeZone::MAPPING.each do |timezone|
+      # if the hash already exists, just add to the description
+      if @timezones[timezone[1]].present?
+        @timezones[timezone[1]][:description] = @timezones[timezone[1]][:description] + ", #{timezone[0]}"
+      # else add the timezone data
+      else
+        @timezones[timezone[1]] = {
+          :description => timezone[0],
+          :offset => Time.now.in_time_zone(timezone[0]).formatted_offset
+        }
+      end
+    end
+
+    @timezones = @timezones.sort_by{ |identifier, hash| hash[:offset].to_i }.to_h
+  end
+
   def errors; ; end
   def tweetcontrol; ; end
   def plugins; ; end

@@ -15,9 +15,6 @@ class FeedController < ApplicationController
     # set csv headers if necessary
     @csv_headers = feed_factory.feed_select_options if params[:format] == 'csv'
 
-    # set timezone correctly
-    set_time_zone(params)
-
     # check for access
     if @success
 
@@ -93,7 +90,6 @@ class FeedController < ApplicationController
   def last_group_call(arg)
     @channel = Channel.find(params[:channel_id])
     @api_key = ApiKey.find_by_api_key(get_apikey)
-    set_time_zone(params)
 
     # limit for the number of results to get
     limit = 30
@@ -153,13 +149,9 @@ class FeedController < ApplicationController
   end
 
   def show
-
     @channel = Channel.find(params[:channel_id])
     @api_key = ApiKey.find_by_api_key(get_apikey)
     output = '-1'
-
-    # set timezone correctly
-    set_time_zone(params)
 
     # make sure field parameter is set correctly, changes "field1" to "1"
     params[:field_id] = params[:field_id].sub('field', '') if params[:field_id].present?

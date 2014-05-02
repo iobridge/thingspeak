@@ -269,7 +269,7 @@ class ChannelsController < ApplicationController
       # try to get created_at datetime if appropriate
       if params[:created_at].present?
         begin
-          feed.created_at = DateTime.parse(params[:created_at])
+          feed.created_at = ActiveSupport::TimeZone[Time.zone.name].parse(params[:created_at])
           # if invalid datetime, don't do anything--rails will set created_at
         rescue
         end

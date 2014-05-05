@@ -184,7 +184,7 @@
   </script>
 </head>
 <body style='background-color: <%= params[:bgcolor] ? params[:bgcolor] : 'white' %>; height: 100%; margin: 0; padding: 0;'>
-  <div id="chart-container" style="<%= @width_style %> <%= @height_style %> display: block; position:absolute; bottom:0; top:0; left:0; right:0; margin: 5px 15px 15px 0;">
+  <div id="chart-container" style="<%= @width_style %> <%= @height_style %> display: block; position:absolute; bottom:0; top:0; left:0; right:0; margin: 5px 15px 15px 0; overflow: hidden;">
     <%= image_tag 'ajax-loader.gif', :style => "position: absolute; margin: auto; top: 0; left: 0; right: 0; bottom: 0;" %>
   </div>
 </body>

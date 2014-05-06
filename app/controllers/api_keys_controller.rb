@@ -8,7 +8,7 @@ class ApiKeysController < ApplicationController
   end
 
   def destroy
-    current_user.api_keys.find_by_api_key(params[:id]).try(:destroy)
+    current_user.api_keys.find_by_api_key(params[:id].to_s).try(:destroy)
     redirect_to :back
   end
 
@@ -34,7 +34,7 @@ class ApiKeysController < ApplicationController
   end
 
   def update
-    @api_key = current_user.api_keys.find_by_api_key(params[:id])
+    @api_key = current_user.api_keys.find_by_api_key(params[:id].to_s)
     @api_key.update_attributes(api_key_params)
     redirect_to :back
   end

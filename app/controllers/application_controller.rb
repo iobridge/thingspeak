@@ -201,7 +201,7 @@ class ApplicationController < ActionController::Base
     def get_apikey
       key = get_header_value(HTTP_HEADER_API_KEY_NAME) || params[:key] || params[:api_key] || params[:apikey]
       key.strip if key.present?
-      return key
+      return key.to_s
     end
 
     # get specified header value

@@ -50,3 +50,11 @@ h1. Installation on clean install of Ubuntu 12.04 LTS
 <code>rake db:schema:load</code>
 <code>rails server</code>
 
+h2. Upgrading existing installations
+
+<code>git pull origin master</code>
+<code>bundle install</code>
+<code>rake db:migrate</code>
+If your server is active you can restart it by going to the active terminal, hitting Ctrl-c, and then typing:
+<code>rails server</code>
+

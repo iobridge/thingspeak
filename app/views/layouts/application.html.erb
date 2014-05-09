@@ -1,34 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= @title.nil? ? (@menu.nil? ? 'ThingSpeak' : @menu.capitalize + ' - ThingSpeak') : @title + ' - ThingSpeak' %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <%= stylesheet_link_tag 'application' %>
-
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type='text/javascript' src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-    <%= javascript_include_tag 'application' %>
-
-    <%= csrf_meta_tag %>
-    <% if Rails.env == 'production' %>
-      <%= render 'layouts/ga' %>
-    <% end %>
-
-    <%= yield :head %>
-  </head>
+  <%= render 'layouts/header' %>
 
   <body>
 
     <div id="wrap">
-      <%= render 'layouts/header' %>
+      <%= render 'layouts/nav' %>
       <div class="container">
-        <% if notice.present? %>
-          <p class="flash alert alert-success"><%= notice %><span class="dismiss">X</span></p>
-        <% end %>
-        <% if alert.present? %>
-          <p class="flash alert alert-danger"><%= alert %><span class="dismiss">X</span></p>
-        <% end %>
+        <%= render 'layouts/flash' %>
         <%= yield %>
       </div>
     </div>

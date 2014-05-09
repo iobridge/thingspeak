@@ -28,6 +28,7 @@ Thingspeak::Application.routes.draw do
       get :about
       get :headers
       get :social_home
+      post :contact_us
     end
   end
 

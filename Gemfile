@@ -36,7 +36,7 @@ gem 'chronic'
 # gem 'ruby-debug'
 
 # assets
-gem 'sass-rails', " ~> 4.0"
+gem "sass-rails", "4.0.2"
 gem 'coffee-rails', " ~> 4.0"
 gem 'uglifier'
 

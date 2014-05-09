@@ -1,13 +1,28 @@
 /* bootstrap overrides */
+code                    { word-wrap: break-word; white-space: normal; }
 .navbar-collapse        { max-height: 350px; }
 .breadcrumb             { margin-top: 10px; margin-bottom: 20px; } /* margins to make sure breadcrumb and h4.breadcrumb line up properly */
 .table td               { word-break: break-word; }
 
+/* homepage */
+#home-motto             { font-size: 2em; padding-top: 100px; }
+#home-motto h1          { font-size: 2em; color: #fff; }
+#home-top               { height: 500px; width: 100%; background: url('<%= asset_path("thingspeak_stars_bg.jpg") %>') no-repeat; background-size: 100% 500px; text-align: center; color: #fff; }
+#home-top a             { color: #fff; }
+.panel-home             { min-height: 180px; }
+
 /* misc */
 body                    { padding-top: 70px; }
+#cheerlights_row        { text-align: center; height: 180px; }
+#cheerlights_row img    { margin-top: 40px; }
 .break-word             { word-break: break-word; }
 .col-pad                { padding: 0 15px; }
 .dismiss                { float: right; cursor: pointer; position: relative; top: -12px; left: 7px; }
+
+/* contact form */
+#contact_form           { display: none; }
+#contact_link           { cursor: pointer; }
+#contact_link:hover     { text-decoration: none; }
 
 /* multiline forms */
 .form-horizontal .multiline-label { margin-top: -10px; }
@@ -305,11 +320,6 @@ input#upload_csv { padding-top:5px;margin:20px 0;}
 
 /* form styling */
 input.video_narrow {width:100px; }
-/* home page */
-#feature_signup         {}
-#feature_signup a       {border-bottom: 3px solid #d62020; text-decoration: none; font-weight: bold;}
-#feature_signup a:hover {text-decoration: none;}
-
 
 /* jQuery Nav */
 #nav                    { list-style: none; padding:0 10px 0 92px; margin: 0;}

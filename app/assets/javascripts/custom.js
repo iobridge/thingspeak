@@ -20,5 +20,10 @@ $(document).ready(function() {
     $('#talkback_command_add_form').removeClass('hide');
   });
 
+  // toggle contact form
+  $('#contact_link').click(function() {
+    $('#contact_form').toggle();
+  });
+
 });
 

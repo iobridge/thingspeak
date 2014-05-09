@@ -1,0 +1,17 @@
+<%= form_tag({:controller => 'pages', :action => 'contact_us', :method => :post}, :class => 'form-horizontal') do %>
+  <div class="form-group">
+    <label class="col-sm-4 col-xs-3 control-label"><%= t(:email_address).titleize %></label>
+    <div class="col-sm-4 col-xs-9"><%= text_field_tag :email, (current_user.present? ? current_user.email : nil), :class => 'form-control' %></div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-4 col-xs-3 control-label"><%= t(:message).capitalize %></label>
+    <div class="col-sm-4 col-xs-9"><%= text_area_tag :message, nil, :class => 'form-control', :rows => 8 %></div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-4 col-xs-3 control-label"></label>
+    <div class="col-sm-4 col-xs-9"><p class="form-control-static"><%= submit_tag t(:submit), :class => 'btn btn-primary' %></p></div>
+  </div>
+<% end %>
+

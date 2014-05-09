@@ -1,230 +1,129 @@
-<script type="text/javascript">
-  // users timezone offset
-  var myOffset = new Date().getTimezoneOffset();
+<div id="home-top">
 
-  // converts date format from JSON
-  function getChartDate(d) {
-    // get the data using javascript's date object (year, month, day, hour, minute, second)
-    // months in javascript start at 0, so remember to subtract 1 when specifying the month
-    // offset in minutes is converted to milliseconds and subtracted so that chart's x-axis is correct
-    return Date.UTC(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)) - (myOffset * 60000);
-  }
-
-  $(document).ready(function() {
-    // blank array for holding chart data
-    var chartData = [];
-    // variable for the date string
-    var d;
-    // variable for the data point
-    var p;
-    // variable for the local date in milliseconds
-    var localDate;
-
-    // get the data with a webservice call
-    $.getJSON('https://api.thingspeak.com/channels/9/field/1.json?callback=?&amp;results=15&amp;offset=0', function(data) {
-      // if no access
-      if (data == '-1') {
-        $('#chart-container').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
-      }
-
-      // iterate through each feed
-      $.each(data.feeds, function() {
-        p = this.field1;
-        // if a numerical value exists add it
-        if (!isNaN(parseInt(p))) {
-          chartData.push([getChartDate(this.created_at), parseFloat(p)]);
-        }
-      });
-
-      // specify the chart options
-      var chartOptions = {
-        chart: {
-          renderTo: 'chart-container',
-          defaultSeriesType: 'line',
-          backgroundColor: '#fff',
-          events: {
-            load: function() {
-              // push data every 15 seconds
-              setInterval(function() {
-
-                // get the data with a webservice call
-                $.getJSON('https://api.thingspeak.com/channels/9/feed/last.json?callback=?&amp;offset=0', function(data) {
-                  p = data.field1;
-                  d = getChartDate(data.created_at);
-                  last_date = dynamicChart.series[0].data[dynamicChart.series[0].data.length-1].x;
-
-                  // if a numerical value exists and it is a new date, add it
-                  if (!isNaN(parseInt(p)) && (d != last_date)) {
-
-                    dynamicChart.series[0].addPoint([d, parseFloat(p)], true, true);
-                  }
-                });
-
-              }, 15000);
-            }
-          }
-        },
-        title: {
-          text: ''
-        },
-        plotOptions: {
-          line: {
-            color: '#d62020'
-          },
-          bar: {
-            color: '#d62020'
-          },
-          column: {
-            color: '#d62020'
-          },
-          series: {
-            marker: {
-              radius: 3
-            },
-            animation: true
-          }
-        },
-        tooltip: {
-          // reformat the tooltips so that local times are displayed
-          formatter: function() {
-            var d = new Date(this.x + (myOffset*60000));
-            return this.series.name + ':<b>' + this.y + '</b><br/>' + d.toDateString() + '<br/>' + d.toTimeString().replace(/\(.*\)/, "");
-          }
-        },
-        xAxis: {
-          type: 'datetime',
-          title: {
-            text: ''
-          }
-        },
-        yAxis: {
-          title: {
-            text: ''
-          }
-        },
-                          exporting: {
-                                  enabled: false
-                          },
-        legend: {
-          enabled: false
-        },
-        series: [{
-          name: data.channel.field1
-        }]
-      };
-
-      // add the data to the chart
-      chartOptions.series[0].data = chartData;
-
-      // set chart labels here so that decoding occurs properly
-      chartOptions.title.text = 'Dynamic Light Levels';
-      chartOptions.xAxis.title.text = 'Time';
-      chartOptions.yAxis.title.text = data.channel.field1;
-
-      // draw the chart
-      var dynamicChart = new Highcharts.Chart(chartOptions);
-
-    });
-
-  });
-
-</script>
-
-<div class="row">
-  <div class="text-center">
-    <%= image_tag 'front.png', :size => '854x144' %>
+  <div id="home-motto">
+    <h1><%= t(:home_motto) %></h1>
+    <%= t(:home_tagline) %>
   </div>
+
+  <br><br>
+
+  <div>
+    <%= link_to t(:get_started), new_user_registration_path, :class => 'btn btn-danger btn-lg' %>
+    <br><br>
+    <a href="/docs" target="_blank"><%= t(:documentation) %></a>
+    &nbsp; | &nbsp;
+    <a href="http://community.thingspeak.com/forum/" target="_blank"><%=t(:support)%></a>
+    &nbsp; | &nbsp;
+    <a href="https://github.com/iobridge/thingspeak" target="_blank">GitHub</a>
+  </div>
+
 </div>
 
-<br><br><br>
+<br><br>
 
-<div class="row">
-  <div class="col-sm-6">
-    <div id="chart-container" class="center-block" style="width: 500px; height: 260px; padding-left: 20px;"></div>
-  </div>
-  <div class="col-sm-6">
-    <div style="margin-top: 55px;" class="text-center"><a href="http://community.thingspeak.com/tutorials/netduino/create-your-own-web-of-things-using-the-netduino-plus-and-thingspeak/"><%= image_tag 'my_house_status_update.png' %></a></div>
-  </div>
-</div>
+<div class="container">
 
-<br><br><br>
+  <div class="row">
 
-<div class="row">
-
-  <div class="col-sm-4">
-    <h4 class="breadcrumb">Features</h4>
-    <p>
-      <ul>
-        <li>Open Source API</li>
-        <li>Real-time data collection</li>
-        <li>Data processing</li>
-        <li>Data visualizations</li>
-        <li>Location-awareness</li>
-        <li>Status context</li>
-        <li>Application infrastructure</li>
-        <li>Twitter proxy</li>
-        <li>Apps</li>
-        <li>Plugins</li>
-        <li><%= link_to '... more', features_pages_path %></li>
-      </ul>
-    </p>
-  </div>
-
-  <div class="col-sm-4">
-    <h4 class="breadcrumb">Applications</h4>
-    <p>
-      <ul>
-        <li>Sensor monitoring</li>
-        <li>Energy monitoring</li>
-        <li>Connecting devices and systems</li>
-        <li>Geo location tracking</li>
-        <li>Interfacing with social networks</li>
-        <li>RFID transactions</li>
-      </ul>
-    </p>
-    <h4 class="breadcrumb">Who Uses ThingSpeak</h4>
-    <p>
-      <ul>
-        <li>Application developers</li>
-        <li>Product integrators</li>
-        <li>Web designers</li>
-      </ul>
-    </p>
-  </div>
-
-  <div class="col-sm-4">
-    <h4 class="breadcrumb">Get Started</h4>
-      <div class="col-pad">
-        If you are ready to get started, <span id="feature_signup"> <%= link_to t(:signup), new_account_path %></span> for a free user account.
+    <div class="col-sm-4">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-list fa-fw fa-lg"></i>
+            ThingSpeak Features
+          </h3>
+        </div>
+        <div class="panel-body panel-home">
+          <ul>
+            <li>Open API</li>
+            <li>Real-time data collection</li>
+            <li>Geolocation data</li>
+            <li>Data processing</li>
+            <li>Data visualizations</li>
+            <li>Device status messages</li>
+            <li>Plugins</li>
+          </ul>
+        </div>
       </div>
-    <h4 class="breadcrumb">Connect</h4>
-    <p>
-      <ul>
-        <li><a href="http://www.twitter.com/thingspeak" title="Follow ThingSpeak on Twitter">Twitter</a></li>
-        <li><a href="https://github.com/iobridge/ThingSpeak" title="Open Source Internet of Things Project on GitHub">GitHub</a></li>
-        <li><a href="http://community.thingspeak.com" title="Join the ThingSpeak Community">ThingSpeak Community</a></li>
-        <li><a href="/docs" title="ThingSpeak API and Apps Documentation">Documentation</a> and <a href="http://community.thingspeak.com/tutorials" title="ThingSpeak Tutorials">Tutorials</a></li>
-        <li><a href="mailto:support@thingspeak.com" title="Contact ThingSpeak">Questions</a></li>
-      </ul>
-    </p>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-gears fa-fw fa-lg"></i>
+            Integrate With Anything
+          </h3>
+        </div>
+        <div class="panel-body panel-home">
+          <ul>
+            <li>Arduino</li>
+            <li>Raspberry Pi</li>
+            <li>ioBridge / RealTime.io</li>
+            <li>Electric Imp</li>
+            <li>Mobile / Web Applications</li>
+            <li>Social Networks</li>
+            <li>Data Analytics</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-4">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <i class="fa fa-comments fa-fw fa-lg"></i>
+            Connect With Us
+          </h3>
+        </div>
+        <div class="panel-body panel-home">
+          <ul>
+            <li><a href="https://github.com/iobridge/ThingSpeak" title="Open Source Internet of Things Project on GitHub">GitHub</a></li>
+            <li><a href="http://www.twitter.com/thingspeak" title="Follow ThingSpeak on Twitter">Twitter</a></li>
+            <li><a href="http://community.thingspeak.com/" title="ThingSpeak IoT Blog">Blog</a></li>
+            <li><a href="http://community.thingspeak.com/forum/" title="Join the ThingSpeak Forum">Forum</a></li>
+            <li><a href="/docs" title="ThingSpeak API and Apps Documentation">Documentation</a></li>
+            <li><a href="/docs/tutorials" title="ThingSpeak Tutorials">Tutorials</a></li>
+            <li><a href="mailto:support@thingspeak.com" title="Contact ThingSpeak">Questions</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-</div>
+  <br><br>
 
-<br><br><br>
-
-<div class="row">
-  <div class="col-sm-offset-2 col-sm-8 col-xs-12">
-
-    <div class="center-block" style="max-width: 600px;">
-      <h4><a href="http://community.thingspeak.com/" title="ThingSpeak Community, Blog, and Forum">latest news<a> <a href="http://feeds.feedburner.com/internetofthings/" title="ThingSpeak RSS Feed"><%= image_tag 'icon_rss.gif' %></a></h4>
+  <div class="jumbotron">
+    <h1>Get Started</h1>
+    <p>If you are ready to build your Internet of Things, <%= link_to t(:signup), new_user_registration_path, :class => 'btn btn-primary btn-sm' %> for a free developer account.</p>
+    <p>
+      <a href="/docs" target="_blank" class="btn btn-info btn-lg">Learn More</a>
+      <a id="contact_link" class="btn btn-success btn-lg"><%= t(:contact_us) %></a>
+    </p>
+    <div id="contact_form">
       <br>
+      <%= render :partial => 'pages/contact_form' %>
+    </div>
+  </div>
 
+  <br><br>
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <a href="http://community.thingspeak.com/" title="ThingSpeak Community, Blog, and Forum">Latest News<a> <a href="http://feeds.feedburner.com/internetofthings/" title="ThingSpeak RSS Feed"><%= image_tag 'icon_rss.gif' %></a>
+      </h3>
+    </div>
+    <div class="panel-body">
       <% cache("blog-posts-on-homepage", :expires_in => 10.minutes) do %>
         <%= raw blog_entries %>
       <% end %>
     </div>
-
   </div>
+
+  <br>
+
 </div>
 

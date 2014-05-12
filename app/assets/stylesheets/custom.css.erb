@@ -4,6 +4,11 @@ code                    { word-wrap: break-word; white-space: normal; }
 .breadcrumb             { margin-top: 10px; margin-bottom: 20px; } /* margins to make sure breadcrumb and h4.breadcrumb line up properly */
 .table td               { word-break: break-word; }
 
+/* table sorting */
+.tablesorter thead      { cursor: pointer; background-color: #f0f0f0; }
+.tablesorter thead i    { float: right; margin-top: 2px; visibility: hidden; }
+.tablesorter thead tr th:hover i { visibility: visible; }
+
 /* homepage */
 #home-motto             { font-size: 2em; padding-top: 100px; }
 #home-motto h1          { font-size: 2em; color: #fff; }

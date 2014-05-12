@@ -8,6 +8,7 @@
 //= require ./updateChart.js
 //= require ./timeago.min.js
 //= require ./jquery.shorten.min.js
+//= require ./tablesorter.js
 //= require ./nested_form.js
 //= require ./noapi.js
 //= require ./rest.js

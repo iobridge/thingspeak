@@ -5,11 +5,7 @@ class PluginsController < ApplicationController
 
   def check_permission
     @plugin = Plugin.find(params[:id])
-    if current_user.present? && @plugin.user_id != current_user.id
-      render :text=> "#{t(:permission)} #{t(:plugin)}", :layout => true and return
-      return true
-    end
-    return false
+    respond_with_error(:error_auth_required) and return if current_user.blank? || (@plugin.user_id != current_user.id)
   end
 
   def index
@@ -73,31 +69,28 @@ class PluginsController < ApplicationController
   end
 
   def show
-    #  Have to check permissions in the method so I can use show to display public, or private plugins
     @plugin = Plugin.find(params[:id])
-    if @plugin.private?
-      return if require_user
-      render :text=> "#{t(:permission)} #{t(:plugin)}", :layout => true  and return if check_permission
+
+    # make sure the user can access this plugin
+    if (@plugin.private_flag == true)
+      respond_with_error(:error_auth_required) and return if current_user.blank? || (@plugin.user_id != current_user.id)
     end
+
     @output = @plugin.html.sub('%%PLUGIN_CSS%%', @plugin.css).sub('%%PLUGIN_JAVASCRIPT%%', @plugin.js)
 
-    if @plugin.private?
+    if request.url.include? api_domain
       render :layout => false and return
     else
-      if request.url.include? api_domain
-        render :layout => false and return
-      else
+      protocol = ssl
+      host = api_domain.split('://')[1]
 
-        protocol = ssl
-        host = api_domain.split('://')[1]
-
-        redirect_to :host => host,
-        :protocol => protocol,
-        :controller => "plugins",
-        :action => "show",
-        :id => @plugin.id and return
-      end
+      redirect_to :host => host,
+      :protocol => protocol,
+      :controller => "plugins",
+      :action => "show",
+      :id => @plugin.id and return
     end
+
   end
 
   def show_public

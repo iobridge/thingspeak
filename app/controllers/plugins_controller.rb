@@ -78,19 +78,7 @@ class PluginsController < ApplicationController
 
     @output = @plugin.html.sub('%%PLUGIN_CSS%%', @plugin.css).sub('%%PLUGIN_JAVASCRIPT%%', @plugin.js)
 
-    if request.url.include? api_domain
-      render :layout => false and return
-    else
-      protocol = ssl
-      host = api_domain.split('://')[1]
-
-      redirect_to :host => host,
-      :protocol => protocol,
-      :controller => "plugins",
-      :action => "show",
-      :id => @plugin.id and return
-    end
-
+    render :layout => false
   end
 
   def show_public

@@ -2,50 +2,51 @@
 #
 # Table name: channels
 #
-#  id            :integer          not null, primary key
-#  user_id       :integer
-#  name          :string(255)
-#  description   :string(255)
-#  latitude      :decimal(15, 10)
-#  longitude     :decimal(15, 10)
-#  field1        :string(255)
-#  field2        :string(255)
-#  field3        :string(255)
-#  field4        :string(255)
-#  field5        :string(255)
-#  field6        :string(255)
-#  field7        :string(255)
-#  field8        :string(255)
-#  scale1        :integer
-#  scale2        :integer
-#  scale3        :integer
-#  scale4        :integer
-#  scale5        :integer
-#  scale6        :integer
-#  scale7        :integer
-#  scale8        :integer
-#  created_at    :datetime
-#  updated_at    :datetime
-#  elevation     :string(255)
-#  last_entry_id :integer
-#  public_flag   :boolean          default(FALSE)
-#  options1      :string(255)
-#  options2      :string(255)
-#  options3      :string(255)
-#  options4      :string(255)
-#  options5      :string(255)
-#  options6      :string(255)
-#  options7      :string(255)
-#  options8      :string(255)
-#  social        :boolean          default(FALSE)
-#  slug          :string(255)
-#  status        :string(255)
-#  url           :string(255)
-#  video_id      :string(255)
-#  video_type    :string(255)
-#  clearing      :boolean          default(FALSE), not null
-#  ranking       :integer
-#  user_agent    :string(255)
+#  id                        :integer          not null, primary key
+#  user_id                   :integer
+#  name                      :string(255)
+#  description               :string(255)
+#  latitude                  :decimal(15, 10)
+#  longitude                 :decimal(15, 10)
+#  field1                    :string(255)
+#  field2                    :string(255)
+#  field3                    :string(255)
+#  field4                    :string(255)
+#  field5                    :string(255)
+#  field6                    :string(255)
+#  field7                    :string(255)
+#  field8                    :string(255)
+#  scale1                    :integer
+#  scale2                    :integer
+#  scale3                    :integer
+#  scale4                    :integer
+#  scale5                    :integer
+#  scale6                    :integer
+#  scale7                    :integer
+#  scale8                    :integer
+#  created_at                :datetime
+#  updated_at                :datetime
+#  elevation                 :string(255)
+#  last_entry_id             :integer
+#  public_flag               :boolean          default(FALSE)
+#  options1                  :string(255)
+#  options2                  :string(255)
+#  options3                  :string(255)
+#  options4                  :string(255)
+#  options5                  :string(255)
+#  options6                  :string(255)
+#  options7                  :string(255)
+#  options8                  :string(255)
+#  social                    :boolean          default(FALSE)
+#  slug                      :string(255)
+#  status                    :string(255)
+#  url                       :string(255)
+#  video_id                  :string(255)
+#  video_type                :string(255)
+#  clearing                  :boolean          default(FALSE), not null
+#  ranking                   :integer
+#  user_agent                :string(255)
+#  realtime_io_serial_number :string(36)
 #
 
 class Channel < ActiveRecord::Base

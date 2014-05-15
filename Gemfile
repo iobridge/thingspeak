@@ -31,7 +31,8 @@ gem 'newrelic_rpm'
 gem 'actionpack-xml_parser'
 gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'chronic'
-gem "non-stupid-digest-assets"
+gem 'non-stupid-digest-assets'
+gem 'em-http-request'
 
 # to use debugger
 # gem 'ruby-debug'

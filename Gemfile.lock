@@ -355,6 +355,7 @@ DEPENDENCIES
   database_cleaner (~> 1.2.0)
   devise
   dynamic_form
+  em-http-request
   exception_notification
   factory_girl_rails
   faker

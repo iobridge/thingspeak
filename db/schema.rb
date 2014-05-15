@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140410174033) do
+ActiveRecord::Schema.define(version: 20140515161337) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -63,8 +63,8 @@ ActiveRecord::Schema.define(version: 20140410174033) do
     t.integer  "user_id"
     t.string   "name"
     t.string   "description"
-    t.decimal  "latitude",      precision: 15, scale: 10
-    t.decimal  "longitude",     precision: 15, scale: 10
+    t.decimal  "latitude",                             precision: 15, scale: 10
+    t.decimal  "longitude",                            precision: 15, scale: 10
     t.string   "field1"
     t.string   "field2"
     t.string   "field3"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20140410174033) do
     t.datetime "updated_at"
     t.string   "elevation"
     t.integer  "last_entry_id"
-    t.boolean  "public_flag",                             default: false
+    t.boolean  "public_flag",                                                    default: false
     t.string   "options1"
     t.string   "options2"
     t.string   "options3"
@@ -94,19 +94,21 @@ ActiveRecord::Schema.define(version: 20140410174033) do
     t.string   "options6"
     t.string   "options7"
     t.string   "options8"
-    t.boolean  "social",                                  default: false
+    t.boolean  "social",                                                         default: false
     t.string   "slug"
     t.string   "status"
     t.string   "url"
     t.string   "video_id"
     t.string   "video_type"
-    t.boolean  "clearing",                                default: false, null: false
+    t.boolean  "clearing",                                                       default: false, null: false
     t.integer  "ranking"
     t.string   "user_agent"
+    t.string   "realtime_io_serial_number", limit: 36
   end
 
   add_index "channels", ["public_flag", "last_entry_id", "updated_at"], name: "channels_public_viewable", using: :btree
   add_index "channels", ["ranking"], name: "index_channels_on_ranking", using: :btree
+  add_index "channels", ["realtime_io_serial_number"], name: "index_channels_on_realtime_io_serial_number", using: :btree
   add_index "channels", ["slug"], name: "index_channels_on_slug", using: :btree
   add_index "channels", ["user_id"], name: "index_channels_on_user_id", using: :btree
 

@@ -80,12 +80,14 @@ Thingspeak::Application.routes.draw do
     collection do
       get :public
       get :watched
+      get :realtime
     end
     member do
       get :import
       post :upload
       post :clear
       put :watch
+      post :realtime_update
     end
     resources :feed
 

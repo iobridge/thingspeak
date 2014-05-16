@@ -49,6 +49,8 @@ class User < ActiveRecord::Base
 
   self.include_root_in_json = false
 
+  validates_uniqueness_of :login
+
   # pagination variables
   cattr_reader :per_page
   @@per_page = 50

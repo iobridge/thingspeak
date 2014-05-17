@@ -89,7 +89,8 @@ class FeedFactory < ApplicationController
   # get feeds
   def get_feeds
     # get feed based on conditions
-    @feeds = Feed.where(:channel_id => @channel.id, :created_at => @date_range)
+    @feeds = Feed.from("feeds FORCE INDEX (index_feeds_on_channel_id_and_created_at)")
+      .where(:channel_id => @channel.id, :created_at => @date_range)
       .select(@feed_select_options)
       .order('created_at desc')
       .limit(@limit)

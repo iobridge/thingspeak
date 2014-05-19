@@ -28,8 +28,8 @@ class PagesController < ApplicationController
     # if no message
     elsif params[:message].blank?
       flash[:alert] = t(:contact_us_no_message)
-    # else send email
-    else
+    # else send email if not a spambot
+    elsif params[:userlogin].blank?
       Mailer.contact_us(params[:email], params[:message]).deliver
       flash[:notice] = t(:contact_us_success)
     end

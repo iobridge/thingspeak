@@ -53,6 +53,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # authenticates user based on the user's api_key
+  def authenticate_via_api_key!
+    # exit if no api_key
+    return false if params[:api_key].blank?
+    # get the user
+    user = User.find_by_api_key(params[:api_key])
+    # sign in the user if they exist
+    sign_in(user, store: false) if user.present?
+  end
+
   # get the locale, but don't fail if header value doesn't exist
   def get_locale
     locale = get_header_value('HTTP_ACCEPT_LANGUAGE')

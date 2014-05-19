@@ -1,5 +1,6 @@
 class ChannelsController < ApplicationController
   include ChannelsHelper, ApiKeys
+  before_filter :authenticate_via_api_key!, :only => [:index]
   before_filter :require_user, :except => [:realtime, :realtime_update, :show, :post_data, :social_show, :social_feed, :public]
   before_filter :set_channels_menu
   layout 'application', :except => [:social_show, :social_feed]
@@ -140,7 +141,8 @@ class ChannelsController < ApplicationController
     @channels = current_user.channels
     respond_to do |format|
       format.html
-      format.json { render :json => @channels.to_json(:root => false) }
+      format.json { render :json => @channels.to_json(Channel.private_options) }
+      format.xml { render :xml => @channels.to_xml(Channel.private_options) }
     end
   end
 

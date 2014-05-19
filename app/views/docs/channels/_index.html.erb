@@ -1,6 +1,6 @@
 <div>
   <%= render 'response' %>
-  <h2 id="list_public">List Public Channels</h2>
+  <h2 id="index">List Public Channels</h2>
 </div>
 
 <br>
@@ -143,6 +143,134 @@ Example GET:
     &lt;/channel>
   &lt;/channels>
 &lt;/response>
+</pre>
+
+</div>
+
+<div>
+  <%= render 'response' %>
+  <h2>List My Channels</h2>
+</div>
+
+<br>
+To view a list of your Channels, send an HTTP GET to
+<br>
+<code><%= @ssl_api_domain %>channels<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>api_key</b> (string) - Your Account API Key (this is different from a Channel API Key, and can be found in your Account settings). (required)</li>
+</ul>
+
+<br>
+Example GET:
+
+<pre>GET <span class="str"><%= @ssl_api_domain %>channels<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span></pre>
+
+<br>
+
+<div class="format format-block-xxxl format-text">
+  The response will be a webpage with a <a href="/channels">list of your Channels</a>.
+</div>
+
+<div class="format format-block-xxxl format-json">
+  The response will be a JSON object of your Channels, for example:
+
+<pre class="prettyprint">
+[
+  {
+    "id": 9,
+    "name": "my_house",
+    "description": "Netduino Plus connected to sensors around the house",
+    "latitude": "40.44",
+    "longitude": "-79.996",
+    "created_at": "2010-12-13T20:20:06-05:00",
+    "elevation": "",
+    "last_entry_id": 6062691,
+    "ranking" :100,
+    "username":"hans",
+    "tags": [],
+    "api_keys":
+    [
+      {
+        "api_key": "XXXXXXXXXXXXXXXX",
+        "write_flag": true
+      }
+    ]
+  },
+  {
+    "id": 5683,
+    "name": "Residential Data Points",
+    "description": "Connected Arduino",
+    "latitude": "32.664548",
+    "longitude": "-73.654972",
+    "created_at": "2013-05-15T12:33:57-04:00",
+    "elevation": "100",
+    "last_entry_id": 731713,
+    "ranking": 100,
+    "username": "hans",
+    "tags": [],
+    "api_keys":
+    [
+      {
+        "api_key": "XXXXXXXXXXXXXXXX",
+        "write_flag": true
+      }
+    ]
+  }
+]
+</pre>
+
+</div>
+
+<div class="format format-block-xxxl format-xml">
+  The response will be an XML object of your Channels, for example:
+
+<pre class="prettyprint">
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;channels type="array">
+  &lt;channel>
+    &lt;id type="integer">9&lt;/id>
+    &lt;name>my_house&lt;/name>
+    &lt;description>
+    Netduino Plus connected to sensors around the house
+    &lt;/description>
+    &lt;latitude type="decimal">40.44&lt;/latitude>
+    &lt;longitude type="decimal">-79.996&lt;/longitude>
+    &lt;created-at type="dateTime">2010-12-13T20:20:06-05:00&lt;/created-at>
+    &lt;elevation/>
+    &lt;last-entry-id type="integer">6062720&lt;/last-entry-id>
+    &lt;ranking type="integer">100&lt;/ranking>
+    &lt;username>hans&lt;/username>
+    &lt;tags type="array" />
+    &lt;api-keys type="array">
+        &lt;api-key>
+            &lt;api-key>XXXXXXXXXXXXXXXX&lt;/api-key>
+            &lt;write-flag type="boolean">true&lt;/write-flag>
+        &lt;/api-key>
+    &lt;/api-keys>
+  &lt;/channel>
+  &lt;channel>
+    &lt;id type="integer">5683&lt;/id>
+    &lt;name>Residential Data Points&lt;/name>
+    &lt;description>Connected Arduino&lt;/description>
+    &lt;latitude type="decimal">32.664548&lt;/latitude>
+    &lt;longitude type="decimal">-73.654972&lt;/longitude>
+    &lt;created-at type="dateTime">2013-05-15T12:33:57-04:00&lt;/created-at>
+    &lt;elevation>100&lt;/elevation>
+    &lt;last-entry-id type="integer">731720&lt;/last-entry-id>
+    &lt;ranking type="integer">100&lt;/ranking>
+    &lt;username>hans&lt;/username>
+    &lt;tags type="array" />
+    &lt;api-keys type="array">
+        &lt;api-key>
+            &lt;api-key>XXXXXXXXXXXXXXXX&lt;/api-key>
+            &lt;write-flag type="boolean">true&lt;/write-flag>
+        &lt;/api-key>
+    &lt;/api-keys>
+  &lt;/channel>
+&lt;/channels>
 </pre>
 
 </div>

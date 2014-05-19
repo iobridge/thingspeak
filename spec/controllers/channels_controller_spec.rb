@@ -114,6 +114,18 @@ describe ChannelsController do
       @feed = FactoryGirl.create(:feed, :field1 => 10, :channel => @channel)
     end
 
+    describe "list channels" do
+      it "should not list my channels" do
+        get :index, {:api_key => 'INVALID', :format => 'json'}
+        response.status.should eq(401)
+      end
+
+      it "lists my channels" do
+        get :index, {:api_key => @user.api_key, :format => 'json'}
+        response.should be_successful
+      end
+    end
+
     describe "create channel" do
       it 'creates a channel' do
         post :create, {:key => @user.api_key, :name => 'mychannel'}

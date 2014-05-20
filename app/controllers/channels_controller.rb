@@ -426,6 +426,14 @@ class ChannelsController < ApplicationController
     elevation_column = -1
     location_column = -1
     status_column = -1
+    field1_column = -1
+    field2_column = -1
+    field3_column = -1
+    field4_column = -1
+    field5_column = -1
+    field6_column = -1
+    field7_column = -1
+    field8_column = -1
     if headers
       csv_array[0].each_with_index do |column, index|
         entry_id_column = index if column.downcase == 'entry_id'
@@ -434,6 +442,14 @@ class ChannelsController < ApplicationController
         elevation_column = index if column.downcase == 'elevation'
         location_column = index if column.downcase == 'location'
         status_column = index if column.downcase == 'status'
+        field1_column = index if column.downcase == 'field1'
+        field2_column = index if column.downcase == 'field2'
+        field3_column = index if column.downcase == 'field3'
+        field4_column = index if column.downcase == 'field4'
+        field5_column = index if column.downcase == 'field5'
+        field6_column = index if column.downcase == 'field6'
+        field7_column = index if column.downcase == 'field7'
+        field8_column = index if column.downcase == 'field8'
       end
     end
 
@@ -458,6 +474,16 @@ class ChannelsController < ApplicationController
       if !row.blank?
         feed = Feed.new
 
+        # add the fields if they are from named columns, using reverse order
+        feed.field8 = row.delete_at(field8_column) if field8_column != -1
+        feed.field7 = row.delete_at(field7_column) if field7_column != -1
+        feed.field6 = row.delete_at(field6_column) if field6_column != -1
+        feed.field5 = row.delete_at(field5_column) if field5_column != -1
+        feed.field4 = row.delete_at(field4_column) if field4_column != -1
+        feed.field3 = row.delete_at(field3_column) if field3_column != -1
+        feed.field2 = row.delete_at(field2_column) if field2_column != -1
+        feed.field1 = row.delete_at(field1_column) if field1_column != -1
+
         # set location and status then delete the rows
         # these 5 deletes must be performed in the proper (reverse) order
         feed.status = row.delete_at(status_column) if status_column > 0
@@ -477,14 +503,16 @@ class ChannelsController < ApplicationController
         # set feed data
         feed.channel_id = channel.id
         feed.created_at = Chronic.parse(row[0]) if parse_date
-        feed.field1 = row[1]
-        feed.field2 = row[2]
-        feed.field3 = row[3]
-        feed.field4 = row[4]
-        feed.field5 = row[5]
-        feed.field6 = row[6]
-        feed.field7 = row[7]
-        feed.field8 = row[8]
+
+        # add the fields normally if necessary
+        feed.field1 = row[1] if feed.field1.blank?
+        feed.field2 = row[2] if feed.field2.blank?
+        feed.field3 = row[3] if feed.field3.blank?
+        feed.field4 = row[4] if feed.field4.blank?
+        feed.field5 = row[5] if feed.field5.blank?
+        feed.field6 = row[6] if feed.field6.blank?
+        feed.field7 = row[7] if feed.field7.blank?
+        feed.field8 = row[8] if feed.field8.blank?
 
         # save channel and feed
         feed.save

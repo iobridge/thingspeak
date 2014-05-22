@@ -1,6 +1,9 @@
 <head>
   <title><%= @title.nil? ? (@menu.nil? ? 'ThingSpeak' : @menu.capitalize + ' - ThingSpeak') : @title + ' - ThingSpeak' %></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+  <meta name="description" content="Open source data platform for the Internet of Things">
+  <meta name="keywords" content="iot, internet of things, iot platform, github, open source, internet of things platform, iobridge">
+
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/cerulean/bootstrap.min.css" />
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" media="screen" rel="stylesheet" />
   <%= stylesheet_link_tag 'application' %>

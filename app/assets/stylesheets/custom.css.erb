@@ -10,10 +10,11 @@ code                    { word-wrap: break-word; white-space: normal; }
 .tablesorter thead tr th:hover i { visibility: visible; }
 
 /* homepage */
-#home-motto             { font-size: 2em; padding-top: 100px; }
+#home-motto             { font-size: 2em; }
 #home-motto h1          { font-size: 2em; color: #fff; }
-#home-top               { height: 500px; width: 100%; background: url('<%= asset_path("thingspeak_stars_bg.jpg") %>') no-repeat; background-size: 100% 500px; text-align: center; color: #fff; }
+#home-top               { display: table; height: 500px; width: 100%; background: url('<%= asset_path("thingspeak_stars_bg.jpg") %>') no-repeat; background-size: 100% 500px; text-align: center; color: #fff; }
 #home-top a             { color: #fff; }
+#home-top-center        { display: table-cell; vertical-align: middle; position: relative; top: -20px; }
 .panel-home             { min-height: 180px; }
 
 /* misc */

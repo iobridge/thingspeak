@@ -1,20 +1,22 @@
 <div id="home-top">
 
-  <div id="home-motto">
-    <h1><%= t(:home_motto) %></h1>
-    <%= t(:home_tagline) %>
-  </div>
+  <div id="home-top-center">
+    <div id="home-motto">
+      <h1><%= t(:home_motto) %></h1>
+      <%= t(:home_tagline) %>
+    </div>
 
-  <br><br>
-
-  <div>
-    <%= link_to t(:get_started), new_user_registration_path, :class => 'btn btn-danger btn-lg' %>
     <br><br>
-    <a href="/docs" target="_blank"><%= t(:documentation) %></a>
-    &nbsp; | &nbsp;
-    <a href="http://community.thingspeak.com/forum/" target="_blank"><%=t(:support)%></a>
-    &nbsp; | &nbsp;
-    <a href="https://github.com/iobridge/thingspeak" target="_blank">GitHub</a>
+
+    <div>
+      <%= link_to t(:get_started), new_user_registration_path, :class => 'btn btn-danger btn-lg' %>
+      <br><br>
+      <a href="/docs" target="_blank"><%= t(:documentation) %></a>
+      &nbsp; | &nbsp;
+      <a href="http://community.thingspeak.com/forum/" target="_blank"><%=t(:support)%></a>
+      &nbsp; | &nbsp;
+      <a href="https://github.com/iobridge/thingspeak" target="_blank">GitHub</a>
+    </div>
   </div>
 
 </div>

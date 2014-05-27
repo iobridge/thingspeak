@@ -272,6 +272,7 @@ module FeedHelper
 
   # slice feed into medians
   def feeds_into_medians(feeds, params)
+
     # convert timescale (minutes) into seconds
     seconds = params[:median].to_i * 60
     # get floored time ranges
@@ -355,7 +356,7 @@ module FeedHelper
   # checks for valid timescale
   def timeparam_valid?(timeparam)
     valid_minutes = [10, 15, 20, 30, 60, 240, 720, 1440]
-    if timeparam and valid_minutes.include?(timeparam.to_i)
+    if timeparam.present? && valid_minutes.include?(timeparam.to_i)
       return true
     else
       return false

@@ -74,6 +74,7 @@ class Channel < ActiveRecord::Base
   validates :video_type, :presence => true, :if => lambda{ |channel| !channel.video_id.nil? && !channel.video_id.empty?}
 
   scope :public_viewable, lambda { where("public_flag = true AND social != true") }
+  scope :not_social, lambda { where("social != true") }
   scope :is_public, lambda { where("public_flag = true") }
   scope :active, lambda { where("channels.last_entry_id > 1 and channels.updated_at > ?", DateTime.now.utc - 7.day) }
   scope :being_cleared, lambda { where("clearing = true") }

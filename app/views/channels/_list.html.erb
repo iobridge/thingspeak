@@ -5,7 +5,7 @@
     <div class="public_channel_box">
       <div class="public_channel_inner">
         <p class="public_channel_name">
-          <%= link_to channel.name, channel_path(channel.id), :id => "showsite_#{channel.id}" %>
+          <%= link_to truncate(channel.name, length: 23), channel_path(channel.id), :id => "showsite_#{channel.id}" %>
         </p>
         <p class="public_channel_user" >by <%= channel.user.login %></p>
         <p class="public_channel_desc"><%= channel.description %></p>

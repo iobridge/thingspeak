@@ -13,6 +13,7 @@ describe FeedController do
     @feed = FactoryGirl.create(:feed, :field1 => 5, :channel => @channel, :created_at => now, :entry_id => 6)
     @feed = FactoryGirl.create(:feed, :field1 => 4, :channel => @channel, :created_at => now, :entry_id => 7)
     @channel.last_entry_id = @feed.entry_id
+    @channel.field1 = 'temp'
     @channel.save
 
     @user.channels.push @channel
@@ -26,13 +27,25 @@ describe FeedController do
   it "should get first feed" do
     get :show, {id: @feed1.id, channel_id: @channel.id, format: 'json'}
     response.should be_successful
-    response.body.should eq("{\"created_at\":\"2013-01-01T00:00:00+00:00\",\"entry_id\":1}" )
+    response.body.should eq("{\"created_at\":\"2013-01-01T00:00:00+00:00\",\"entry_id\":1,\"field1\":\"10\"}" )
   end
 
   it "should get last feed" do
     get :show, {id: 'last', channel_id: @channel.id, format: 'json'}
     response.should be_successful
-    response.body.should eq("{\"created_at\":\"2013-01-01T00:00:00+00:00\",\"entry_id\":7}" )
+    response.body.should eq("{\"created_at\":\"2013-01-01T00:00:00+00:00\",\"entry_id\":7,\"field1\":\"4\"}" )
+  end
+
+  it "should get last feed (html)" do
+    get :show, {id: 'last', channel_id: @channel.id, field_id: 1}
+    response.should be_successful
+    response.body.should eq("4" )
+  end
+
+  it "should get last feed (html), no field_id specified" do
+    get :show, {id: 'last', channel_id: @channel.id}
+    response.should be_successful
+    response.body.should eq("{\"created_at\":\"2013-01-01T00:00:00+00:00\",\"entry_id\":7,\"field1\":\"4\"}" )
   end
 
   it "should get feed last_average" do

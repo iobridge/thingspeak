@@ -322,6 +322,7 @@ GEM
       multi_json (~> 1.0)
       simple_oauth (~> 0.2)
     tzinfo (0.3.39)
+    tzinfo-data (1.2013.9)
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
@@ -386,6 +387,8 @@ DEPENDENCIES
   therubyracer
   tweetstream
   twitter_oauth!
+  tzinfo
+  tzinfo-data
   uglifier
   webrat
   will_paginate (~> 3.0.pre2)

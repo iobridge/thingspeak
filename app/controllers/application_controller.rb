@@ -315,7 +315,11 @@ class ApplicationController < ActionController::Base
     # set timezone correctly
     def set_time_zone
       if params[:timezone].present?
-        Time.zone = ActiveSupport::TimeZone::MAPPING.key(params[:timezone])
+        begin
+          Time.zone = TZInfo::Timezone.get(params[:timezone])
+        rescue
+          Time.zone = 'UTC'
+        end
       elsif params[:offset].present?
         Time.zone = set_timezone_from_offset(params[:offset])
       elsif current_user.present?

@@ -33,6 +33,8 @@ gem 'activeadmin', github: 'gregbell/active_admin'
 gem 'chronic'
 gem 'non-stupid-digest-assets'
 gem 'em-http-request'
+gem 'tzinfo'
+gem 'tzinfo-data'
 
 # to use debugger
 # gem 'ruby-debug'

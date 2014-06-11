@@ -49,7 +49,8 @@ class User < ActiveRecord::Base
 
   self.include_root_in_json = false
 
-  validates_uniqueness_of :login
+  validates :login, uniqueness: { case_sensitive: false }
+  validates :email, uniqueness: { case_sensitive: false }
 
   # pagination variables
   cattr_reader :per_page

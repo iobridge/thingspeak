@@ -210,9 +210,9 @@ Thingspeak::Application.routes.draw do
   # streaming routes
   match '/stream/channels/:id/feeds(.:format)', to: 'stream#channel_feed', :via => [:get, :post]
 
-  # add support for CORS preflighting (matches any OPTIONS route up to 4 levels deep)
-  # examples: /talkbacks, /talkbacks/4, /talkbacks/4/commands, /talkbacks/4/commands/6
-  match '/:foo(/:foo(/:foo)(/:foo))', :to => 'cors#preflight', :via => 'options'
+  # add support for CORS preflighting (matches any OPTIONS route up to 5 levels deep)
+  # examples: /talkbacks, /talkbacks/4, /talkbacks/4/commands, /talkbacks/4/commands/6, /apps/thingtweet/1/statuses/update
+  match '/:foo(/:foo(/:foo(/:foo(/:foo))))', :to => 'cors#preflight', :via => 'options'
 
   #match ':controller(/:action(/:id(.:format)))', :via => :all
 end

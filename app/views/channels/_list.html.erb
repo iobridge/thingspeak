@@ -7,7 +7,7 @@
         <p class="public_channel_name">
           <%= link_to truncate(channel.name, length: 23), channel_path(channel.id), :id => "showsite_#{channel.id}" %>
         </p>
-        <p class="public_channel_user" >by <%= channel.user.login %></p>
+        <p class="public_channel_user" >by <%= channel.user.login if channel.user.present? %></p>
         <p class="public_channel_desc"><%= channel.description %></p>
         <div class="progressbar" rel="<%= channel.ranking %>"></div>
         <p class="public_channel_tags">

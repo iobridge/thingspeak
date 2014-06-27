@@ -2,6 +2,9 @@
 <html style="height: 100%;">
   <head>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//thingspeak.com/highcharts-3.0.8.js"></script>
+    <script type="text/javascript" src="//thingspeak.com/exporting.js"></script>
+
     <%= javascript_include_tag 'application' %>
 
       <script type="text/javascript">
@@ -161,10 +164,15 @@
           legend: {
               enabled: false
           },
-          series: [{
-            name: data.channel.field<%= params[:id] %>
-          }]
-          };
+          series: [
+            { name: data.channel.field<%= params[:id] %> }
+          ],
+          credits: {
+              text: 'ThingSpeak.com',
+              href: 'https://thingspeak.com/',
+              style: { color: '#D62020' }
+          }
+        };
 
             // add the data to the chart
             chartOptions.series[0].data = chartData;

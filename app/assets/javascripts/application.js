@@ -3,8 +3,6 @@
 
 //= require jquery_ujs
 //= require ./jquery.cookie.js
-//= require ./highcharts.js
-//= require ./exporting.js
 //= require ./updateChart.js
 //= require ./timeago.min.js
 //= require ./tablesorter.js

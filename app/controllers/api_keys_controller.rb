@@ -5,6 +5,7 @@ class ApiKeysController < ApplicationController
 
   def index
     api_index params[:channel_id]
+    respond_with_error(:error_auth_required) and return if @channel.blank?
   end
 
   def destroy

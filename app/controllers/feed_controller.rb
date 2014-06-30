@@ -34,12 +34,12 @@ class FeedController < ApplicationController
 
         # set output correctly
         if params[:format] == 'xml'
-          @channel_output = channel.to_xml(channel.select_options).sub('</channel>', '').strip
+          @channel_output = channel.to_xml(channel.select_options(params)).sub('</channel>', '').strip
           @feed_output = feeds.to_xml(:skip_instruct => true).gsub(/\n/, "\n  ").chop.chop
         elsif params[:format] == 'csv'
           @feed_output = feeds
         else
-          @channel_output = channel.to_json(channel.select_options).chop
+          @channel_output = channel.to_json(channel.select_options(params)).chop
           @feed_output = feeds.to_json(:only => feed_factory.feed_select_options)
         end
 
@@ -246,7 +246,7 @@ class FeedController < ApplicationController
 
     @time_after_sort = Time.now
 
-    @channel_output = channel.to_json(channel.select_options).chop
+    @channel_output = channel.to_json(channel.select_options(params)).chop
     @feed_output = feeds.to_json
 
     @time_after_json = Time.now

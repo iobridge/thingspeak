@@ -22,6 +22,7 @@ Valid parameters:
   <li><b>field8</b> (string) - Field8 name (optional)</li>
   <li><b>latitude</b> (decimal) - Latitude in degrees (optional)</li>
   <li><b>longitude</b> (decimal) - Longitude in degrees (optional)</li>
+  <li><b>metadata</b> (text) - Metadata for the Channel, which can include JSON, XML, or any other data (optional)</li>
   <li><b>name</b> (string) - Name of the Channel (optional)</li>
   <li><b>public_flag</b> (true/false) - Whether the Channel should be public, default false (optional)</li>
   <li><b>tags</b> (string) - Comma-separated list of tags (optional)</li>
@@ -39,11 +40,11 @@ POST <span class="str"><%= @ssl_api_domain %>channels<span class="format format-
 
 <br>
 
-<div class="format format-block-xl format-text">
+<div class="format format-block-xxl format-text">
   The response will be a webpage with your newly created Channel.
 </div>
 
-<div class="format format-block-xl format-json">
+<div class="format format-block-xxl format-json">
   The response will be a JSON object of the new channel, for example:
 
 <pre class="prettyprint">
@@ -51,6 +52,7 @@ POST <span class="str"><%= @ssl_api_domain %>channels<span class="format format-
   "id": 4,
   "name": "My New Channel",
   "description": null,
+  "metadata": null,
   "latitude": null,
   "longitude": null,
   "created_at": "2014-03-25T13:12:50-04:00",
@@ -71,7 +73,7 @@ POST <span class="str"><%= @ssl_api_domain %>channels<span class="format format-
 
 </div>
 
-<div class="format format-block-xl format-xml">
+<div class="format format-block-xxl format-xml">
   The response will be an XML object of the new channel, for example:
 
 <pre class="prettyprint">
@@ -80,6 +82,7 @@ POST <span class="str"><%= @ssl_api_domain %>channels<span class="format format-
     &lt;id type="integer">4&lt;/id>
     &lt;name>My New Channel&lt;/name>
     &lt;description nil="true" />
+    &lt;metadata nil="true" />
     &lt;latitude type="decimal" nil="true" />
     &lt;longitude type="decimal" nil="true" />
     &lt;created-at type="dateTime">2014-03-25T20:17:44-04:00&lt;/created-at>

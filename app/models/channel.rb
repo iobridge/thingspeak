@@ -47,6 +47,7 @@
 #  ranking                   :integer
 #  user_agent                :string(255)
 #  realtime_io_serial_number :string(36)
+#  metadata                  :text
 #
 
 class Channel < ActiveRecord::Base
@@ -98,9 +99,10 @@ class Channel < ActiveRecord::Base
   end
 
   # select options
-  def select_options
+  def select_options(options = nil)
     only = [:name, :created_at, :updated_at, :id, :last_entry_id]
     only += [:description] unless self.description.blank?
+    only += [:metadata] if options.present? && options[:metadata] == 'true'
     only += [:latitude] unless self.latitude.blank?
     only += [:longitude] unless self.longitude.blank?
     only += [:elevation] unless self.elevation.blank?
@@ -179,7 +181,7 @@ class Channel < ActiveRecord::Base
   def self.private_options
     {
       :root => false,
-      :only => [:id, :name, :description, :latitude, :longitude, :last_entry_id, :elevation, :created_at, :ranking],
+      :only => [:id, :name, :description, :metadata, :latitude, :longitude, :last_entry_id, :elevation, :created_at, :ranking],
       :methods => :username,
       :include => {
         :tags => {:only => [:id, :name]},

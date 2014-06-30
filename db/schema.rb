@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140516162515) do
+ActiveRecord::Schema.define(version: 20140630153108) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20140516162515) do
     t.integer  "ranking"
     t.string   "user_agent"
     t.string   "realtime_io_serial_number", limit: 36
+    t.text     "metadata"
   end
 
   add_index "channels", ["public_flag", "last_entry_id", "updated_at"], name: "channels_public_viewable", using: :btree

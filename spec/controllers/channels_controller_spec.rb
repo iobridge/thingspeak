@@ -143,6 +143,25 @@ describe ChannelsController do
       end
     end
 
+    describe "update channel" do
+      it 'updates a channel' do
+        post :update, {:id => @channel.id, :key => @user.api_key, :name => 'newname'}
+        response.should be_redirect
+        @channel.reload
+        @channel.name.should eq("newname")
+        channel_id = Channel.all.last.id
+        response.should redirect_to(channel_path(channel_id))
+      end
+      it 'returns JSON' do
+        post :update, {:id => @channel.id, :key => @user.api_key, :name => 'newname', :format => 'json'}
+        JSON.parse(response.body)['name'].should eq("newname")
+      end
+      it 'returns XML' do
+        post :update, {:id => @channel.id, :key => @user.api_key, :name => 'newname', :format => 'xml'}
+        Nokogiri::XML(response.body).css('name').text.should eq("newname")
+      end
+    end
+
     describe "clear channel" do
       it 'clears a channel' do
         @channel.feeds.count.should eq(1)

@@ -179,14 +179,19 @@ class ChannelsController < ApplicationController
 
 
   def update
-    @channel = current_user.channels.find(params[:id])
+    # get the current user or find the user via their api key
+    @user = current_user || User.find_by_api_key(get_apikey)
+    @channel = @user.channels.find(params[:id])
+
+    # make updating attributes easier for updates via api
+    params[:channel] = params if params[:channel].blank?
 
     if params["channel"]["video_type"].blank? && !params["channel"]["video_id"].blank?
       @channel.errors.add(:base, t(:channel_video_type_blank))
     end
 
     if @channel.errors.count <= 0
-      @channel.save_tags(params[:tags][:name])
+      @channel.save_tags(params[:tags][:name]) if params[:tags].present?
       @channel.assign_attributes(channel_params)
       @channel.set_windows
       @channel.save
@@ -196,7 +201,11 @@ class ChannelsController < ApplicationController
     end
 
     flash[:notice] = t(:channel_update_success)
-    redirect_to channel_path(@channel.id)
+    respond_to do |format|
+      format.json { render :json => @channel.to_json(Channel.private_options) }
+      format.xml { render :xml => @channel.to_xml(Channel.private_options) }
+      format.any { redirect_to channel_path(@channel.id) }
+    end
   end
 
   def create

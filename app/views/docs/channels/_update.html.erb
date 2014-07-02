@@ -1,99 +1,104 @@
 <div>
   <%= render 'response' %>
-  <h2 id="update">Update Channel Feed</h2>
+  <h2 id="update">Update a Channel</h2>
 </div>
 
 <br>
-To update a Channel feed, send an HTTP GET or POST to<br>
-<code><%= @ssl_api_domain %>update<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
+To update a Channel, send an HTTP PUT to
+<br><code><%= @ssl_api_domain %>channels/<span class="customcode">CHANNEL_ID</span><span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
 
 <br><br>
 Valid parameters:
 <ul>
-  <li><b>api_key</b> (string) - Write API Key for this specific Channel (required).  The Write API Key can optionally be sent via an X-THINGSPEAKAPIKEY HTTP header.</li>
-  <li><b>field1</b> (string) - Field 1 data (optional)</li>
-  <li><b>field2</b> (string) - Field 2 data (optional)</li>
-  <li><b>field3</b> (string) - Field 3 data (optional)</li>
-  <li><b>field4</b> (string) - Field 4 data (optional)</li>
-  <li><b>field5</b> (string) - Field 5 data (optional)</li>
-  <li><b>field6</b> (string) - Field 6 data (optional)</li>
-  <li><b>field7</b> (string) - Field 7 data (optional)</li>
-  <li><b>field8</b> (string) - Field 8 data (optional)</li>
-  <li><b>lat</b> (decimal) - Latitude in degrees (optional)</li>
-  <li><b>long</b> (decimal) - Longitude in degrees (optional)</li>
+  <li><b>api_key</b> (string) - User's API Key; please note that this is different than a Channel API key, and can be found in <a href="/account">your account details</a>. (required).</li>
+  <li><b>description</b> (string) - Description of the Channel (optional)</li>
   <li><b>elevation</b> (integer) - Elevation in meters (optional)</li>
-  <li><b>status</b> (string) - Status update message (optional)</li>
-  <li><b>twitter</b> (string) - Twitter username linked to <a href="/docs/thingtweet">ThingTweet</a> (optional)</li>
-  <li><b>tweet</b> (string) - Twitter status update; see <a href="/docs/thingtweet#update">updating ThingTweet</a> for more info (optional)</li>
-  <li><b>created_at</b> (datetime) - Date when this feed entry was created, in the format<br>YYYY-MM-DD%20HH:NN:SS (optional)</li>
+  <li><b>field1</b> (string) - Field1 name (optional)</li>
+  <li><b>field2</b> (string) - Field2 name (optional)</li>
+  <li><b>field3</b> (string) - Field3 name (optional)</li>
+  <li><b>field4</b> (string) - Field4 name (optional)</li>
+  <li><b>field5</b> (string) - Field5 name (optional)</li>
+  <li><b>field6</b> (string) - Field6 name (optional)</li>
+  <li><b>field7</b> (string) - Field7 name (optional)</li>
+  <li><b>field8</b> (string) - Field8 name (optional)</li>
+  <li><b>latitude</b> (decimal) - Latitude in degrees (optional)</li>
+  <li><b>longitude</b> (decimal) - Longitude in degrees (optional)</li>
+  <li><b>metadata</b> (text) - Metadata for the Channel, which can include JSON, XML, or any other data (optional)</li>
+  <li><b>name</b> (string) - Name of the Channel (optional)</li>
+  <li><b>public_flag</b> (true/false) - Whether the Channel should be public, default false (optional)</li>
+  <li><b>tags</b> (string) - Comma-separated list of tags (optional)</li>
+  <li><b>url</b> (string) - Webpage URL for the Channel (optional)</li>
 </ul>
 
 <br>
-Example POST:
+Example PUT:
 
 <pre>
-POST <span class="str"><%= @ssl_api_domain %>update<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
-     api_key=<span class="customcode"><%= @channel_api_key %></span>
-     field1=<span class="customcode">73</span>
+PUT <span class="str"><%= @ssl_api_domain %>channels/<span class="customcode">4</span><span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
+    api_key=<span class="customcode"><%= @user_api_key %></span>
+    name=<span class="customcode">Updated Channel</span>
 </pre>
 
 <br>
 
-<div class="format format-block-xl format-text">
-  The response will be the entry ID of the update, for example: <code>18</code>
-  <br><br>
-  If the response is <code>0</code> then the update failed.
+<div class="format format-block-xxl format-text">
+  The response will be a webpage with your updated Channel.
 </div>
 
-<div class="format format-block-xl format-json">
-  The response will be a JSON object of the new feed, for example:
+<div class="format format-block-xxl format-json">
+  The response will be a JSON object of the updated channel, for example:
 
 <pre class="prettyprint">
 {
-  "channel_id": 3,
-  "field1": "73",
-  "field2": null,
-  "field3": null,
-  "field4": null,
-  "field5": null,
-  "field6": null,
-  "field7": null,
-  "field8": null,
-  "created_at": "2014-02-25T14:13:01-05:00",
-  "entry_id": 320,
-  "status": null,
+  "id": 4,
+  "name": "Updated Channel",
+  "description": null,
+  "metadata": null,
   "latitude": null,
   "longitude": null,
+  "created_at": "2014-03-25T13:12:50-04:00",
   "elevation": null,
-  "location":null
+  "last_entry_id": null,
+  "ranking": 15,
+  "username": "hans",
+  "tags": [],
+  "api_keys":
+  [
+    {
+      "api_key": "XXXXXXXXXXXXXXXX",
+      "write_flag": true
+    }
+  ]
 }
 </pre>
 
 </div>
 
-<div class="format format-block-xl format-xml">
-  The response will be an XML object of the new feed, for example:
+<div class="format format-block-xxl format-xml">
+  The response will be an XML object of the updated channel, for example:
 
 <pre class="prettyprint">
 &lt;?xml version="1.0" encoding="UTF-8"?>
-&lt;feed>
-  &lt;channel-id type="integer">3&lt;/channel-id>
-  &lt;field1>73&lt;/field1>
-  &lt;field2 nil="true"/>
-  &lt;field3 nil="true"/>
-  &lt;field4 nil="true"/>
-  &lt;field5 nil="true"/>
-  &lt;field6 nil="true"/>
-  &lt;field7 nil="true"/>
-  &lt;field8 nil="true"/>
-  &lt;created-at type="dateTime">2014-02-25T14:15:42-05:00&lt;/created-at>
-  &lt;entry-id type="integer">321&lt;/entry-id>
-  &lt;status nil="true"/>
-  &lt;latitude type="decimal" nil="true"/>
-  &lt;longitude type="decimal" nil="true"/>
-  &lt;elevation nil="true"/>
-  &lt;location nil="true"/>
-&lt;/feed>
+&lt;channel>
+    &lt;id type="integer">4&lt;/id>
+    &lt;name>Updated Channel&lt;/name>
+    &lt;description nil="true" />
+    &lt;metadata nil="true" />
+    &lt;latitude type="decimal" nil="true" />
+    &lt;longitude type="decimal" nil="true" />
+    &lt;created-at type="dateTime">2014-03-25T20:17:44-04:00&lt;/created-at>
+    &lt;elevation nil="true" />
+    &lt;last-entry-id type="integer" nil="true" />
+    &lt;ranking type="integer">15&lt;/ranking>
+    &lt;username>hans&lt;/username>
+    &lt;tags type="array" />
+    &lt;api-keys type="array">
+        &lt;api-key>
+            &lt;api-key>XXXXXXXXXXXXXXXX&lt;/api-key>
+            &lt;write-flag type="boolean">true&lt;/write-flag>
+        &lt;/api-key>
+    &lt;/api-keys>
+&lt;/channel>
 </pre>
 
 </div>

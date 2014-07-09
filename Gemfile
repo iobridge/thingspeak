@@ -20,7 +20,6 @@ gem 'dynamic_form'
 gem 'geokit'
 gem 'redis'
 gem 'resque-scheduler', '2.3.1', :require => 'resque_scheduler'
-gem 'resque-timeout'
 gem 'daemons'
 #gem 'db2fog' (not compatible with Rails 4, see https://github.com/hakanensari/db2fog for Rails 4 version)
 gem 'simplificator-rwebthumb', :git => "git://github.com/simplificator/rwebthumb.git"

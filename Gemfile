@@ -47,7 +47,7 @@ group :development do
   gem 'annotate', '~> 2.6.1'
   gem 'quiet_assets'
   gem 'puma'
-  gem 'i18n-tasks', '~> 0.2.10'
+  gem 'i18n-tasks', '~> 0.5.4'
 end
 
 group :test do

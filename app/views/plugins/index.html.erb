@@ -12,7 +12,10 @@
 
         <% @plugins.each do |p| %>
         <tr>
-          <td><%= p.name %></td>
+          <td>
+            <i class="fa fa-<%= 'un' if p.private_flag != true %>lock fa-fw"></i>
+            <%= p.name %>
+          </td>
           <td>
             <%= link_to t(:view).downcase, plugin_path(p.id), :target => '_blank' %>
             &nbsp;

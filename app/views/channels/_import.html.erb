@@ -9,7 +9,7 @@
     <%= t(:time_zone) %>
     <%= time_zone_select 'feed', 'time_zone', nil, :default => 'UTC' %>
     <br><br>
-    <%= f.submit t(:upload), :disable_with => t(:uploading) %>
+    <%= f.submit t(:upload), data: { disable_with: t(:uploading) } %>
   <% end %>
 
   <br><br>

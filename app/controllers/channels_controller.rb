@@ -473,8 +473,8 @@ class ChannelsController < ApplicationController
       date1 = Chronic.parse(csv_array[0][0]) if parse_date
       date2 = Chronic.parse(csv_array[1][0]) if parse_date
 
-      # reverse the array if 1st date is larger than 2nd date
-      csv_array = csv_array.reverse if date1 > date2
+      # reverse the array if the dates exist and 1st date is larger than 2nd date
+      csv_array = csv_array.reverse if date1.present? && date2.present? && date1 > date2
     end
 
     # loop through each row

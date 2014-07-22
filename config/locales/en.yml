@@ -447,7 +447,7 @@ en:
   help_thinghttp_show: "You can now send your ThingHTTP request and view the response using the following URL:"
   help_thingtweet: "ThingTweet acts as a proxy to Twitter so that your devices can update Twitter statuses without having to implement Open Authentication (OAuth)."
   help_tweetcontrol: "Use TweetControl to listen to specific trigger words from Twitter, and then process a ThingHTTP request."
-  help_tweetcontrol_edit: "Select Anonymous TweetControl to allow anyone to trigger your TweetControl or fill in a specfic Twitter Account."
+  help_tweetcontrol_edit: "Select Anonymous TweetControl to allow anyone to trigger your TweetControl or fill in a specfic Twitter Account (don't include the '@' sign)."
   help_tweetcontrol_hashtag: "To trigger a TweetControl, you need to send a Twitter Status Update with at least the hashtag #thingspeak and the trigger word, for example:"
   help_tweetcontrol_thinghttp: "Select a ThingHTTP request to use with this TweetControl. The ThingHTTP request will be executed when the TweetControl is triggered."
   help_tweetcontrol_trigger: "Fill in a trigger to listen for."

@@ -6,8 +6,8 @@ class ChartsController < ApplicationController
 
     window_id = params[:id]
     logger.debug "Windows ID is #{window_id}"
-    window_detail = @channel.windows.find(window_id).becomes(ChartWindow).window_detail
-    options = window_detail.options unless window_detail.nil?
+    window = @channel.windows.find(window_id)
+    options = window.options unless window.nil?
     logger.debug "Options for window #{window_id} are " + options.inspect
 
     render :partial => "charts/config", :locals => {
@@ -78,9 +78,9 @@ class ChartsController < ApplicationController
       # save data
       if params[:newOptions]
         logger.debug "Updating new style options on window id #{params[:id]} with #{params[:newOptions][:options]}"
-        chart_window = @channel.windows.find(params[:id]).becomes(ChartWindow)
-        chart_window.window_detail.options = params[:newOptions][:options]
-        if !chart_window.save
+        window = @channel.windows.find(params[:id])
+        window.options = params[:newOptions][:options]
+        if !window.save
           raise "Couldn't save the Chart Window"
         end
       end

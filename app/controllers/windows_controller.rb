@@ -37,21 +37,22 @@ class WindowsController < ApplicationController
   end
 
   def config_window(window)
-    if window.type == "PluginWindow"
-      pluginName = Plugin.find(window.window_detail.plugin_id).name
+    if window.window_type == "plugin"
+      pluginName = Plugin.find(window.content_id).name
       window.title = t(window.title, {:name => pluginName})
-    elsif window.type == "ChartWindow"
-      window.title = t(window.title, {:field_number => window.window_detail.field_number})
-      options = window.becomes(ChartWindow).window_detail.options if !window.becomes(ChartWindow).window_detail.nil?
+    elsif window.window_type == "chart"
+      window.title = t(window.title, {:field_number => window.content_id})
+      options = window.options if !window.nil?
       options ||= ""
       window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
     else
       window.title = t(window.title)
     end
   end
+
   def html
     window = Window.find(params[:id])
-    options = window.window_detail.options unless window.window_detail.nil? || window.type!="ChartWindow"
+    options = window.options unless window.nil? || window.window_type != "chart"
     window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
     html = window.html
 
@@ -60,7 +61,7 @@ class WindowsController < ApplicationController
 
   def iframe
     window = Window.find(params[:id])
-    options = window.window_detail.options unless window.window_detail.nil? || window.type!="ChartWindow"
+    options = window.options unless window.nil? || window.window_type != "chart"
     window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
     iframe_html = window.html
 
@@ -71,29 +72,29 @@ class WindowsController < ApplicationController
   def index
     channel = Channel.find(params[:channel_id])
 
-    channel.update_status_portlet false if (channel.windows.select { |w| w.wtype == :status && w.private_flag == false } )
-    channel.update_status_portlet true if (channel.windows.select { |w| w.wtype == :status && w.private_flag == true } )
-    channel.update_video_portlet false if (channel.windows.select { |w| w.wtype == :video && w.private_flag == false } )
-    channel.update_video_portlet true if (channel.windows.select { |w| w.wtype == :video && w.private_flag == true } )
-    channel.update_location_portlet false  if (channel.windows.select { |w| w.wtype == :location && w.private_flag == false } )
-    channel.update_location_portlet true  if (channel.windows.select { |w| w.wtype == :location && w.private_flag == true } )
-    channel.update_chart_portlets if (channel.windows.select { |w| w.wtype == :chart } )
+    #channel.update_status_portlet false if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == false } )
+    #channel.update_status_portlet true if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == true } )
+    #channel.update_video_portlet false if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == false } )
+    #channel.update_video_portlet true if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == true } )
+    #channel.update_location_portlet false  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == false } )
+    #channel.update_location_portlet true  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == true } )
+    #channel.update_chart_portlets if (channel.windows.select { |w| w.window_type == 'chart' } )
     windows = channel.public_windows(true).order(:position) unless params[:channel_id].nil?
 
     if channel.recent_statuses.nil? || channel.recent_statuses.size <= 0
-      @windows = windows.delete_if { |w| w.wtype == "status"  }
+      @windows = windows.delete_if { |w| w.window_type == "status"  }
     else
       @windows = windows
     end
 
     @windows.each do |window|
 
-      if window.type == "PluginWindow"
-        pluginName = Plugin.find(window.window_detail.plugin_id).name
+      if window.window_type == "plugin"
+        pluginName = Plugin.find(window.content_id).name
         window.title = t(window.title, {:name => pluginName})
-      elsif window.type == "ChartWindow"
-        window.title = t(window.title, {:field_number => window.window_detail.field_number})
-        options = window.becomes(ChartWindow).window_detail.options if !window.becomes(ChartWindow).window_detail.nil?
+      elsif window.window_type == "chart"
+        window.title = t(window.title, {:field_number => window.content_id})
+        options = window.options if !window.nil?
         options ||= ""
         window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
       else
@@ -104,7 +105,7 @@ class WindowsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @windows.as_json( :include => [:window_detail] )   }
+      format.json { render :json => @windows.as_json   }
     end
   end
 
@@ -119,12 +120,12 @@ class WindowsController < ApplicationController
     else
       @windows = channel.public_windows(false) unless channel.nil?
     end
-    @windows.reject! { |window| window.type == "PluginWindow" }
+    @windows.reject! { |window| window.window_type == "plugin" }
     @windows.each do |window|
-      if window.type == "PluginWindow"
-      elsif window.type == "ChartWindow"
-        window.title = t(window.title, {:field_number => window.window_detail.field_number})
-        options = window.becomes(ChartWindow).window_detail.options unless window.becomes(ChartWindow).window_detail.nil?
+      if window.window_type == "plugin"
+      elsif window.window_type == "chart"
+        window.title = t(window.title, {:field_number => window.content_id})
+        options = window.options unless window.nil?
         options ||= ""
         window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
       else
@@ -134,37 +135,36 @@ class WindowsController < ApplicationController
 
     respond_to do |format|
       format.html { render :partial => "hidden_windows" }
-      #      format.json { render :json => @windows.as_json( :include => [:window_detail] )   }
+      format.json { render :json => @windows.as_json   }
     end
   end
 
   def private_windows
     channel = Channel.find(params[:channel_id])
 
-    channel.update_status_portlet false if (channel.windows.select { |w| w.wtype == :status && w.private_flag == false } )
-    channel.update_status_portlet true if (channel.windows.select { |w| w.wtype == :status && w.private_flag == true } )
-    channel.update_video_portlet false if (channel.windows.select { |w| w.wtype == :video && w.private_flag == false } )
-    channel.update_video_portlet true if (channel.windows.select { |w| w.wtype == :video && w.private_flag == true } )
-    channel.update_location_portlet false  if (channel.windows.select { |w| w.wtype == :location && w.private_flag == false } )
-    channel.update_location_portlet true  if (channel.windows.select { |w| w.wtype == :location && w.private_flag == true } )
-    channel.update_chart_portlets if (channel.windows.select { |w| w.wtype == :chart } )
+    #channel.update_status_portlet false if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == false } )
+    #channel.update_status_portlet true if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == true } )
+    #channel.update_video_portlet false if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == false } )
+    #channel.update_video_portlet true if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == true } )
+    #channel.update_location_portlet false  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == false } )
+    #channel.update_location_portlet true  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == true } )
+    #channel.update_chart_portlets if (channel.windows.select { |w| w.window_type == 'chart' } )
 
     windows = channel.private_windows(true).order(:position) unless params[:channel_id].nil?
 
     if channel.recent_statuses.nil? || channel.recent_statuses.size <= 0
-      @windows = windows.delete_if { |w| w.wtype == "status" }
+      @windows = windows.delete_if { |w| w.window_type == "status" }
     else
       @windows = windows
     end
 
     @windows.each do |window|
-      if window.type == "PluginWindow"
-        windowDetail = window.window_detail
-        pluginName = Plugin.find(windowDetail.plugin_id).name
+      if window.window_type == "plugin"
+        pluginName = Plugin.find(window.content_id).name
         window.title = t(window.title, {:name => pluginName})
-      elsif window.type == "ChartWindow"
-        window.title = t(window.title, {:field_number => window.window_detail.field_number})
-        options = window.becomes(ChartWindow).window_detail.options unless window.becomes(ChartWindow).window_detail.nil?
+      elsif window.window_type == "chart"
+        window.title = t(window.title, {:field_number => window.content_id})
+        options = window.options unless window.nil?
         options ||= ""
         window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
       else
@@ -174,7 +174,7 @@ class WindowsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json { render :json => @windows.as_json( :include => [:window_detail] )   }
+      format.json { render :json => @windows.as_json }
     end
   end
 

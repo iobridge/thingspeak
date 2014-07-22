@@ -26,16 +26,15 @@
               $.update("/channels/" + channelId + "/windows/"+ windowId + "/display" , data,
                         function(response) {
 
-                           var window = response.plugin_window;
+                           var window = response.window;
+                           var window_type = window.window_type;
                            var colId = window.col;
 
                            var colName = (window.private_flag == true) ? "private" : "public";
 
                            addPlugin.hide();
-                           for (var type in response) {
-                               var wtype = type;
-                           }
-                           var portlet = addWindow(colName,colId, window.id, wtype, window.title, window.html );
+
+                           var portlet = addWindow(colName,colId, window.id, window_type, window.title, window.html );
                            //for each portlet
 
                            portlet.each ( decoratePortlet("true") );
@@ -56,14 +55,12 @@
               var windowId =ids[2];
               $.update("/channels/" + channelId +"/windows/"+ windowId + "/display" ,
                        function(response) {
-                           var window = (response.portlet_window) ? response.portlet_window : response.chart_window;
+                           var window = response.window;
+                           var window_type = window.window_type;
                            var colId = window.col;
                            var colName = (window.private_flag == true) ? "private" : "public";
                            addPortlet.hide();
-                           for (var type in response) {
-                               var wtype = type;
-                           }
-                           var portlet = addWindow(colName,colId, window.id, wtype, window.title, window.html );
+                             var portlet = addWindow(colName,colId, window.id, window_type, window.title, window.html );
                            //for each portlet
 
                            portlet.each ( decoratePortlet("true") );

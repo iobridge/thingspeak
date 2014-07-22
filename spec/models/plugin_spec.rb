@@ -20,8 +20,8 @@ describe Plugin do
   before :each do
     @user = FactoryGirl.create(:user)
     @channel = FactoryGirl.create(:channel, :user => @user)
-    @window = FactoryGirl.create(:plugin_window, :channel => @channel)
-    
+    @window = FactoryGirl.create(:window, :channel => @channel, :html => "<iframe ::OPTIONS::></iframe>")
+
   end
   it "should be valid" do
     plugin = Plugin.new
@@ -31,7 +31,7 @@ describe Plugin do
   it "should confirm has_[public\private]_windows" do
     plugin = Plugin.new
 
-    window = PluginWindow.new
+    window = Window.new
     window.private_flag = true
     window.channel_id = 1
     plugin.windows << window
@@ -49,7 +49,7 @@ describe Plugin do
 
     plugin.make_windows @channel.id, "localhost"
     plugin.windows.size.should eq(2)
-    
+
   end
 
   it "new, private window should not be showing" do
@@ -62,7 +62,7 @@ describe Plugin do
     plugin.windows.size.should eq(1)
     window = plugin.windows[0]
     window.show_flag.should be_false
-    
+
   end
 
   it "should destroy public windows when changing plugin from public to private" do
@@ -75,7 +75,7 @@ describe Plugin do
 
     plugin.private_flag = false
     plugin.save
-    
+
     plugin.make_windows @channel.id, "localhost"
     plugin.windows.size.should eq(2)
 
@@ -83,8 +83,6 @@ describe Plugin do
     plugin.save
     plugin.make_windows @channel.id, "localhost"
     plugin.windows.size.should eq(1)
-
-
   end
 
   it "should allow only private_windows to be retrieved" do
@@ -96,6 +94,7 @@ describe Plugin do
     plugin.windows.size.should eq(2)
     plugin.private_dashboard_windows(@channel.id).size.should eq(1)
   end
+
   it "should allow only public_windows to be retrieved" do
     plugin = Plugin.new
     plugin.private_flag = false
@@ -108,19 +107,12 @@ describe Plugin do
 
   it "should cascade delete to Window" do
     plugin = Plugin.new
-
     plugin.make_windows @channel.id, "localhost"
-
-    window_id = plugin.windows[0].id
-
+    plugin_id = plugin.id
     plugin.destroy
-
-    windows = Window.find_all_by_id(window_id)
-
-    windows.size.should eq(0)
-
+    Window.where(window_type: 'plugin', content_id: plugin_id).count.should eq(0)
   end
-  
+
   it "should have windows associated with separate channels" do
     channel2 = FactoryGirl.create(:channel, :user => @user)
     plugin = Plugin.new
@@ -129,6 +121,7 @@ describe Plugin do
     plugin.windows.size.should eq(2)
     plugin.private_dashboard_windows(@channel.id).size.should eq(1)
     plugin.private_dashboard_windows(channel2.id).size.should eq(1)
-    
+
   end
 end
+

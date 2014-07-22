@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140630153108) do
+ActiveRecord::Schema.define(version: 20140722162824) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -405,7 +405,6 @@ ActiveRecord::Schema.define(version: 20140630153108) do
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                     default: 0,     null: false
     t.string   "authentication_token"
-    t.datetime "terms_agreed_at"
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", using: :btree
@@ -431,13 +430,15 @@ ActiveRecord::Schema.define(version: 20140630153108) do
     t.text     "html"
     t.integer  "col"
     t.string   "title"
-    t.string   "wtype"
+    t.string   "window_type"
     t.string   "name"
-    t.string   "type"
     t.boolean  "private_flag", default: false
     t.boolean  "show_flag",    default: true
+    t.integer  "content_id"
+    t.text     "options"
   end
 
   add_index "windows", ["channel_id"], name: "index_windows_on_channel_id", using: :btree
+  add_index "windows", ["window_type", "content_id"], name: "index_windows_on_window_type_and_content_id", using: :btree
 
 end

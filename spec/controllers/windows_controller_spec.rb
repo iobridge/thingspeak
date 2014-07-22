@@ -3,7 +3,7 @@ require 'spec_helper'
 describe WindowsController do
   before :each do
     @user = FactoryGirl.create(:user)
-    
+
     controller.stub(:current_user).and_return(@user)
     controller.stub(:current_user_session).and_return(true)
 
@@ -20,7 +20,7 @@ describe WindowsController do
       response.should be_successful
     end
   end
-  
+
   describe "POST 'update'" do
     it "should allow an update" do
       post 'update', :channel_id => @channel.id, :page => "{\"col\":0,\"positions\":[#{@window.id}]}"
@@ -56,9 +56,7 @@ describe WindowsController do
   render_views
   before :each do
     @channel = FactoryGirl.create(:channel)
-    @window = FactoryGirl.create(:chart_window)
-    @window_detail = FactoryGirl.create(:chart_window_detail)
-    @window.window_detail = @window_detail
+    @window = FactoryGirl.create(:window, html: "<iframe src=\"/\"/>")
     @channel.windows << @window
   end
 
@@ -69,7 +67,7 @@ describe WindowsController do
     end
   end
 
-  
+
   describe "When getting " do
     it "should render json" do
       get 'index', :channel_id => @channel.id, :format => :json
@@ -129,8 +127,4 @@ describe WindowsController do
   end
 
 end
-
-
-
-
 

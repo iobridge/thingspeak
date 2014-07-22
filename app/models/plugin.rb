@@ -15,12 +15,11 @@
 
 class Plugin < ActiveRecord::Base
   belongs_to :user
-  has_many :plugin_window_details
-  has_many :windows, :through => :plugin_window_details, :source => :plugin_window
+  has_many :windows, -> { where window_type: 'plugin' }, :foreign_key => :content_id, :source => :window
   before_destroy { |record| record.windows.each { |window| window.delete } }
 
   def destroy_window
-    window_id = PluginWindowDetail.find_by_plugin_id(self.id).plugin_window_id
+    window_id = Window.where(content_id: self.id, window_type: 'plugin').first.id
     Window.delete(window_id)
   end
 
@@ -88,12 +87,11 @@ class Plugin < ActiveRecord::Base
   end
 
   def make_windows(channel_id, api_domain)
-    pluginWindows = []
     #create all the windows as appropriate
     #Private plugins have one window..
     #Public plugins have a private/private windows, private/public window and a public window
     if !has_public_windows(channel_id) && self.public?
-      windows << PluginWindow.new_from(self, channel_id, :public, api_domain)
+      windows << Window.new_from(self, channel_id, :public, api_domain)
     else
       update_windows(channel_id)
     end
@@ -132,3 +130,4 @@ class Plugin < ActiveRecord::Base
   end
 
 end
+

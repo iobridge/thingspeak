@@ -79,7 +79,7 @@ describe Channel do
     channel.assign_attributes({:video_id => video_id, :video_type => "youtube"})
     channel.set_windows
     channel.save
-    window = channel.windows.where({:wtype => :video })
+    window = channel.windows.where({:window_type => :video })
     window[0].html.should == "<iframe class=\"youtube-player\" type=\"text/html\" width=\"452\" height=\"260\" src=\"https://www.youtube.com/embed/xxxxxx?wmode=transparent\" frameborder=\"0\" wmode=\"Opaque\" ></iframe>"
   end
 

@@ -123,26 +123,18 @@ function setupColumns(current_user, channel_id) {
 function createWindowsWithData (data, current_user, channel_id, colName) {
 
     for (var i in data) {
-        //each array element has a single chart object as an associative array with the type as the key
-        // so I need to iterate over a array with size=1 to get a string with the window type
-        for (var type in data[i]) {
-        var wtype = type;
-        }
-        if (data[i].chart_window) window = data[i].chart_window;
-        if (data[i].plugin_window) window = data[i].plugin_window;
-        if (data[i].portlet_window) window = data[i].portlet_window;
 
-        if (window == "undefined")
-            var window = (data[i].portlet_window) ? data[i].portlet_window : data[i].chart_window;
+        // set the window and window_type
+        var window = data[i].window;
+        var window_type = window.window_type;
         colId = window.col;
         title = window.title;
 
         var content = window.html;
-            if (data[i].chart_window) {
-        var windowId = window.id;
-        $("body").append("<div id='chartConfig"+windowId+"'></div>");
-            }
-        var portlet = addWindow(colName, colId, window.id, wtype, title, content);
+        if (window.window_type === 'chart') {
+          $("body").append("<div id='chartConfig" + window.id + "'></div>");
+        }
+        var portlet = addWindow(colName, colId, window.id, window_type, title, content);
         portlet.each ( decoratePortlet(current_user) ) ;
 
         portlet.find( ".ui-toggle" ).click( uiToggleClick );
@@ -157,10 +149,10 @@ var createWindows = function (current_user, channel_id, colName) {
     };
 }
 
-function addWindow(colName, colId, windowId, wtype, title, content) {
+function addWindow(colName, colId, windowId, window_type, title, content) {
     $("#"+colName+"_dialog"+colId).append('<div class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" ' +
                       'id="portlet_' + windowId +
-                      '"><div class="portlet-header wtype wtype-'+ wtype
+                      '"><div class="portlet-header window_type window_type-'+ window_type
                       + ' ui-widget-header  ui-corner-all">' + title +
                       '</div><div class="portlet-content">'+content+'</div>') ;
 
@@ -215,9 +207,9 @@ var decoratePortlet = function (current_user) {
     thisObject = $(this);
     if (current_user == "true") {
         // Use feature Rollout here - needs to be implemented for this user, and this channel needs to belong to this user.
-        thisObject.find('.wtype').prepend( "<span id='minusBtn' class='ui-toggle ui-icon ui-icon-minusthick'></span>");
-        thisObject.find(".wtype-chart_window").append("<span id='pencilBtn' class='ui-edit ui-icon ui-icon-pencil'></span>");
-        thisObject.find(".wtype").append("<span id='closeBtn' class='ui-close ui-icon ui-icon-close'></span>");
+        thisObject.find('.window_type').prepend( "<span id='minusBtn' class='ui-toggle ui-icon ui-icon-minusthick'></span>");
+        thisObject.find(".window_type-chart").append("<span id='pencilBtn' class='ui-edit ui-icon ui-icon-pencil'></span>");
+        thisObject.find(".window_type").append("<span id='closeBtn' class='ui-close ui-icon ui-icon-close'></span>");
         thisObject.find(".portlet-header").css("cursor","move");
     }
     else  {

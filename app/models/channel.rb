@@ -249,26 +249,24 @@ class Channel < ActiveRecord::Base
     end
     #remove portlets for fields that don't exist
     #iterate all chart windows... and look for a matching field
-    chartWindows = windows.where(:wtype => :chart )
-    chartWindows.each do |window|
-      if self.send(window.name).blank?
+    chart_windows = windows.where(:window_type => 'chart' )
+    chart_windows.each do |window|
+      if self.send("field#{window.content_id}").blank?
         window.destroy
       end
-
     end
-
   end
 
   def update_status_portlet isPrivate
 
-    window = windows.where(:wtype => :status, :private_flag => isPrivate )
+    window = windows.where(:window_type => 'status', :private_flag => isPrivate )
 
     status_html = "<iframe class=\"statusIFrame\" width=\"450\" height=\"260\" frameborder=\"0\"  src=\"/channels/#{id}/status/recent\"></iframe>"
 
     if window.nil? || window[0].nil?
 
-        window = PortletWindow.new
-        window.wtype = :status
+        window = Window.new
+        window.window_type = 'status'
         window.position = 1
         window.col = 1
         window.title = "window_status"
@@ -279,7 +277,6 @@ class Channel < ActiveRecord::Base
 
     window.private_flag = isPrivate
     window.html = status_html
-    window.window_detail = PortletWindowDetail.new if window.window_detail.nil?
     self.windows.push window
 
   end
@@ -289,13 +286,13 @@ class Channel < ActiveRecord::Base
   end
 
   def update_video_portlet isPrivate
-    window = windows.where(:wtype => :video, :private_flag => isPrivate )
+    window = windows.where(:window_type => 'video', :private_flag => isPrivate )
     if video_fields_valid?
       youtube_html = "<iframe class=\"youtube-player\" type=\"text/html\" width=\"452\" height=\"260\" src=\"https://www.youtube.com/embed/#{video_id}?wmode=transparent\" frameborder=\"0\" wmode=\"Opaque\" ></iframe>"
       vimeo_html = "<iframe class=\"vimeo-player\" type=\"text/html\" width=\"452\" height=\"260\" src=\"http://player.vimeo.com/video/#{video_id}\" frameborder=\"0\"></iframe>"
       if window.nil? || window[0].nil?
-        window = PortletWindow.new
-        window.wtype = :video
+        window = Window.new
+        window.window_type = 'video'
         window.position = 1
         window.col = 1
         window.title = "window_channel_video"
@@ -305,7 +302,6 @@ class Channel < ActiveRecord::Base
       window.private_flag = isPrivate
       window.html = youtube_html if video_type == 'youtube'
       window.html = vimeo_html if video_type == 'vimeo'
-      window.window_detail = PortletWindowDetail.new if window.window_detail.nil?
       self.windows.push window
     else
       unless window[0].nil?
@@ -315,13 +311,13 @@ class Channel < ActiveRecord::Base
   end
 
   def update_location_portlet isPrivate
-    window = windows.where(:wtype => :location, :private_flag => isPrivate )
+    window = windows.where(:window_type => 'location', :private_flag => isPrivate )
     if !latitude.nil? && !longitude.nil?
       maps_html = "<iframe width=\"450\" height=\"260\" frameborder=\"0\" scrolling=\"no\" " +
         "src=\"/channels/#{id}/maps/channel_show?width=450&height=260\"></iframe>"
       if window.nil? || window[0].nil?
-        window = PortletWindow.new
-        window.wtype = :location
+        window = Window.new
+        window.window_type = 'location'
         window.position = 0
         window.col = 1
         window.title = "window_map"
@@ -330,7 +326,6 @@ class Channel < ActiveRecord::Base
       end
     window.private_flag = isPrivate
       window.html = maps_html
-      window.window_detail = PortletWindowDetail.new if window.window_detail.nil?
 
       self.windows.push window
 
@@ -487,27 +482,26 @@ class Channel < ActiveRecord::Base
 
     def set_ranking
       update_attribute(:ranking, calc_ranking) unless ranking == calc_ranking
-
     end
+
     def update_chart_portlet (field, isPrivate)
 
-      chartWindows = windows.where(:type => "ChartWindow", :name => "field#{field.last.to_s}", :private_flag => isPrivate )
+      chartWindows = windows.where(:window_type => "chart", :name => "field#{field.last.to_s}", :private_flag => isPrivate )
       if chartWindows.nil? || chartWindows[0].nil?
-        window = ChartWindow.new
-        window.wtype = :chart
+        window = Window.new
+        window.window_type = 'chart'
         window.position = 0
         window.col = 0
         window.title = "window_field_chart"
         window.name = field.to_s
-        window.window_detail = ChartWindowDetail.new
-        window.window_detail.options = "&results=60&dynamic=true"
+        window.options = "&results=60&dynamic=true"
       else
         window = chartWindows[0]
         # If there are options, use them.. if options are not available, then assign defaults
-        window.window_detail.options ||= "&results=60&dynamic=true"
+        window.options ||= "&results=60&dynamic=true"
       end
 
-      window.window_detail.field_number = field.last
+      window.content_id = field.last
       window.private_flag = isPrivate
       windows.push window
       window.html ="<iframe id=\"iframe#{window.id}\" width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"/channels/#{id}/charts/#{field.last.to_s}?width=450&height=260::OPTIONS::\" ></iframe>"

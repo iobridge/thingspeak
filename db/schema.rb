@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722162824) do
+ActiveRecord::Schema.define(version: 20140722231849) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -112,16 +112,6 @@ ActiveRecord::Schema.define(version: 20140722162824) do
   add_index "channels", ["realtime_io_serial_number"], name: "index_channels_on_realtime_io_serial_number", using: :btree
   add_index "channels", ["slug"], name: "index_channels_on_slug", using: :btree
   add_index "channels", ["user_id"], name: "index_channels_on_user_id", using: :btree
-
-  create_table "chart_window_details", force: true do |t|
-    t.integer  "chart_window_id"
-    t.integer  "field_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "options"
-  end
-
-  add_index "chart_window_details", ["chart_window_id"], name: "index_chart_window_details_on_chart_window_id", using: :btree
 
   create_table "commands", force: true do |t|
     t.string   "command_string"
@@ -228,15 +218,6 @@ ActiveRecord::Schema.define(version: 20140722162824) do
 
   add_index "pipes", ["slug"], name: "index_pipes_on_slug", using: :btree
 
-  create_table "plugin_window_details", force: true do |t|
-    t.integer  "plugin_id"
-    t.integer  "plugin_window_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "plugin_window_details", ["plugin_window_id"], name: "index_plugin_window_details_on_plugin_window_id", using: :btree
-
   create_table "plugins", force: true do |t|
     t.string   "name"
     t.integer  "user_id"
@@ -249,14 +230,6 @@ ActiveRecord::Schema.define(version: 20140722162824) do
   end
 
   add_index "plugins", ["user_id"], name: "index_plugins_on_user_id", using: :btree
-
-  create_table "portlet_window_details", force: true do |t|
-    t.integer  "portlet_window_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "portlet_window_details", ["portlet_window_id"], name: "index_portlet_window_details_on_portlet_window_id", using: :btree
 
   create_table "reacts", force: true do |t|
     t.integer  "user_id"

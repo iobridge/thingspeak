@@ -34,6 +34,7 @@ gem 'non-stupid-digest-assets'
 gem 'em-http-request'
 gem 'tzinfo'
 gem 'tzinfo-data'
+gem 'turbolinks'
 
 # to use debugger
 # gem 'ruby-debug'

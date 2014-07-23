@@ -21,21 +21,21 @@
 */
 
 (function($){
-    
+
     // Change the values of this global object if your method parameter is different.
     $.restSetup = { methodParam: '_method' };
-    
+
     // collects the csrf-param and csrf-token from meta tags
-    $(document).ready(function(){
+    $(document).on('page:load ready', function(){
       $.extend($.restSetup, {
         csrfParam: $('meta[name=csrf-param]').attr('content'),
         csrfToken: $('meta[name=csrf-token]').attr('content')
       });
     });
-    
+
     // jQuery doesn't provide a better way of intercepting the ajax settings object
     var _ajax = $.ajax, options;
-    
+
     function collect_options (url, data, success, error) {
       options = { dataType: 'json' };
       if (arguments.length === 1 && typeof arguments[0] !== "string") {
@@ -62,7 +62,7 @@
         });
       }
     }
-            
+
     function fill_url (url, data) {
       var key, u, val;
       for (key in data) {
@@ -75,25 +75,25 @@
       }
       return url;
     }
-    
+
     // public functions
-    
+
     function ajax (settings) {
       settings.type = settings.type || "GET";
-          
+
       if (typeof settings.data !== "string")
       if (settings.data != null) {
           settings.data = $.param(settings.data);
       }
-      
+
       settings.data = settings.data || "";
-      
+
       if ($.restSetup.csrf && !$.isEmptyObject($.restSetup.csrf))
       if (!/^(get)$/i.test(settings.type))
       if (!/(authenticity_token=)/i.test(settings.data)) {
           settings.data += (settings.data ? "&" : "") + $.restSetup.csrfParam + '=' + $restSetup.csrfToken;
       }
-      
+
       if (!/^(get|post)$/i.test(settings.type)) {
           settings.data += (settings.data ? "&" : "") + $.restSetup.methodParam + '=' + settings.type.toLowerCase();
           settings.type = "POST";
@@ -101,31 +101,31 @@
 
       return _ajax.call(this, settings);
     }
-    
+
     function read () {
       collect_options.apply(this, arguments);
       $.extend(options, { type: 'GET' })
       return $.ajax(options);
     }
-    
+
     function create () {
       collect_options.apply(this, arguments);
       $.extend(options, { type: 'POST' });
       return $.ajax(options);
     }
-    
+
     function update () {
       collect_options.apply(this, arguments);
       $.extend(options, { type: 'PUT' });
       return $.ajax(options);
     }
-    
+
     function destroy () {
       collect_options.apply(this, arguments);
       $.extend(options, { type: 'DELETE' });
       return $.ajax(options);
     }
-    
+
     $.extend({
       ajax: ajax,
       read: read,
@@ -133,5 +133,6 @@
       update: update,
       destroy: destroy
     });
-    
+
 })(jQuery);
+

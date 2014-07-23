@@ -2,6 +2,7 @@
 // This file is automatically included by javascript_include_tag :defaults
 
 //= require jquery_ujs
+//= require turbolinks
 //= require ./jquery.cookie.js
 //= require ./updateChart.js
 //= require ./timeago.min.js

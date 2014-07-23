@@ -11,7 +11,7 @@
   </style>
   <script type="text/javascript">
 
-    $(document).ready(function() {
+    $(document).on('page:load ready', function() {
       var html = '';
       var field1, field2, field3, field4, field5, field6, field7, field8;
 
@@ -56,7 +56,7 @@
         setInterval(function() {
 
           // get the data with a webservice call
-          $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&offset=0&location=true&status=true" %>', function(data) {  
+          $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&offset=0&location=true&status=true" %>', function(data) {
             // if data exists and entry id doesn't already exist
             if (data.location && $('#entry_' + data.entry_id).length == 0) {
               html = '<div id="entry_' + data.entry_id + '"><b><img src="<%= "#{@domain}images/icon_location_24.png" %>" width="24" height="24" border="0" align="absbottom" /> ' + data.location + '</b></div>';
@@ -91,3 +91,4 @@
   <div id="feed-container"></div>
 </body>
 </html>
+

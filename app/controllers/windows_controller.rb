@@ -71,14 +71,6 @@ class WindowsController < ApplicationController
 
   def index
     channel = Channel.find(params[:channel_id])
-
-    #channel.update_status_portlet false if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == false } )
-    #channel.update_status_portlet true if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == true } )
-    #channel.update_video_portlet false if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == false } )
-    #channel.update_video_portlet true if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == true } )
-    #channel.update_location_portlet false  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == false } )
-    #channel.update_location_portlet true  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == true } )
-    #channel.update_chart_portlets if (channel.windows.select { |w| w.window_type == 'chart' } )
     windows = channel.public_windows(true).order(:position) unless params[:channel_id].nil?
 
     if channel.recent_statuses.nil? || channel.recent_statuses.size <= 0
@@ -141,15 +133,6 @@ class WindowsController < ApplicationController
 
   def private_windows
     channel = Channel.find(params[:channel_id])
-
-    #channel.update_status_portlet false if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == false } )
-    #channel.update_status_portlet true if (channel.windows.select { |w| w.window_type == 'status' && w.private_flag == true } )
-    #channel.update_video_portlet false if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == false } )
-    #channel.update_video_portlet true if (channel.windows.select { |w| w.window_type == 'video' && w.private_flag == true } )
-    #channel.update_location_portlet false  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == false } )
-    #channel.update_location_portlet true  if (channel.windows.select { |w| w.window_type == 'location' && w.private_flag == true } )
-    #channel.update_chart_portlets if (channel.windows.select { |w| w.window_type == 'chart' } )
-
     windows = channel.private_windows(true).order(:position) unless params[:channel_id].nil?
 
     if channel.recent_statuses.nil? || channel.recent_statuses.size <= 0

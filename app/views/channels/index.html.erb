@@ -3,7 +3,7 @@
 
     <h4 class="breadcrumb"><%= t(:channels_my) %></h4>
 
-    <div class="col-pad">
+    <div class="col-pad" data-no-turbolink>
 
       <% if @channels.length > 0 %>
 
@@ -73,7 +73,7 @@
 </div>
 
 <script>
-  $(document).ready(function() {
+  $(document).on('page:load ready', function() {
     $('.tablesorter').tablesorter();
   });
 </script>

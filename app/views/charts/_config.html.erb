@@ -174,7 +174,7 @@
 
   var options = '<%= options.gsub(/'/, "%27") if options %>';
 
-  $(document).ready(function() {
+  $(document).on('page:load ready', function() {
   // set initial saved values
     $.each((options.split('&amp;')), setupChartForm(<%= index %> ));
      // draw initial chart with saved options

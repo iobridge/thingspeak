@@ -1,6 +1,6 @@
 <div class="col-sm-8 col-xs-8">
 
-  <ol class="breadcrumb">
+  <ol class="breadcrumb" data-no-turbolink>
     <li><%= link_to t(:plugins), plugins_path %></li>
     <li><%= link_to plugin_path(@plugin.id) do %> <%= t(:plugin) %> <%= @plugin.id %><% end %></li>
     <li class="active"><%= t(:edit) %></li>

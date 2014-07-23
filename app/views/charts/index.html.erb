@@ -56,7 +56,7 @@
 
 <script type="text/javascript">
 
-  $(document).ready(function() {
+  $(document).on('page:load ready', function() {
     // if chrome/safari error occurs, reload page
     if ($('#title0').val() == '60' && $('#color0').val() == '10') {
       window.location.reload();

@@ -20,7 +20,7 @@
           return Date.UTC(d.substring(0,4), d.substring(5,7)-1, d.substring(8,10), d.substring(11,13), d.substring(14,16), d.substring(17,19)) - (myOffset * 60000);
         }
 
-        $(document).ready(function() {
+        $(document).on('page:load ready', function() {
           // blank array for holding chart data
           var chartData = [];
           // variable for the local date in milliseconds

@@ -1,5 +1,5 @@
 // execute on window load (and not document.ready), so that the sidebar is positioned correctly
-$(window).load(function() {
+$(window).on('page:load load', function() {
   // if affix function exists
   if ($.fn.affix) {
 

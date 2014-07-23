@@ -6,12 +6,12 @@
 
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/cerulean/bootstrap.min.css" />
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" media="screen" rel="stylesheet" />
-  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag 'application', "data-turbolinks-track" => true %>
 
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type='text/javascript' src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag 'application', "data-turbolinks-track" => true %>
 
   <%= csrf_meta_tag %>
   <% if Rails.env == 'production' %>

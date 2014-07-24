@@ -119,7 +119,7 @@ class Feed < ActiveRecord::Base
 
   # custom json output
   def as_json(options = {})
-    super(Feed.public_options)
+    super(Feed.public_options.merge(options))
   end
 
   # check if a field value is a number

@@ -35,7 +35,7 @@
             </ul>
           </li>
           <% if current_admin_user.present? %>
-            <li><%= link_to t(:admin), "/admin" %></li>
+            <li><%= link_to t(:admin), "/admin", 'data-no-turbolink' => 'true' %></li>
           <% end %>
 
         <% else %>

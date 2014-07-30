@@ -3,7 +3,7 @@
     <div class="buttonlets padded watchButtonPadding">
       <%= check_box_tag 'watch', 1, current_user.watchings.check(current_user.id, @channel.id) %>
       <label for="watch" class="watchButtonLabel" >
-        <div class="watchButtonImage"></div>
+        <i class="fa fa-eye pull-left"></i>
         <div id="watchText" class="watchButtonText">Watch</div>
       </label>
     </div>

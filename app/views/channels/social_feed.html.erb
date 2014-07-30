@@ -31,7 +31,7 @@
         // iterate through each feed
         $.each(data.feeds.reverse(), function() {
           if (this.location) {
-            html += '<div id="entry_' + this.entry_id + '"><b><img src="<%= "#{@domain}images/icon_location_24.png" %>" width="24" height="24" border="0" align="absbottom" /> ' + this.location + '</b></div>';
+            html += '<div id="entry_' + this.entry_id + '"><b>' + this.location + '</b></div>';
             if (this.field1) { html += '<div class="indent">' + data.channel.field1 + ': ' + this.field1 + '</div>'; }
             if (this.field2) { html += '<div class="indent">' + data.channel.field2 + ': ' + this.field2 + '</div>'; }
             if (this.field3) { html += '<div class="indent">' + data.channel.field3 + ': ' + this.field3 + '</div>'; }
@@ -59,7 +59,7 @@
           $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&offset=0&location=true&status=true" %>', function(data) {
             // if data exists and entry id doesn't already exist
             if (data.location && $('#entry_' + data.entry_id).length == 0) {
-              html = '<div id="entry_' + data.entry_id + '"><b><img src="<%= "#{@domain}images/icon_location_24.png" %>" width="24" height="24" border="0" align="absbottom" /> ' + data.location + '</b></div>';
+              html = '<div id="entry_' + data.entry_id + '"><b>' + data.location + '</b></div>';
               if (data.field1) { html += '<div class="indent">' + field1 + ': ' + data.field1 + '</div>'; }
               if (data.field2) { html += '<div class="indent">' + field2 + ': ' + data.field2 + '</div>'; }
               if (data.field3) { html += '<div class="indent">' + field3 + ': ' + data.field3 + '</div>'; }

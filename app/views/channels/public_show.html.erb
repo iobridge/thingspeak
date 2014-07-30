@@ -20,28 +20,26 @@
   </div>
 </div>
 <script type="text/javascript">
-    $('#watch').click(function() {
-			  $.update(
-			      '/channels/<%= @channel.id %>/watch',
-			      {
-				  flag: this.checked
-			      },
-			      function (response) {
-				  if ($("#watch").attr("checked")) {
-				      $("#watchText").text("Un-watch");
-				  }
-				  else {
-				      $("#watchText").text("Watch");
-				  }
-			      }
-			  );
-		      });
+  $('#watch').click(function() {
+    var checked = this.checked;
+    $.update(
+		  '/channels/<%= @channel.id %>/watch',
+			{ flag: checked },
+			function (response) {
+				if (checked) {
+		      $("#watchText").text("Un-watch");
+		    } else {
+		      $("#watchText").text("Watch");
+		    }
+			}
+		);
+	});
 
     $("#devInfoLink").click(function() {
 				$("#devInfo").dialog("open") ;
 			    });
 
-    $(function () {
+$(document).on('page:load ready', function() {
       $("#devInfo").dialog({
 			       autoOpen:false,
 			       resizable:false,

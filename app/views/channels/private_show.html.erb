@@ -46,28 +46,23 @@
 
 <script type="text/javascript">
 
-$('#watch').click(function() {
-		      $.update(
-			  '/channels/<%= @channel.id %>/watch',
-			  // data to send
-			  {
-			      flag: this.checked
-			  },
-			  // if post was successful
-			  function (response) {
-			      if ($("#watch").attr("checked")) {
-				  $("#watchText").text("Un-watch");
-			      }
-			      else {
-				  $("#watchText").text("Watch");
-			      }
-			  }
-
-		      );
-		  });
+  $('#watch').click(function() {
+    var checked = this.checked;
+    $.update(
+		  '/channels/<%= @channel.id %>/watch',
+			{ flag: checked },
+			function (response) {
+				if (checked) {
+		      $("#watchText").text("Un-watch");
+		    } else {
+		      $("#watchText").text("Watch");
+		    }
+			}
+		);
+	});
 
 
-$(function () {
+$(document).on('page:load ready', function() {
       $(".timeago").timeago();
       if(document.location.hash!='') {
 

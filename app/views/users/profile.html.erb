@@ -6,14 +6,15 @@
   </div>
 
   <h2><%= t(:profile_for) %> <%= @user.login %></h2>
-  <%= link_to t(:channels_public_view), list_channels_path(@user.login) %>
-  <br><br>
   <%= t(:member_since) %> <%= @user.created_at.strftime('%B %-d, %Y') %>
   <br><br>
   <%= t(:profile_website) %>: <%= link_to @user.website, @user.website %>
   <br><br>
   <%= t(:profile_bio) %>: <%= @user.bio %>
+  <br><br>
+  <%= render 'list_channels' %>
 
 <% else %>
   <%= t(:profile_not_public) %>
 <% end %>
+

@@ -25,5 +25,8 @@ $(document).on('page:load ready', function() {
     $('#contact_form').toggle();
   });
 
+  // activate any tablesorters
+  $('.tablesorter').tablesorter();
+
 });
 

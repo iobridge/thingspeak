@@ -72,7 +72,7 @@ class Channel < ActiveRecord::Base
 
   before_destroy :delete_feeds
 
-  validates :video_type, :presence => true, :if => lambda{ |channel| !channel.video_id.nil? && !channel.video_id.empty?}
+  validates :video_type, :presence => true, :if => lambda{ |channel| channel.video_id.present? }
 
   scope :public_viewable, lambda { where("public_flag = true AND social != true") }
   scope :not_social, lambda { where("social != true") }
@@ -101,19 +101,19 @@ class Channel < ActiveRecord::Base
   # select options
   def select_options(options = nil)
     only = [:name, :created_at, :updated_at, :id, :last_entry_id]
-    only += [:description] unless self.description.blank?
+    only += [:description] if self.description.present?
     only += [:metadata] if options.present? && options[:metadata] == 'true'
-    only += [:latitude] unless self.latitude.blank?
-    only += [:longitude] unless self.longitude.blank?
-    only += [:elevation] unless self.elevation.blank?
-    only += [:field1] unless self.field1.blank?
-    only += [:field2] unless self.field2.blank?
-    only += [:field3] unless self.field3.blank?
-    only += [:field4] unless self.field4.blank?
-    only += [:field5] unless self.field5.blank?
-    only += [:field6] unless self.field6.blank?
-    only += [:field7] unless self.field7.blank?
-    only += [:field8] unless self.field8.blank?
+    only += [:latitude] if self.latitude.present?
+    only += [:longitude] if self.longitude.present?
+    only += [:elevation] if self.elevation.present?
+    only += [:field1] if self.field1.present?
+    only += [:field2] if self.field2.present?
+    only += [:field3] if self.field3.present?
+    only += [:field4] if self.field4.present?
+    only += [:field5] if self.field5.present?
+    only += [:field6] if self.field6.present?
+    only += [:field7] if self.field7.present?
+    only += [:field8] if self.field8.present?
 
     # return a hash
     return { :only => only }
@@ -205,41 +205,35 @@ class Channel < ActiveRecord::Base
     end
   end
 
-  def private_windows *hidden
-    if hidden.size >= 1
-      return windows.where("private_flag = true and show_flag = #{hidden[0].to_s}")
-    else
-      return windows.where("private_flag = true" )
-    end
+  # private windows
+  def private_windows(show_flag = false)
+    show_flag = (show_flag.to_s == 'true') ? true : false
+    return self.windows.where("private_flag = true AND show_flag = ?", show_flag)
   end
 
-  # overloaded version witthout private/public flag for the has_many dependent destroy action
-  def public_windows hidden
-    return windows.where("private_flag = false and show_flag = #{hidden}")
-  end
-  # measure of activity in terms of feeds per time period
-
-  def public?
-    return public_flag
+  # public windows
+  def public_windows(show_flag = false)
+    show_flag = (show_flag.to_s == 'true') ? true : false
+    return self.windows.where("private_flag = false AND show_flag = ?", show_flag)
   end
 
+  # check if the channel is public
+  def public?; self.public_flag; end
+
+  # check if the video has changed
   def video_changed?
     video_id_changed? || video_type_changed?
   end
 
+  # check if the location has changed
   def location_changed?
     latitude_changed? || longitude_changed?
   end
 
-  def feeds_changed?
-    field1_changed? ||
-      field2_changed? ||
-      field3_changed? ||
-      field4_changed? ||
-      field5_changed? ||
-      field6_changed? ||
-      field7_changed? ||
-      field8_changed?
+  # check if the any of the fields have changed
+  def fields_changed?
+    field1_changed? || field2_changed? || field3_changed? || field4_changed? ||
+      field5_changed? || field6_changed? || field7_changed? || field8_changed?
   end
 
   def update_chart_portlets
@@ -472,10 +466,8 @@ class Channel < ActiveRecord::Base
     update_status_portlet true
     update_status_portlet false
 
-    #does channel have a window for every chart element
-    if feeds_changed?
-      update_chart_portlets
-    end
+    # does channel have a window for every chart element
+    update_chart_portlets if fields_changed?
   end
 
   private

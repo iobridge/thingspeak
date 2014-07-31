@@ -1,0 +1,37 @@
+<h3><%= t(:user_public_channels) %> <%= @user.login %></h3>
+
+<% if @channels.present? && @channels.count > 0 %>
+  <table class="table table-striped table-bordered  tablesorter">
+    <thead>
+      <tr>
+        <th class="col-sm-5 col-xs-5"><%= t(:channel_name) %> <i class="fa fa-unsorted"></i></th>
+        <th class="col-sm-5 col-xs-5"><%= t(:channel_description) %> <i class="fa fa-unsorted"></i></td>
+        <th class="col-sm-2 col-xs-2"><%= t(:tags) %> <i class="fa fa-unsorted"></i></td>
+      </tr>
+    </thead>
+    <tbody>
+
+      <% @channels.each do |channel| %>
+        <tr>
+          <td>
+            <h4 style="margin-top: 0;">
+              <%= link_to channel.name, channel_path(channel.id) %>
+            </h4>
+            <%= link_to T(:view), channel_path(channel.id), class: 'btn btn-default btn-sm' %>
+          <td><%= channel.description %></td>
+          <td>
+            <% channel.tags.each do |tag| %>
+              <a href="/channels/public?tag=<%=u tag.name %>"><%= tag.name %></a><% unless tag == channel.tags.last %>, <% end %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+
+    </tbody>
+  </table>
+  <br>
+  <%= will_paginate @channels %>
+<% else %>
+  <%= t(:user_no_public_channels) %>
+<% end %>
+

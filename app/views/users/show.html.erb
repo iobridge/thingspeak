@@ -21,8 +21,8 @@
       <tr>
         <td><%= t(:api_key) %></td>
         <td>
-          <%= @user.api_key %><br>
-          <%= button_to t(:api_key_new), user_new_api_key_path, :data => { :confirm => t(:confirm_new_user_api_key) }, :class => 'btn btn-primary btn-sm' %>
+          <code><%= @user.api_key %></code><br><br>
+          <%= button_to t(:api_key_new), user_new_api_key_path, :data => { :confirm => t(:confirm_new_user_api_key) }, :class => 'btn btn-warning btn-sm' %>
         </td>
       </tr>
 

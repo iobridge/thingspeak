@@ -1,9 +1,9 @@
 <div class="FL">
   <h3><%= t(:api_key_write) %></h3>
-  <%= @write_key %>
+  <code class="large"><%= @write_key %></code>
   <br><br>
 
-  <%= button_to t(:api_key_write_new), channel_api_keys_path(@channel, :write => 1), :data => { :confirm => t(:confirm_new_api_key) } %>
+  <%= button_to t(:api_key_write_new), channel_api_keys_path(@channel, :write => 1), :data => { :confirm => t(:confirm_new_api_key) }, class: 'btn btn-warning btn-sm' %>
 
   <br><br>
 
@@ -12,7 +12,7 @@
       <table>
         <tr>
           <td><%= t(:api_key_key) %>:</td>
-          <td><%= read_key %></td>
+          <td><code class="large"><%= read_key %></code></td>
         </tr>
         <tr>
           <td class="VAT"><%= t(:note) %>:</td>
@@ -24,16 +24,16 @@
         <tr>
           <td></td>
           <td>
-            <div class="FL"><%= f.submit t(:note_save) %></div>
+            <div class="FL"><%= f.submit t(:note_save), class: 'btn btn-primary btn-sm btn-margin' %></div>
             <% end %>
-            <%= button_to t(:api_key_delete), channel_api_key_path(@channel, read_key), :method => 'delete', :data => { :confirm => t(:confirm_read_key_delete) } %></td>
+            <%= button_to t(:api_key_delete), channel_api_key_path(@channel, read_key), :method => 'delete', :data => { :confirm => t(:confirm_read_key_delete) }, class: 'btn btn-danger btn-sm btn-margin' %></td>
         </tr>
       </table>
       <br><br>
 
   <% end %>
 
-  <%= button_to t(:api_key_read_new), channel_api_keys_path(@channel, :write => 0) %>
+  <%= button_to t(:api_key_read_new), channel_api_keys_path(@channel, :write => 0), class: 'btn btn-warning btn-sm' %>
   <br>
 </div>
 <div id="sidebar_old">

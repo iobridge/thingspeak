@@ -70,6 +70,11 @@ class UsersController < ApplicationController
       options = authenticated ? User.private_options : User.public_options(@user)
     end
 
+    # if html request
+    if request.format == :html
+      @channels = @user.channels.public_viewable.paginate :page => params[:page], :order => 'last_entry_id DESC'
+    end
+
     respond_to do |format|
       format.html
       format.json { render :json => @user.as_json(options) }

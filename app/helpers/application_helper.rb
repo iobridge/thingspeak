@@ -8,5 +8,15 @@ module ApplicationHelper
     return number.to_s.gsub(/,/, '.').to_f
   end
 
+  # shortcut for capitalize
+  def T(symbol)
+    t(symbol).capitalize
+  end
+
+  # shortcut for titleize
+  def TT(symbol)
+    t(symbol).titleize
+  end
+
 end
 

@@ -231,13 +231,9 @@ class FeedController < ApplicationController
     # create options hash
     select_options = Feed.select_options(channel, params)
 
-    # get feed based on conditions
-    feeds = Feed.find(
-                      :all,
-                      :conditions => { :channel_id => channel.id, :created_at => get_date_range(params) },
-                      :select => select_options,
-                      :order => 'created_at desc'
-                      )
+    # get feeds
+    feeds = Feed.where(channel_id: channel.id, created_at: get_date_range(params)).select(select_options).order('created_at desc')
+
     @count = feeds.count
     @time_after_db = Time.now
 

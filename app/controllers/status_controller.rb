@@ -92,12 +92,7 @@ class StatusController < ApplicationController
     # get most recent entry if necessary
     params[:id] = @channel.last_entry_id if params[:id] == 'last'
 
-
-    @feed = @channel.feeds.find(
-      :first,
-      :conditions => { :entry_id => params[:id] },
-      :select => [:created_at, :entry_id, :status]
-    )
+    @feed = @channel.feeds.where(entry_id: params[:id]).select([:created_at, :entry_id, :status]).first
 
     @success = channel_permission?(@channel, @api_key)
 
@@ -110,7 +105,6 @@ class StatusController < ApplicationController
       elsif request.format == 'csv'
         @csv_headers = [:created_at, :entry_id, :status]
       elsif (request.format == 'txt' or request.format == 'text')
-
         output = add_prepend_append(@feed.status)
       else
         output = @feed.to_json
@@ -119,7 +113,6 @@ class StatusController < ApplicationController
     # else set error code
     else
       if request.format == 'xml'
-
         output = bad_feed_xml
       else
         output = '-1'.to_json

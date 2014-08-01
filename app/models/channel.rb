@@ -371,7 +371,7 @@ class Channel < ActiveRecord::Base
         tag.save
       end
 
-      tagging = Tagging.find(:first, :conditions => { :tag_id => tag.id, :channel_id => self.id})
+      tagging = Tagging.where(tag_id: tag.id, channel_id: self.id).first
       # save if new tagging
       if tagging.nil?
         tagging = Tagging.new
@@ -392,7 +392,7 @@ class Channel < ActiveRecord::Base
     tag_array = tag_array.collect {|t| t.strip }
 
     # get all taggings for this channel
-    taggings = Tagging.find(:all, :conditions => { :channel_id => self.id }, :include => :tag)
+    taggings = Tagging.where(channel_id: self.id).includes(:tag)
 
     # check for existence
     taggings.each do |tagging|

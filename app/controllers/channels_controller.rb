@@ -82,7 +82,7 @@ class ChannelsController < ApplicationController
     # redirect home if wrong slug
     redirect_to '/' and return if @channel.nil?
 
-    api_key = ApiKey.find(:first, :conditions => { :channel_id => @channel.id, :write_flag => 1 } )
+    api_key = ApiKey.where(channel_id: @channel.id, write_flag: 1).first
     @post_url = "/update?key=#{api_key.api_key}"
 
     # names of non-blank channel fields

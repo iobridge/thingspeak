@@ -59,6 +59,13 @@ describe Channel do
     channel.should be_valid
   end
 
+  it "should set ranking correctly" do
+    channel = Channel.create
+    channel.set_ranking.should eq(15)
+    channel.description = "foo"
+    channel.set_ranking.should eq(35)
+  end
+
   it "should accept utf8" do
     channel = Channel.create(:name => "ǎ")
     channel.reload
@@ -128,3 +135,4 @@ describe Channel do
     end
   end
 end
+

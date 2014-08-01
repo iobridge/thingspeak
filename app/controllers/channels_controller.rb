@@ -177,7 +177,6 @@ class ChannelsController < ApplicationController
     get_channel_data
   end
 
-
   def update
     # get the current user or find the user via their api key
     @user = current_user || User.find_by_api_key(get_apikey)
@@ -195,6 +194,7 @@ class ChannelsController < ApplicationController
       @channel.assign_attributes(channel_params)
       @channel.set_windows
       @channel.save
+      @channel.set_ranking
     else
       session[:errors] = @channel.errors
       redirect_to channel_path(@channel.id, :anchor => "channelsettings") and return
@@ -221,6 +221,7 @@ class ChannelsController < ApplicationController
     channel.save
     channel.save_tags(params[:channel][:tags]) if params[:channel][:tags].present?
     channel.add_write_api_key
+    channel.set_ranking
     @channel_id = channel.id
     respond_to do |format|
       format.json { render :json => channel.to_json(Channel.private_options) }

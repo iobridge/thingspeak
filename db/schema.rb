@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722231849) do
+ActiveRecord::Schema.define(version: 20140801191621) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -108,7 +108,7 @@ ActiveRecord::Schema.define(version: 20140722231849) do
   end
 
   add_index "channels", ["public_flag", "last_entry_id", "updated_at"], name: "channels_public_viewable", using: :btree
-  add_index "channels", ["ranking"], name: "index_channels_on_ranking", using: :btree
+  add_index "channels", ["ranking", "updated_at"], name: "index_channels_on_ranking_and_updated_at", using: :btree
   add_index "channels", ["realtime_io_serial_number"], name: "index_channels_on_realtime_io_serial_number", using: :btree
   add_index "channels", ["slug"], name: "index_channels_on_slug", using: :btree
   add_index "channels", ["user_id"], name: "index_channels_on_user_id", using: :btree
@@ -378,6 +378,7 @@ ActiveRecord::Schema.define(version: 20140722231849) do
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                     default: 0,     null: false
     t.string   "authentication_token"
+    t.datetime "terms_agreed_at"
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", using: :btree

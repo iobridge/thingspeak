@@ -68,7 +68,6 @@ class Channel < ActiveRecord::Base
   attr_readonly :created_at
 
   after_commit :set_default_name
-  after_commit :set_ranking, :unless => "ranking == calc_ranking"
 
   before_destroy :delete_feeds
 
@@ -221,14 +220,10 @@ class Channel < ActiveRecord::Base
   def public?; self.public_flag; end
 
   # check if the video has changed
-  def video_changed?
-    video_id_changed? || video_type_changed?
-  end
+  def video_changed?; video_id_changed? || video_type_changed?; end
 
   # check if the location has changed
-  def location_changed?
-    latitude_changed? || longitude_changed?
-  end
+  def location_changed?; latitude_changed? || longitude_changed?; end
 
   # check if the any of the fields have changed
   def fields_changed?
@@ -437,16 +432,19 @@ class Channel < ActiveRecord::Base
     }
   end
 
-  def calc_ranking
-    result = 0
-    result = result + 15 unless name.blank?
-    result = result + 20 unless description.blank?
-    result = result + 15 unless latitude.blank? || longitude.blank?
-    result = result + 15 unless url.blank?
-    result = result + 15 unless video_id.blank? || video_type.blank?
+  # set the ranking correctly for the channel
+  def set_ranking
+    new_ranking = 0
+    new_ranking += 15 if name.present?
+    new_ranking += 20 if description.present?
+    new_ranking += 15 if latitude.present? && longitude.present?
+    new_ranking += 15 if url.present?
+    new_ranking += 15 if video_id.present? && video_type.present?
+    new_ranking += 20 if tags.present?
 
-    result = result + 20 unless tags.empty?
-    result
+    # update the ranking if it has changed
+    update_attribute(:ranking, new_ranking) if self.ranking != new_ranking
+    return new_ranking
   end
 
   def set_windows
@@ -471,10 +469,6 @@ class Channel < ActiveRecord::Base
   end
 
   private
-
-    def set_ranking
-      update_attribute(:ranking, calc_ranking) unless ranking == calc_ranking
-    end
 
     def update_chart_portlet (field, isPrivate)
 
@@ -503,13 +497,10 @@ class Channel < ActiveRecord::Base
       end
     end
 
+    # set the default channel name
     def set_default_name
       update_attribute(:name, "#{I18n.t(:channel_default_name)} #{self.id}") if self.name.blank?
     end
-
-
-
-
 
 end
 

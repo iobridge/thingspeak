@@ -260,11 +260,7 @@ class ApplicationController < ActionController::Base
     def get_channel_data
       @channel = current_user.channels.find(params[:channel_id]) if params[:channel_id]
       @channel = current_user.channels.find(params[:id]) if @channel.nil? and params[:id]
-
-      if @channel.ranking.blank?
-        @channel.ranking = @channel.calc_ranking
-      end
-
+      @channel.ranking = @channel.set_ranking if @channel.ranking.blank?
       @key = @channel.api_keys.write_keys.first.try(:api_key) || ""
     end
 

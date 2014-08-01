@@ -1,7 +1,6 @@
 <div>
   <% @channels.each do |channel| %>
 
-    <% channel.ranking = channel.calc_ranking if channel.ranking.blank? %>
     <div class="public_channel_box">
       <div class="public_channel_inner">
         <p class="public_channel_name">

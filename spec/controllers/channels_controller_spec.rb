@@ -135,6 +135,7 @@ describe ChannelsController do
       end
       it 'returns JSON' do
         post :create, {:key => @user.api_key, :name => 'mychannel', :format => 'json'}
+        Channel.last.ranking.should_not be_blank
         JSON.parse(response.body)['name'].should eq("mychannel")
       end
       it 'returns XML' do
@@ -154,6 +155,7 @@ describe ChannelsController do
       end
       it 'returns JSON' do
         post :update, {:id => @channel.id, :key => @user.api_key, :name => 'newname', :format => 'json'}
+        Channel.last.ranking.should_not be_blank
         JSON.parse(response.body)['name'].should eq("newname")
       end
       it 'returns XML' do

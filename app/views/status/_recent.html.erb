@@ -13,12 +13,12 @@
 <% end %>
 <div>
 <script>
-    $(function () {
+  $(document).on('page:load ready', function() {
     $(".timeago").timeago();
     var refreshInterval = setInterval(refreshStatus, 1 * 60 * 1000);
-      });
+  });
 function refreshStatus() {
-    
+
     $.getJSON("/channels/<%= @channel_id %>/status/recent", function(data){
       //look for most recent status and only append if the new status has a greater entry_id
 
@@ -28,14 +28,14 @@ function refreshStatus() {
       for(var i in data) {
 
           if (data[i].entry_id > firstId) {
-        $(".recent_status").prepend("<div><span class=\"status_messages\" id=\"" + 
-             data[i].entry_id + "\">"+ 
+        $(".recent_status").prepend("<div><span class=\"status_messages\" id=\"" +
+             data[i].entry_id + "\">"+
              data[i].status +
-             "</span><br><abbr class=\"timeago\" title=\"" + 
-             data[i].created_at +  "\">" + 
+             "</span><br><abbr class=\"timeago\" title=\"" +
+             data[i].created_at +  "\">" +
              data[i].created_at + "</abbr></div></br>");
           }
-          
+
       }
       $(".timeago").timeago();
         });
@@ -44,3 +44,4 @@ function refreshStatus() {
 </script>
 </body>
 </html>
+

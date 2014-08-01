@@ -2,11 +2,11 @@
 <html>
 <head>
 
-  <script type="text/javascript" src="<%= @map_domain %>/maps/api/js?sensor=false"></script> 
+  <script type="text/javascript" src="<%= @map_domain %>/maps/api/js?sensor=false"></script>
   <script type="text/javascript">
     // when document is ready
-    $(function() { 
-  
+    $(document).on('page:load ready', function() {
+
       // google maps options
       var myOptions = {
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -21,7 +21,7 @@
         if (data == '-1') {
           $('#chart-container').append('<%= t(:chart_no_access) %>');
         }
-  
+
         // set channel field names
         if (data.channel.field1) { field1 = data.channel.field1; }
         if (data.channel.field2) { field2 = data.channel.field2; }
@@ -55,8 +55,8 @@
                 title: title
               });
 
-            marker.setMap(map); 
-            bounds.extend(latlng); 
+            marker.setMap(map);
+            bounds.extend(latlng);
           }
 
         });
@@ -79,12 +79,12 @@
         setInterval(function() {
 
           // get the data with a webservice call
-          $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&location=true&offset=0#{@qs}" %>', function(data) {  
+          $.getJSON('<%= "#{@domain}channels/#{params[:channel_id]}/feed/last.json?callback=?&location=true&offset=0#{@qs}" %>', function(data) {
             // if there is data to add
             if (data) {
               lat = parseFloat(data.latitude);
               lng = parseFloat(data.longitude);
-  
+
               if (lat && lng) {
                 latlng = new google.maps.LatLng(lat, lng);
                 title = '';
@@ -101,8 +101,8 @@
                     position: latlng,
                     title: title
                   });
-    
-                marker.setMap(map); 
+
+                marker.setMap(map);
               }
             }
           });
@@ -117,3 +117,4 @@
   <div id="map_canvas" style="width: <%= params[:width] ? params[:width].to_i : @width.to_i %>px; height: <%= params[:height] ? params[:height].to_i : @height.to_i %>px;"></div>
 </body>
 </html>
+

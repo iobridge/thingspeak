@@ -1,7 +1,6 @@
 <script>
 
-
- $(function() {
+$(document).on('page:load ready', function() {
       $("#tabs").tabs({
       ajaxOptions: {
         error: function( xhr, status, index, anchor ) {

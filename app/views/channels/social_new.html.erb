@@ -3,7 +3,7 @@
     <%= link_to t(:channels), channels_path %> &raquo;
     <%= t(:social_channel_new) %>
   </h2>
-  
+
   <%= form_for @channel, :url => { :action => 'social_create' } do |c| %>
     <%= error_messages_for 'channel', :header_message => t(:try_again), :message => t(:channel_error) %>
     <input name='userlogin' class='userlogin' />
@@ -18,49 +18,49 @@
       </tr>
       <tr>
         <td class="left"><%= t(:channel_directions) %></td>
-        <td><%= c.text_area :description, :cols => 30, :rows => 4 %></td>    
+        <td><%= c.text_area :description, :cols => 30, :rows => 4 %></td>
       </tr>
       <%= fields_for :tags do |t| %>
         <tr>
           <td class="left"><%= t(:tags) %></td>
-          <td><%= t.text_area :name, :cols => 30, :rows => 2, :value => @channel.list_tags %></td>    
+          <td><%= t.text_area :name, :cols => 30, :rows => 2, :value => @channel.list_tags %></td>
         </tr>
       <% end %>
       <tr>
         <td class="left"><%= t(:field) %> 1</td>
-        <td><%= c.text_field :field1 %></td>    
+        <td><%= c.text_field :field1 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:field) %> 2</td>
-        <td><%= c.text_field :field2 %></td>    
+        <td><%= c.text_field :field2 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:field) %> 3</td>
-        <td><%= c.text_field :field3 %></td>    
+        <td><%= c.text_field :field3 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:field) %> 4</td>
-        <td><%= c.text_field :field4 %></td>    
+        <td><%= c.text_field :field4 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:field) %> 5</td>
-        <td><%= c.text_field :field5 %></td>    
+        <td><%= c.text_field :field5 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:field) %> 6</td>
-        <td><%= c.text_field :field6 %></td>    
+        <td><%= c.text_field :field6 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:field) %> 7</td>
-        <td><%= c.text_field :field7 %></td>    
+        <td><%= c.text_field :field7 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:field) %> 8</td>
-        <td><%= c.text_field :field8 %></td>    
+        <td><%= c.text_field :field8 %></td>
       </tr>
       <tr>
         <td class="left"><%= t(:message_field) %></td>
-        <td><%= c.text_field :status %></td>    
+        <td><%= c.text_field :status %></td>
       </tr>
       <tr>
         <td class="left"></td>
@@ -68,7 +68,7 @@
       </tr>
     </table>
   <% end %>
-  
+
 </div>
 
 <div id="sidebar" class="ML60 medium">
@@ -92,7 +92,7 @@
   }
 
   // when document is ready
-  $(function() {
+  $(document).on('page:load ready', function() {
 
     // events to automatically create slug field
     $('#channel_name').keyup(function() {
@@ -105,3 +105,4 @@
   });
 
 </script>
+

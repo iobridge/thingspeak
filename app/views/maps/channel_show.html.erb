@@ -2,11 +2,11 @@
 <html>
 <head>
   <script type="text/javascript" src="http<%= 's' if @ssl %>://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-  <script type="text/javascript" src="<%= @map_domain %>/maps/api/js?sensor=false"></script> 
+  <script type="text/javascript" src="<%= @map_domain %>/maps/api/js?sensor=false"></script>
   <script type="text/javascript">
     // when document is ready
-    $(function() { 
-  
+    $(document).on('page:load ready', function() {
+
       // google maps options
       var myOptions = {
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -30,7 +30,7 @@
             title: data.channel.name
           });
 
-        marker.setMap(map); 
+        marker.setMap(map);
         map.setCenter(latlng);
         map.setZoom(4);
 
@@ -42,3 +42,4 @@
   <div id="map_canvas" style="width: <%= params[:width] ? params[:width].to_i : @width.to_i %>px; height: <%= params[:height] ? params[:height].to_i : @height.to_i %>px;"></div>
 </body>
 </html>
+

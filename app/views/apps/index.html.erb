@@ -111,8 +111,8 @@
 </div>
 
 <script language="javascript">
-$(function() {
-      $("#sidebar a").attr("target", "_blank");
+$(document).on('page:load ready', function() {
+  $("#sidebar a").attr("target", "_blank");
 });
 </script>
 

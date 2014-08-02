@@ -217,7 +217,7 @@ class ChannelsController < ApplicationController
     params[:channel] = params
     channel.update_attributes(channel_params)
 
-    channel.set_windows
+    channel.set_windows(true)
     channel.save
     channel.save_tags(params[:channel][:tags]) if params[:channel][:tags].present?
     channel.add_write_api_key

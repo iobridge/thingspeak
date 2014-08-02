@@ -20,9 +20,10 @@ describe ChannelsController do
 
     it "should allow a new channel to be created" do
       post :create
+      channel = Channel.last
       response.should be_redirect
-      channel_id = Channel.all.last.id
-      response.should redirect_to( channel_path(channel_id, :anchor => "channelsettings"))
+      response.should redirect_to( channel_path(channel.id, :anchor => "channelsettings"))
+      channel.windows.where(window_type: 'chart').count.should eq(2)
     end
 
     it "should allow a channel to be edited" do

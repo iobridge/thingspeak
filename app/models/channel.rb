@@ -231,18 +231,21 @@ class Channel < ActiveRecord::Base
       field5_changed? || field6_changed? || field7_changed? || field8_changed?
   end
 
-  def update_chart_portlets
-    self.fields.each do |field|
-      update_chart_portlet field, true
-      update_chart_portlet field, false
-    end
-    #remove portlets for fields that don't exist
-    #iterate all chart windows... and look for a matching field
-    chart_windows = windows.where(:window_type => 'chart' )
-    chart_windows.each do |window|
-      if self.send("field#{window.content_id}").blank?
-        window.destroy
+  # update the chart windows
+  def update_chart_windows
+    # for each field
+    self.fields.each do |field_name|
+      # if the field exists, update the private and public chart window
+      if self.send("#{field_name}").present?
+        update_chart_window(field_name, true)
+        update_chart_window(field_name, false)
       end
+    end
+
+    # remove chart windows for fields that don't exist
+    chart_windows = windows.where(window_type: 'chart')
+    chart_windows.each do |chart_window|
+      chart_window.destroy if self.send("field#{chart_window.content_id}").blank?
     end
   end
 
@@ -447,51 +450,51 @@ class Channel < ActiveRecord::Base
     return new_ranking
   end
 
-  def set_windows
-    #check for video window
+  # set the windows for the channel
+  def set_windows(new_channel = false)
+    # check for video window
     if video_changed?
       update_video_portlet true
       update_video_portlet false
     end
 
-    #does channel have a location and corresponding google map
+    # does channel have a location and corresponding google map
     if location_changed?
       update_location_portlet true
       update_location_portlet false
     end
 
-    #does channel have status and corresponding status window. Add the status window no matter what. Only display if it has values
+    # does channel have status and corresponding status window. Add the status window no matter what. Only display if it has values
     update_status_portlet true
     update_status_portlet false
 
-    # does channel have a window for every chart element
-    update_chart_portlets if fields_changed?
+    # update chart windows if this is a new channel or the fields have changed
+    update_chart_windows if new_channel || fields_changed?
   end
 
   private
 
-    def update_chart_portlet (field, isPrivate)
+    # set the chart window; field_name should be a string like 'field4'
+    def update_chart_window(field_name, private_flag)
+      field_number = field_name.last.to_i
 
-      chartWindows = windows.where(:window_type => "chart", :name => "field#{field.last.to_s}", :private_flag => isPrivate )
-      if chartWindows.nil? || chartWindows[0].nil?
-        window = Window.new
-        window.window_type = 'chart'
-        window.position = 0
-        window.col = 0
-        window.title = "window_field_chart"
-        window.name = field.to_s
-        window.options = "&results=60&dynamic=true"
-      else
-        window = chartWindows[0]
-        # If there are options, use them.. if options are not available, then assign defaults
-        window.options ||= "&results=60&dynamic=true"
+      # get the chart window
+      window = self.windows.where(window_type: 'chart', content_id: field_number, private_flag: private_flag).first
+
+      # if there is no chart window for this field, add a default one
+      if window.blank?
+        window = Window.new(window_type: 'chart', position: 0, col: 0, title: 'window_field_chart',
+          name: field_name, content_id: field_number, private_flag: private_flag)
       end
 
-      window.content_id = field.last
-      window.private_flag = isPrivate
-      windows.push window
-      window.html ="<iframe id=\"iframe#{window.id}\" width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"/channels/#{id}/charts/#{field.last.to_s}?width=450&height=260::OPTIONS::\" ></iframe>"
+      # set the options if they don't already exist
+      window.options ||= "&results=60&dynamic=true"
+      # associate the window with the channel
+      self.windows.push window
+      # set the html
+      window.html = "<iframe id=\"iframe#{window.id}\" width=\"450\" height=\"260\" style=\"border: 1px solid #cccccc;\" src=\"/channels/#{self.id}/charts/#{field_number.to_s}?width=450&height=260::OPTIONS::\" ></iframe>"
 
+      # save the window, and raise an exception if it fails
       if !window.save
         raise "The Window could not be saved"
       end

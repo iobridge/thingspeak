@@ -12,20 +12,25 @@
   <div id="private_dialog1" class="column" > </div>
 </div>
 <script>
-$(document).on('page:load ready', function() {
-    $("#devInfoLink_private").click(
-  function(e) {
+  // when the document is ready
+  $(document).on('page:load ready', function() {
+
+    // when the devinfo link is clicked
+    $("#devInfoLink_private").click(function(e) {
       var element = $("#devInfo");
       openDialogCenter(element);
-  });
-      $("#portletAddLink_private").click(
-    function(e) {
-        $("#addPortlets").load('/channels/<%=@channel.id %>/hidden_windows?visibility_flag=private',
-          function(e) {
+      return false;
+    });
+
+    // when the add window link is clicked
+    $("#portletAddLink_private").click(function(e) {
+      $("#addPortlets").load('/channels/<%=@channel.id %>/hidden_windows?visibility_flag=private', function(e) {
         var element = $("#addPortlets");
         openDialogCenter(element);
-          })  ;
+      });
+      return false;
     });
+
   });
 
 </script>

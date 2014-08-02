@@ -1,77 +1,80 @@
 <script>
 
-$(document).on('page:load ready', function() {
-      $("#tabs").tabs({
-      ajaxOptions: {
-        error: function( xhr, status, index, anchor ) {
-          $( anchor.hash ).html(
-            "Couldn't load this tab. We'll try to fix this as soon as possible. " +
-            "If this wouldn't be a demo." );
-        }
+  $("#tabs").tabs({
+    ajaxOptions: {
+      error: function( xhr, status, index, anchor ) {
+        $( anchor.hash ).html(
+          "Couldn't load this tab. We'll try to fix this as soon as possible. " +
+          "If this wouldn't be a demo." );
       }
-    });
+    }
+  });
 
- //Need to turn this into an ID so it doesn't run on more than one object
-       $(".ioplugin").off();
-       $("body").on("click", ".ioplugin", function() {
+  // remove handler if it already exists
+  $(document).off('click', '.ioplugin');
 
-              var plugins = $(".plugin");
-              var addPlugin = $(this);
-              var ids = addPlugin.attr('id').split("-");
-              var channelId  = <%= params[:channel_id] %>;
-              var windowId =ids[1];
-          //Need to add data to this request to identify it as a plugin request
-              var data = {plugin:true, visibility_flag:"<%= @visibility %>"};
-              $.update("/channels/" + channelId + "/windows/"+ windowId + "/display" , data,
-                        function(response) {
+  // add click handler
+  $(document).on('click', '.ioplugin', function() {
 
-                           var window = response.window;
-                           var window_type = window.window_type;
-                           var colId = window.col;
+          var plugins = $(".plugin");
+          var addPlugin = $(this);
+          var ids = addPlugin.attr('id').split("-");
+          var channelId  = <%= params[:channel_id] %>;
+          var windowId =ids[1];
+      //Need to add data to this request to identify it as a plugin request
+          var data = {plugin:true, visibility_flag:"<%= @visibility %>"};
+          $.update("/channels/" + channelId + "/windows/"+ windowId + "/display" , data,
+                    function(response) {
 
-                           var colName = (window.private_flag == true) ? "private" : "public";
+                       var window = response.window;
+                       var window_type = window.window_type;
+                       var colId = window.col;
 
-                           addPlugin.hide();
+                       var colName = (window.private_flag == true) ? "private" : "public";
 
-                           var portlet = addWindow(colName,colId, window.id, window_type, window.title, window.html );
-                           //for each portlet
+                       addPlugin.hide();
 
-                           portlet.each ( decoratePortlet("true") );
+                       var portlet = addWindow(colName,colId, window.id, window_type, window.title, window.html );
+                       //for each portlet
 
-                           portlet.find( ".ui-toggle" ).click( uiToggleClick );
-                           portlet.find( ".ui-view" ).click( uiViewClick (channelId) );
-                           portlet.find( ".ui-edit" ).click( uiEditClick (channelId) );
-                           portlet.find( ".ui-close" ).click( uiCloseClick (channelId) );
-                        }) ;
-          });
+                       portlet.each ( decoratePortlet("true") );
 
-      $(".ioportlet").click(
-          function() {
+                       portlet.find( ".ui-toggle" ).click( uiToggleClick );
+                       portlet.find( ".ui-view" ).click( uiViewClick (channelId) );
+                       portlet.find( ".ui-edit" ).click( uiEditClick (channelId) );
+                       portlet.find( ".ui-close" ).click( uiCloseClick (channelId) );
+                    }) ;
+      });
 
-              var addPortlet = $(this);
-              var ids = addPortlet.attr('id').split("-");
-              var channelId  = ids[1];
-              var windowId =ids[2];
-              $.update("/channels/" + channelId +"/windows/"+ windowId + "/display" ,
-                       function(response) {
-                           var window = response.window;
-                           var window_type = window.window_type;
-                           var colId = window.col;
-                           var colName = (window.private_flag == true) ? "private" : "public";
-                           addPortlet.hide();
-                             var portlet = addWindow(colName,colId, window.id, window_type, window.title, window.html );
-                           //for each portlet
+  // remove handler if it already exists
+  $(document).off('click', '.ioportlet');
 
-                           portlet.each ( decoratePortlet("true") );
+  // add click handler
+  $(document).on('click', '.ioportlet', function() {
 
-                           portlet.find( ".ui-toggle" ).click( uiToggleClick );
-                           portlet.find( ".ui-view" ).click( uiViewClick (channelId) );
-                           portlet.find( ".ui-edit" ).click( uiEditClick (channelId) );
-                           portlet.find( ".ui-close" ).click( uiCloseClick (channelId) );
-                       }) ;
-          });
+          var addPortlet = $(this);
+          var ids = addPortlet.attr('id').split("-");
+          var channelId  = ids[1];
+          var windowId =ids[2];
+          $.update("/channels/" + channelId +"/windows/"+ windowId + "/display" ,
+                   function(response) {
+                       var window = response.window;
+                       var window_type = window.window_type;
+                       var colId = window.col;
+                       var colName = (window.private_flag == true) ? "private" : "public";
+                       addPortlet.hide();
+                         var portlet = addWindow(colName,colId, window.id, window_type, window.title, window.html );
+                       //for each portlet
 
- });
+                       portlet.each ( decoratePortlet("true") );
+
+                       portlet.find( ".ui-toggle" ).click( uiToggleClick );
+                       portlet.find( ".ui-view" ).click( uiViewClick (channelId) );
+                       portlet.find( ".ui-edit" ).click( uiEditClick (channelId) );
+                       portlet.find( ".ui-close" ).click( uiCloseClick (channelId) );
+                   }) ;
+      });
+
 </script>
 <div id="tabs">
   <ul>

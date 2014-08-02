@@ -31,21 +31,26 @@
 </div>
 
 <script>
+  // when the document is ready
+  $(document).on('page:load ready', function() {
+
+    // when the devinfo link is clicked
     $("#devInfoLink_public").click(function() {
-               var element = $("#devInfo");
-               openDialogCenter(element);
-           });
+      var element = $("#devInfo");
+      openDialogCenter(element);
+      return false;
+    });
 
-$("#portletAddLink_public").click(function()
-          {
+    // when the add window link is clicked
+    $("#portletAddLink_public").click(function() {
+      $("#addPortlets").load('/channels/<%=@channel.id %>/hidden_windows?visibility_flag=public', function() {
+         var element = $("#addPortlets");
+         openDialogCenter(element);
+      });
+      return false;
+    });
 
-              $("#addPortlets").load('/channels/<%=@channel.id %>/hidden_windows?visibility_flag=public',
-                   function() {
-                 var element = $("#addPortlets");
-                 openDialogCenter(element);
-
-                   })
-          });
+  });
 
 // comment flag function
 function commentflag(m_id, user_id)

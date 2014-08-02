@@ -249,83 +249,65 @@ class Channel < ActiveRecord::Base
     end
   end
 
-  def update_status_portlet isPrivate
+  # update the status window
+  def update_status_window(private_flag)
+    window = windows.where(:window_type => 'status', :private_flag => private_flag).first
+    status_html = "<iframe class=\"statusIFrame\" width=\"450\" height=\"260\" frameborder=\"0\"  src=\"/channels/#{self.id}/status/recent\"></iframe>"
 
-    window = windows.where(:window_type => 'status', :private_flag => isPrivate )
-
-    status_html = "<iframe class=\"statusIFrame\" width=\"450\" height=\"260\" frameborder=\"0\"  src=\"/channels/#{id}/status/recent\"></iframe>"
-
-    if window.nil? || window[0].nil?
-
-        window = Window.new
-        window.window_type = 'status'
-        window.position = 1
-        window.col = 1
-        window.title = "window_status"
-    else
-
-      window = window[0]
+    # if no status window, create one
+    if window.blank?
+      window = Window.new(window_type: 'status', position: 1, col: 1, title: 'window_status', private_flag: private_flag)
     end
 
-    window.private_flag = isPrivate
+    # set html and add the window
     window.html = status_html
-    self.windows.push window
-
+    self.windows.push(window)
   end
 
-  def video_fields_valid?
-    !video_id.nil? && !video_id.empty? && !video_type.nil? && !video_type.empty?
-  end
+  # update the video window
+  def update_video_window(private_flag)
+    window = windows.where(:window_type => 'video', :private_flag => private_flag).first
 
-  def update_video_portlet isPrivate
-    window = windows.where(:window_type => 'video', :private_flag => isPrivate )
-    if video_fields_valid?
+    # if the video fields are both present
+    if video_id.present? && video_type.present?
       youtube_html = "<iframe class=\"youtube-player\" type=\"text/html\" width=\"452\" height=\"260\" src=\"https://www.youtube.com/embed/#{video_id}?wmode=transparent\" frameborder=\"0\" wmode=\"Opaque\" ></iframe>"
       vimeo_html = "<iframe class=\"vimeo-player\" type=\"text/html\" width=\"452\" height=\"260\" src=\"http://player.vimeo.com/video/#{video_id}\" frameborder=\"0\"></iframe>"
-      if window.nil? || window[0].nil?
-        window = Window.new
-        window.window_type = 'video'
-        window.position = 1
-        window.col = 1
-        window.title = "window_channel_video"
-      else
-        window = window[0]
+
+      # if no video window, create one
+      if window.blank?
+        window = Window.new(window_type: 'video', position: 1, col: 1, title: 'window_channel_video', private_flag: private_flag)
       end
-      window.private_flag = isPrivate
+
+      # add the html and save the window
       window.html = youtube_html if video_type == 'youtube'
       window.html = vimeo_html if video_type == 'vimeo'
-      self.windows.push window
+      self.windows.push(window)
+    # else delete the window
     else
-      unless window[0].nil?
-        window[0].delete
-      end
+      window.delete if window.present?
     end
   end
 
-  def update_location_portlet isPrivate
-    window = windows.where(:window_type => 'location', :private_flag => isPrivate )
-    if !latitude.nil? && !longitude.nil?
+  # update the location window
+  def update_location_window(private_flag)
+    window = windows.where(:window_type => 'location', :private_flag => private_flag).first
+
+    # if the latitude and longitude are present
+    if latitude.present? && longitude.present?
       maps_html = "<iframe width=\"450\" height=\"260\" frameborder=\"0\" scrolling=\"no\" " +
         "src=\"/channels/#{id}/maps/channel_show?width=450&height=260\"></iframe>"
-      if window.nil? || window[0].nil?
-        window = Window.new
-        window.window_type = 'location'
-        window.position = 0
-        window.col = 1
-        window.title = "window_map"
-      else
-        window = window[0]
+
+      # if no location window, create one
+      if window.blank?
+        window = Window.new(window_type: 'location', position: 0, col: 1, title: 'window_map', private_flag: private_flag)
       end
-    window.private_flag = isPrivate
+
+      # add the html and save the window
       window.html = maps_html
-
-      self.windows.push window
-
+      self.windows.push(window)
+    # else delete the window
     else
-      unless window[0].nil?
-
-        window[0].delete
-      end
+      window.delete if window.present?
     end
   end
 
@@ -334,6 +316,7 @@ class Channel < ActiveRecord::Base
     self.feeds.select('status, created_at, entry_id').order('created_at DESC').limit(30).collect {|f| f unless f.status.blank? }.compact
   end
 
+  # get the latest feed using the channel's last_entry_id
   def latest_feed
     self.feeds.where(:entry_id => self.last_entry_id).first
   end
@@ -407,6 +390,7 @@ class Channel < ActiveRecord::Base
     end
   end
 
+  # add a write api key to the channel
   def add_write_api_key
     write_key = self.api_keys.new
     write_key.user = self.user
@@ -415,12 +399,12 @@ class Channel < ActiveRecord::Base
     write_key.save
   end
 
+  # runs after a feed is posted
   def queue_react
     self.reacts.on_insertion.each do |react|
       begin
         Resque.enqueue(ReactJob, react.id)
       rescue Exception => e
-
       end
     end
   end
@@ -429,6 +413,7 @@ class Channel < ActiveRecord::Base
     self.attributes["field#{field_number}"]
   end
 
+  # get the valid fields as an array, for example: ["field1", "field2", "field3", "field5"]
   def fields
     fields = attribute_names.reject { |x|
       !(x.index('field') && self[x] && !self[x].empty?)
@@ -454,19 +439,19 @@ class Channel < ActiveRecord::Base
   def set_windows(new_channel = false)
     # check for video window
     if video_changed?
-      update_video_portlet true
-      update_video_portlet false
+      update_video_window(true)
+      update_video_window(false)
     end
 
-    # does channel have a location and corresponding google map
+    # check for location window
     if location_changed?
-      update_location_portlet true
-      update_location_portlet false
+      update_location_window(true)
+      update_location_window(false)
     end
 
-    # does channel have status and corresponding status window. Add the status window no matter what. Only display if it has values
-    update_status_portlet true
-    update_status_portlet false
+    # add the status window no matter what, and only display it if it has values
+    update_status_window(true)
+    update_status_window(false)
 
     # update chart windows if this is a new channel or the fields have changed
     update_chart_windows if new_channel || fields_changed?

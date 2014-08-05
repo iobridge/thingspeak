@@ -4,12 +4,14 @@
     <div>by <%= link_to @channel.user.login, user_profile_path(@channel.user.login) %></div><br>
   <% end %>
   <div><%= @channel.description %></div><br>
-  <div>
-    <b>Tags:</b>
-    <% @channel.tags.each do |tag| %>
-      <a href="/channels/public?tag=<%=u tag.name %>"><%= tag.name %></a><% unless tag == @channel.tags.last %>, <% end %>
-    <% end %>
-  </div><br>
+  <% if @channel.tags.present? %>
+    <div>
+      <b>Tags:</b>
+      <% @channel.tags.each do |tag| %>
+        <a href="/channels/public?tag=<%=u tag.name %>"><%= tag.name %></a><% unless tag == @channel.tags.last %>, <% end %>
+      <% end %>
+    </div><br>
+  <% end %>
 </div>
 
 <div id="channellinks">

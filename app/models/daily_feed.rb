@@ -39,9 +39,11 @@ class DailyFeed < ActiveRecord::Base
     return output
   end
 
-  # checks to see if this is a daily feed
+  # checks to see if this is a daily feed, only works for timezone UTC (offset == 0)
   def self.valid_params(params)
-    (params[:timescale] == '1440' || params[:sum] == '1440' || params[:average] == '1440' || params[:median] == '1440') ? true : false
+    daily_params = (params[:timescale] == '1440' || params[:sum] == '1440' || params[:average] == '1440' || params[:median] == '1440') ? true : false
+    return daily_params && (Time.zone.name == 'UTC')
   end
 
 end
+

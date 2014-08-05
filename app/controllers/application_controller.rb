@@ -328,6 +328,9 @@ class ApplicationController < ActionController::Base
     # use the offset to find an appropriate timezone
     def set_timezone_from_offset(offset)
       offset = offset.to_i
+      # always set to UTC if offset is 0
+      return 'UTC' if offset == 0
+
       # keep track of the currently matched time zone
       current_zone = nil
 

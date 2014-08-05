@@ -99,9 +99,15 @@ module FeedHelper
     empty_clone.attribute_names.each { |attr| empty_clone[attr] = nil }
     return empty_clone
   end
+
+  # get the time floored to the correct number of seconds
   def get_floored_time(input_time, seconds)
-    return Time.zone.at((input_time.to_f / seconds).floor * seconds)
+    floored_seconds = (input_time.to_f / seconds).floor * seconds
+    # offset the seconds by the current time zone offset
+    offset_seconds = Time.zone.now.utc_offset
+    return Time.at(floored_seconds - offset_seconds)
   end
+
   # slice feed into timescales
   def feeds_into_timescales(feeds, params)
 

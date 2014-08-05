@@ -52,6 +52,11 @@
 
 class Channel < ActiveRecord::Base
   include KeyUtilities
+  # geolocation search: Channel.within(miles, :origin => [latitude, longitude]).to_a
+  # example: channels = Channel.within(4000, :origin => [4, 6]).to_a
+  # channels.sort_by{|s| s.distance_to([4, 6])}
+  acts_as_mappable :default_units => :kms, :default_formula => :sphere,
+    :distance_field_name => :distance, :lat_column_name => :latitude, :lng_column_name => :longitude
 
   belongs_to :user
   has_many :feeds
@@ -84,6 +89,18 @@ class Channel < ActiveRecord::Base
   # pagination variables
   cattr_reader :per_page
   @@per_page = 15
+
+  # search for public channels within a certain distance from the origin
+  # requires latitude, longitude, and distance to be present as options keys
+  # distance is in kilometers
+  def self.location_search(options = {})
+    # set the origin
+    origin = [options[:latitude].to_f, options[:longitude].to_f]
+    # query the database
+    channels = Channel.public_viewable.within(options[:distance].to_f, :origin => origin)
+    # sort channels by distance
+    return channels.sort_by{|c| c.distance_to(origin)}
+  end
 
   # how often the channel is updated
   def update_rate

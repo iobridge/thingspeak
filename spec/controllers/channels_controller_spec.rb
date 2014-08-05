@@ -125,6 +125,13 @@ describe ChannelsController do
         get :index, {:api_key => @user.api_key, :format => 'json'}
         response.should be_successful
       end
+
+      it "searches nearby public channels" do
+        channel1 = Channel.create(name: 'channel1', latitude: 10, longitude: 10, public_flag: true)
+        channel2 = Channel.create(name: 'channel2', latitude: 60, longitude: 60, public_flag: true)
+        get :public, {api_key: @user.api_key, latitude: 59.8, longitude: 60.2, distance: 100, format: 'json'}
+        JSON.parse(response.body)['channels'][0]['name'].should eq("channel2")
+      end
     end
 
     describe "create channel" do

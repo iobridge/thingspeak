@@ -6,6 +6,7 @@ class ChannelsController < ApplicationController
   layout 'application', :except => [:social_show, :social_feed]
   protect_from_forgery :except => [:realtime, :realtime_update, :post_data, :create, :destroy, :clear]
   require 'csv'
+  require 'will_paginate/array'
 
   # get list of all realtime channels
   def realtime
@@ -55,6 +56,10 @@ class ChannelsController < ApplicationController
     elsif params[:tag].present?
       @header = "#{t(:tag).capitalize}: #{params[:tag]}"
       @channels = Channel.public_viewable.active.order('ranking desc, updated_at DESC').with_tag(params[:tag]).paginate :page => params[:page]
+    # get channels by location
+    elsif params[:latitude].present? && params[:longitude].present? && params[:distance].present?
+      @header = "#{t(:channels_near)}: [#{params[:latitude]}, #{params[:longitude]}]"
+      @channels = Channel.location_search(params).paginate :page => params[:page]
     # normal channel list
     else
       @header = t(:featured_channels)

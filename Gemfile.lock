@@ -144,6 +144,9 @@ GEM
       actionpack (>= 3.0)
     geokit (1.8.4)
       multi_json (>= 1.3.2)
+    geokit-rails (2.0.1)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     gravatarify (3.1.0)
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
@@ -362,6 +365,7 @@ DEPENDENCIES
   factory_girl_rails
   faker
   geokit
+  geokit-rails
   gravatarify
   i18n-tasks (~> 0.5.4)
   jquery-rails (= 3.0.4)

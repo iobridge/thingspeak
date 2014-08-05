@@ -55,6 +55,7 @@ en:
   channel_url: "URL"
   channels: "Channels"
   channels_my: "My Channels"
+  channels_near: "Channels Near"
   channels_public: "Public Channels"
   channels_public_view: "View Public Channels"
   channel_video_type_blank: "Either Youtube, or Vimeo, is required if a Video ID is specified."

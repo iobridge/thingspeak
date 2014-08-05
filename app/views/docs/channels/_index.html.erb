@@ -17,6 +17,14 @@ Valid parameters:
 </ul>
 
 <br>
+You can also search for Channels within a certain distance of a location by including the following location parameters:
+<ul>
+  <li><b>latitude</b> (decimal) - Latitude of location in degrees. (optional)</li>
+  <li><b>longitude</b> (decimal) - Longitude of location in degrees. (optional)</li>
+  <li><b>distance</b> (decimal) - Distance in kilometers from location. (optional)</li>
+</ul>
+
+<br>
 Example GET:
 
 <pre>GET <span class="str"><%= @ssl_api_domain %>channels/public<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span></pre>
@@ -162,6 +170,7 @@ Valid parameters:
 <ul>
   <li><b>api_key</b> (string) - Your Account API Key (this is different from a Channel API Key, and can be found in your Account settings). (required)</li>
 </ul>
+
 
 <br>
 Example GET:

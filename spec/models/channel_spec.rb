@@ -134,5 +134,17 @@ describe Channel do
       channels.count.should == 1
     end
   end
+
+  describe 'geolocation' do
+    it 'should find nearby channels' do
+      channel1 = Channel.create(latitude: 10, longitude: 10, public_flag: true)
+      channel2 = Channel.create(latitude: 60, longitude: 60, public_flag: true)
+      channel3 = Channel.create(latitude: 60, longitude: 60, public_flag: false)
+      Channel.location_search({latitude: 9.8, longitude: 10.2, distance: 100}).first.should eq(channel1)
+      Channel.location_search({latitude: 60.2, longitude: 59.8, distance: 100}).first.should eq(channel2)
+      Channel.location_search({latitude: 60.2, longitude: 59.8, distance: 100}).count.should eq(1)
+      Channel.location_search({latitude: 30.8, longitude: 30.2, distance: 100}).count.should eq(0)
+    end
+  end
 end
 

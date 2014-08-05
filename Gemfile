@@ -35,6 +35,7 @@ gem 'em-http-request'
 gem 'tzinfo'
 gem 'tzinfo-data'
 gem 'turbolinks'
+gem 'geokit-rails'
 
 # to use debugger
 # gem 'ruby-debug'

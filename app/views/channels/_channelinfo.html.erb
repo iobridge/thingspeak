@@ -1,13 +1,17 @@
-<div id="channel_info" class="FL channelInfo" >
-  <div class="FL" ><h3 class="channel_info"><%= @channel.name %></h3></div>
-  <div class="FR list_tags"><%= @channel.list_tags %></div>
-  <div class="CB"></div>
+<div class="col-xs-6 col-sm-6">
+  <h3><%= @channel.name %></h3>
   <% if @channel.user.present? %>
-    <p>by <%= link_to @channel.user.login, user_profile_path(@channel.user.login) %></p>
+    <div>by <%= link_to @channel.user.login, user_profile_path(@channel.user.login) %></div><br>
   <% end %>
-  <div class="channelDescription" ><p><%= @channel.description %></p></div>
-  <p></p>
-</div> <!-- end channelInfo -->
+  <div><%= @channel.description %></div><br>
+  <div>
+    <b>Tags:</b>
+    <% @channel.tags.each do |tag| %>
+      <a href="/channels/public?tag=<%=u tag.name %>"><%= tag.name %></a><% unless tag == @channel.tags.last %>, <% end %>
+    <% end %>
+  </div><br>
+</div>
+
 <div id="channellinks">
   <div class="FR developerlink">
     <a id="devInfoLink_<%= zone %>" href="#" class="topLink" ><%= t(:developer_info) %></a>

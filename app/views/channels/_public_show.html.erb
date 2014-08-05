@@ -3,8 +3,12 @@
 <%= render :partial => 'channelinfo', :locals => { :zone => "public" } %>
 
 <div class="CB">
-<div id="public_dialog0" class="column" > </div>
-<div id="public_dialog1" class="column" > </div>
+  <div class="col-xs-6 col-sm-6">
+    <div id="public_dialog0" class="column"></div>
+  </div>
+  <div class="col-xs-6 col-sm-6">
+    <div id="public_dialog1" class="column"></div>
+  </div>
 </div>
 
 <div class="commentlink" >
@@ -74,7 +78,7 @@ function commentflag(m_id, user_id)
 </script>
 <% else %>
 <div class="FL" >
-<h3 class="channel_info"><%= t(:channel_not_public) %></h3>
+  <h3><%= t(:channel_not_public) %></h3>
 </div>
 <% end %>
 

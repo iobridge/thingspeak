@@ -106,7 +106,7 @@ body {
     background: -moz-linear-gradient(left, #dddddd, #f5f5f5);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dddddd', endColorstr='#f5f5f5', GradientType=1);
 }
-#channel_info           { padding-bottom: 20px; }
+
 .signed_in_channel_header {display:inline-block; }
 .public_private_icon {display:inline-block;}
 .signed_in_channel_header { width:300px;height: 10px;}
@@ -148,14 +148,7 @@ margin-right:5px
 .public_channel_thumbnail {
 position:absolute;border:2px solid red;display:none
 }
-h1.channel_info {
-    margin:0;
-    padding-top: 10px
-}
 
-div.list_tags {
-padding-top:20px;
-}
 .channelLinks {
     padding: 0 0 0 0;
     margin-bottom: 15px;
@@ -260,11 +253,9 @@ textarea.tweet { margin-top: 0.5em; width: 40em; height: 3em; }
 
 /* main layout */
 #maincontent            { float: left; width:980px; padding-bottom: 20px; margin-left:10px; overflow:false}
+#maincontent_nowidth    { float: left; min-width: 980px; padding-bottom: 20px; margin-left:10px; overflow:false}
 #maincontent.thin       { width: 400px; }
-#maincontent.medium     {
-
-    width: 500px;
-}
+#maincontent.medium     { width: 500px; }
 
 #maincontent .thinghttptable { table-layout:fixed;  width: 400px; word-wrap: break-word; }
 #maincontent .thinghttptable .url { width: 100px; }
@@ -350,7 +341,7 @@ input.video_narrow {width:100px; }
 #nav li a.rss:hover     {background: url(rss_feed.png) right -24px no-repeat; padding:0px 30px 0px 0; border-bottom:0 solid #aaa;}
 
 /* jQuery Overrides */
-.ui-widget { font-size: .8em; }
+.ui-widget { font-size: 0.9em; }
 .ui-widget-header   {
     border: 1px solid #0867A3;
     background: #0867a3 none top right no-repeat;
@@ -371,7 +362,7 @@ input.video_narrow {width:100px; }
 
 }
 
-.column { width: 470px; float: left; padding-bottom: 50px; padding-left: 5px; }
+.column { width: 470px; padding-bottom: 50px; margin: 0 auto; }
 .portlet { margin: 0 1em 1em 0; }
 
 .portlet-header { margin: 0.3em; padding: 7px 7px 7px 7px;  }
@@ -476,15 +467,6 @@ input.video_narrow {width:100px; }
     text-decoration:none;
 }
 
-.channelInfo {
-    max-width: 500px;
-}
-.channelDescription {
-    width: 450px;
-    height: 60px;
-
-}
-
 .socialButtons {
     float:right;
     display:inline;
@@ -571,12 +553,6 @@ height:100%;
     display:inline-block;
 }
 
-.channel_stats_location {
-clear:right; float:right;width:475px;padding-top:23px
-}
-.channel_stats_text {
-font-weight:bold;font-size:1.2em
-}
 .channel_time_text {
   color:black !important; font-size:1em !important;
 }

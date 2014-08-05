@@ -103,7 +103,7 @@
       </tr>
       <tr>
         <td class="left"></td>
-        <td><%= c.submit t(:channel_update) %></td>
+        <td><%= c.submit t(:channel_update), class: 'btn btn-primary' %></td>
       </tr>
     </table>
   <% end %>
@@ -111,12 +111,12 @@
   <br><br>
 
   <h4><%= t(:channel_clear_message) %></h4>
-  <%= button_to t(:channel_clear), "/channels/#{@channel.id}/clear", :data => { :confirm => t(:confirm_channel_clear) } %>
+  <%= button_to t(:channel_clear), "/channels/#{@channel.id}/clear", :data => { :confirm => t(:confirm_channel_clear) }, class: 'btn btn-danger' %>
 
   <br><br>
 
   <h4><%= t(:channel_delete_message) %></h4>
-  <%= button_to t(:channel_delete), channel_path(@channel.id), :method => 'delete', :data => { :confirm => t(:confirm_channel_delete) } %>
+  <%= button_to t(:channel_delete), channel_path(@channel.id), :method => 'delete', :data => { :confirm => t(:confirm_channel_delete) }, class: 'btn btn-danger' %>
 </div>
 <div id="sidebar_old">
 <ul>

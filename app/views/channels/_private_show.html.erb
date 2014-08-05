@@ -1,15 +1,21 @@
 <%= render :partial => 'channelinfo', :locals => { :zone => "private" } %>
-<div class="channel_stats_location">
-  <span class="channel_stats_text">Channel Stats</span>
+
+<div class="col-xs-6 col-sm-6"  style="padding-left: 42px;">
+  <h4 style="color: #333;">Channel Stats</h4>
   <table>
     <tr><td>Created</td><td ><abbr class="timeago channel_time_text" title="<%= @channel.created_at %>" ><%= @channel.created_at %></abbr></td></tr>
     <tr><td>Updated</td><td ><abbr class="timeago channel_time_text" title="<%= @channel.updated_at %>" ><%= @channel.updated_at %></abbr></td></tr>
   </table>
   <span><%= @channel.feeds.count %> Entries</span>
 </div>
-<div class="CB" >
-  <div id="private_dialog0" class="column" > </div>
-  <div id="private_dialog1" class="column" > </div>
+
+<div class="CB">
+  <div class="col-xs-6 col-sm-6">
+    <div id="private_dialog0" class="column"></div>
+  </div>
+  <div class="col-xs-6 col-sm-6">
+    <div id="private_dialog1" class="column"></div>
+  </div>
 </div>
 <script>
   // when the document is ready

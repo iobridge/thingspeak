@@ -11,7 +11,7 @@
 
 <%= render :partial=>"socialbuttons" %>
 
-<div id="maincontent">
+<div id="maincontent_nowidth" class="col-xs-12 col-sm-12">
   <ul>
     <li><a href="#publicview">Public View</a></li>
   </ul>
@@ -47,7 +47,7 @@ $(document).on('page:load ready', function() {
 			       position: {
 				   my: 'top',
 				   at: 'top',
-				   of: $('#maincontent')
+				   of: $('#maincontent_nowidth')
 			       },
 			       title: "Developer Info",
 			       dialogClass: "dev-info-dialog"
@@ -62,7 +62,7 @@ $(document).on('page:load ready', function() {
 	  $("#watchText").text("Watch");
       }
 
-      $("#maincontent").tabs( {
+      $("#maincontent_nowidth").tabs( {
 			  select: function( e, ui)
 			      {
 				  $.cookie('stickyTab', ui.index );
@@ -74,7 +74,7 @@ $(document).on('page:load ready', function() {
 
 	  if( ! isNaN( stickyTab )  )
 	  {
-              $("#maincontent").tabs( 'select', stickyTab );
+              $("#maincontent_nowidth").tabs( 'select', stickyTab );
 	  }
 	  var current_user = "<%= @mychannel %>" ;
 

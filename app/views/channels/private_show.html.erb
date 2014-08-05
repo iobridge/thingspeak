@@ -12,7 +12,7 @@
 
 <%= render :partial => "socialbuttons" %>
 
-<div id="maincontent" >
+<div id="maincontent_nowidth" class="col-xs-12 col-sm-12">
   <ul>
     <li><a href="#privateview"><%= t("private_view") %></a></li>
     <li><a href="#publicview"><%= t("public_view") %></a></li>
@@ -95,7 +95,7 @@ $(document).on('page:load ready', function() {
       else {
 	  $("#watchText").text("Watch");
       }
-      $("#maincontent").tabs({
+      $("#maincontent_nowidth").tabs({
 			  select: function( e, ui) {
 				  $.cookie('stickyTab', ui.index );
 				},
@@ -111,7 +111,7 @@ $(document).on('page:load ready', function() {
       }
       if( ! isNaN( stickyTab )  )
       {
-          $("#maincontent").tabs( 'select', stickyTab );
+          $("#maincontent_nowidth").tabs( 'select', stickyTab );
       }
 
       var current_user = "<%= @mychannel %>";

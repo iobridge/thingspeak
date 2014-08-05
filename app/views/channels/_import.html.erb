@@ -9,7 +9,7 @@
     <%= t(:time_zone) %>
     <%= time_zone_select 'feed', 'time_zone', nil, :default => 'UTC' %>
     <br><br>
-    <%= f.submit t(:upload), data: { disable_with: t(:uploading) } %>
+    <%= f.submit t(:upload), data: { disable_with: t(:uploading) }, class: 'btn btn-primary' %>
   <% end %>
 
   <br><br>
@@ -17,7 +17,7 @@
   <h3><%= t(:export) %></h3>
   <%= t(:download_feeds) %>
   <br><br>
-  <%= button_to t(:download), "#{@ssl_api_domain}stream/channels/#{@channel.id}/feeds?api_key=#{@channel.write_api_key}" %>
+  <%= button_to t(:download), "#{@ssl_api_domain}stream/channels/#{@channel.id}/feeds?api_key=#{@channel.write_api_key}", class: 'btn btn-primary' %>
 </div>
 
 <div id="sidebar_old" >

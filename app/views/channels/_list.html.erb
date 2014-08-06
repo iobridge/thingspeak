@@ -1,22 +1,35 @@
-<div>
-  <% @channels.each do |channel| %>
+<% @channels.each do |channel| %>
 
-    <div class="public_channel_box">
-      <div class="public_channel_inner">
-        <p class="public_channel_name">
-          <%= link_to truncate(channel.name, length: 23), channel_path(channel.id), :id => "showsite_#{channel.id}" %>
-        </p>
-        <p class="public_channel_user" >by <%= channel.user.login if channel.user.present? %></p>
-        <p class="public_channel_desc"><%= channel.description %></p>
-        <div class="progressbar" rel="<%= channel.ranking %>"></div>
-        <p class="public_channel_tags">
-          <% channel.tags.each do |tag| %>
-            <a href="/channels/public?tag=<%=u tag.name %>"><%= tag.name %></a><% unless tag == channel.tags.last %>, <% end %>
-          <% end %>
-        </p>
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="panel panel-primary">
+
+      <div class="panel-heading">
+        <%= link_to channel_path(channel.id), :id => "showsite_#{channel.id}", class: 'link-no-hover' do %>
+          <i class="fa fa-bar-chart-o"></i>
+        <% end %>
+        <%= link_to channel_path(channel.id), :id => "showsite_#{channel.id}" do %>
+          <%= truncate(channel.name, length: 23) %>
+        <% end %>
       </div>
-    </div>
 
-  <% end %>
-</div>
+      <div class="panel-body">
+        <p class="small">by <%= link_to(channel.user.login, user_profile_path(channel.user.login)) if channel.user.present? %></p>
+        <p class="public_channel_description"><%= channel.description %></p>
+        <div class="progressbar" rel="<%= channel.ranking %>"></div>
+        <div class="public_channel_tags">
+          <% if channel.tags.present? %>
+            <i class="fa fa-tags"></i>
+            <% channel.tags.each do |tag| %>
+              <a href="/channels/public?tag=<%=u tag.name %>"><%= tag.name %></a><% unless tag == channel.tags.last %>, <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<% end %>
+
+<div class="clearfix"></div>
 

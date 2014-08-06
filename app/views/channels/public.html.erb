@@ -4,7 +4,7 @@
     <h4 class="breadcrumb"><%= @header %></h4>
     <%= render :partial => 'list' %>
     <br>
-    <%= will_paginate @channels %>
+    <%= will_paginate @channels, renderer: BootstrapPagination::Rails %>
   </div>
 
   <div class="col-xs-12 col-sm-3">

@@ -30,7 +30,7 @@
     </tbody>
   </table>
   <br>
-  <%= will_paginate @channels %>
+  <%= will_paginate @channels, renderer: BootstrapPagination::Rails %>
 <% else %>
   <%= t(:user_no_public_channels) %>
 <% end %>

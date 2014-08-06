@@ -339,6 +339,8 @@ GEM
       rack (>= 1.0)
       rack-test (>= 0.5.3)
     will_paginate (3.0.5)
+    will_paginate-bootstrap (1.0.1)
+      will_paginate (>= 3.0.3)
 
 PLATFORMS
   ruby
@@ -397,3 +399,4 @@ DEPENDENCIES
   uglifier
   webrat
   will_paginate (~> 3.0.pre2)
+  will_paginate-bootstrap

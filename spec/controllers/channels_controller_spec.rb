@@ -33,6 +33,7 @@ describe ChannelsController do
       @channel.name.should eq('new name')
       response.should redirect_to channel_path(@channel.id)
     end
+
     it "should allow a channel to be deleted " do
       delete :destroy, :id => @channel.id
       response.should redirect_to channels_path
@@ -131,6 +132,18 @@ describe ChannelsController do
         channel2 = Channel.create(name: 'channel2', latitude: 60, longitude: 60, public_flag: true)
         get :public, {api_key: @user.api_key, latitude: 59.8, longitude: 60.2, distance: 100, format: 'json'}
         JSON.parse(response.body)['channels'][0]['name'].should eq("channel2")
+      end
+    end
+
+    describe "show channel" do
+      it 'shows a channel' do
+        get :show, id: @channel.id
+        response.should be_successful
+      end
+      it 'returns JSON' do
+        get :show, id: @channel.id, format: 'json'
+        JSON.parse(response.body)['name'].should eq(@channel.name)
+        JSON.parse(response.body)['tags'].should eq([])
       end
     end
 

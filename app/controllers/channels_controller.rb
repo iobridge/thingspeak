@@ -174,7 +174,7 @@ class ChannelsController < ApplicationController
           session[:errors] = nil
         end
       end
-      format.json { render :json => @channel }
+      format.json { render :json => @channel.as_json(Channel.public_options) }
     end
   end
 

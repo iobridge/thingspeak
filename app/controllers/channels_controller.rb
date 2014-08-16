@@ -152,7 +152,6 @@ class ChannelsController < ApplicationController
   end
 
   def show
-
     @channel = Channel.find(params[:id]) if params[:id]
 
     @title = @channel.name
@@ -164,6 +163,15 @@ class ChannelsController < ApplicationController
     api_index @channel.id
     # if owner of channel
     get_channel_data if @mychannel
+
+    # if a json or xml request
+    if request.format == :json || request.format == :xml
+      # authenticate the channel if the user owns the channel
+      authenticated = (@mychannel) || (User.find_by_api_key(get_apikey) == @channel.user)
+      # set options correctly
+      options = authenticated ? Channel.private_options : Channel.public_options
+    end
+
     respond_to do |format|
       format.html do
         if @mychannel
@@ -174,7 +182,8 @@ class ChannelsController < ApplicationController
           session[:errors] = nil
         end
       end
-      format.json { render :json => @channel.as_json(Channel.public_options) }
+      format.json { render :json => @channel.as_json(options) }
+      format.xml { render :xml => @channel.to_xml(options) }
     end
   end
 

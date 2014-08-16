@@ -143,7 +143,21 @@ describe ChannelsController do
       it 'returns JSON' do
         get :show, id: @channel.id, format: 'json'
         JSON.parse(response.body)['name'].should eq(@channel.name)
-        JSON.parse(response.body)['tags'].should eq([])
+        JSON.parse(response.body)['api_keys'].should be_nil
+      end
+      it 'returns JSON with private data' do
+        get :show, id: @channel.id, api_key: @user.api_key, format: 'json'
+        JSON.parse(response.body)['api_keys'].should_not be_nil
+      end
+      it 'returns XML' do
+        get :show, id: @channel.id, format: 'xml'
+        Nokogiri::XML(response.body).css('name').text.should eq(@channel.name)
+        Nokogiri::XML(response.body).css('api-keys').text.should be_blank
+      end
+      it 'returns XML with private data' do
+        @channel.add_write_api_key
+        get :show, id: @channel.id, api_key: @user.api_key, format: 'xml'
+        Nokogiri::XML(response.body).css('api-keys').text.should_not be_blank
       end
     end
 

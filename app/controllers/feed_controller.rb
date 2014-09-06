@@ -194,7 +194,8 @@ class FeedController < ApplicationController
         # if no field_id, just return the json feed
         if params[:field_id].blank?
           output = @feed.to_json
-        else
+        # if the field exists
+        elsif @feed.attributes.keys.include?("field#{params[:field_id]}")
           output = add_prepend_append(@feed["field#{params[:field_id]}"])
         end
 

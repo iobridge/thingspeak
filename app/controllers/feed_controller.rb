@@ -161,12 +161,20 @@ class FeedController < ApplicationController
 
     # if last entry
     if params[:id] == 'last' && params[:field_id].present? && params[:field_id].to_i != 0
-      # look for a feed where the value isn't null
-      @feed = Feed.where(:channel_id => @channel.id)
-        .where("field? is not null", params[:field_id].to_i)
-        .select(Feed.select_options(@channel, params))
-        .order('entry_id desc')
-        .first
+      begin
+        # add a timeout since this query may be really long if there is a lot of data,
+        # but the last instance of the field is very far back
+        Timeout::timeout(5) do
+          # look for a feed where the value isn't null
+          @feed = Feed.where(:channel_id => @channel.id)
+            .where("field? is not null", params[:field_id].to_i)
+            .select(Feed.select_options(@channel, params))
+            .order('entry_id desc')
+            .first
+        end
+      rescue Timeout::Error
+      rescue
+      end
     # else get by entry
     else
       # get most recent entry if necessary

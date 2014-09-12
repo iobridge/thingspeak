@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   has_many :reacts, :dependent => :destroy
   has_many :scheduled_thinghttps, :dependent => :destroy
   has_many :talkbacks, :dependent => :destroy
+  has_many :timecontrols, :dependent => :destroy
   has_many :plugins, :dependent => :destroy
   has_many :devices, :dependent => :destroy
   has_many :api_keys, :dependent => :destroy
@@ -55,6 +56,11 @@ class User < ActiveRecord::Base
   # pagination variables
   cattr_reader :per_page
   @@per_page = 50
+
+  # true if the user has used the maximum number of available timecontrols
+  def max_timecontrols?
+    self.timecontrols.roots.count >= Timecontrol::MAX_PER_USER
+  end
 
   # allow login by login name also
   def self.find_first_by_auth_conditions(warden_conditions)

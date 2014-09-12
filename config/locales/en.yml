@@ -97,6 +97,7 @@ en:
   confirm_react_delete: "Are you sure you want to delete this React?"
   confirm_talkback_delete: "Are you sure you want to delete this TalkBack?"
   confirm_thinghttp_delete: "Are you sure you want to delete this ThingHTTP?"
+  confirm_timecontrol_delete: "Are you sure you want to delete this TimeControl?"
   confirm_tweetcontrol_delete: "Are you sure you want to delete this TweetControl?"
   confirm_twitter_delete: "Are you sure you want to unlink this Twitter account?"
   contact_us: "Contact Us"
@@ -146,11 +147,13 @@ en:
   forgot: "Forgot your password?"
   forum: "Forum"
   for_more_information: "More Information"
+  frequency: 'frequency'
   generate_thingtweet_arduino_code: "Generate ThingTweet Arduino Code"
   get_started: "Get Started Now"
   height: "Height"
   home_motto: "Billions and Billions."
   home_tagline: "The open data platform for the Internet of Things."
+  hour: 'hour'
   import: "Import"
   latitude: "Latitude"
   longitude: "Longitude"
@@ -159,10 +162,13 @@ en:
   message: 'message'
   message_field: "Message Field"
   metadata: 'metadata'
+  minute: 'minute'
   myaccount: "My Account"
+  name: 'name'
   new: "New"
   note: "Note"
   note_save: "Save Note"
+  one_time: 'one time'
   password: "Password"
   password_change: "Change Password"
   password_confirmation: "Password Confirmation"
@@ -263,6 +269,7 @@ en:
   react_option_run_every_time: "Run action each time condition is met"
   react_create_button: "Create React"
   react_save_button: "Create React"
+  recurring: 'recurring'
   remember_me: "Remember my User ID"
   results: "Results"
   save: "Save"
@@ -357,8 +364,19 @@ en:
   thingtweet: "ThingTweet"
   thingtweet_arduino_select_message: "Select Twitter account to use for this code"
   thingtweet_back: "Back to ThingTweet"
-  time_zone: "Time Zone"
+  timecontrol: "TimeControl"
+  timecontrols: "TimeControls"
+  timecontrol_date: 'date'
+  timecontrol_days: 'days'
+  timecontrol_delete: "Delete TimeControl"
+  timecontrol_delete_message: "Want to delete this TimeControl?"
+  timecontrol_error: "There were some problems creating your TimeControl:"
+  timecontrol_max_message: "You have reached the maximum number of TimeControls available per user. Please delete an existing TimeControl before adding a new one."
+  timecontrol_new: "New TimeControl"
+  timecontrol_run_at: 'run at'
+  timecontrol_time: 'time'
   timescale: "Timescale"
+  time_zone: "Time Zone"
   title: "Title"
   tos: "Terms of Service"
   tos_agree: "By signing up, you agree to the"
@@ -450,6 +468,7 @@ en:
   help_thinghttp_example: "This will send your HTTP GET request to Google Finance and parse the response for an element having an ID of ref_626307_c, which corresponds to the S&P 500 current price change for the day."
   help_thinghttp_show: "You can now send your ThingHTTP request and view the response using the following URL:"
   help_thingtweet: "ThingTweet acts as a proxy to Twitter so that your devices can update Twitter statuses without having to implement Open Authentication (OAuth)."
+  help_timecontrol_index: "Create a TimeControl to automatically execute ThingHTTP requests at predetermined times."
   help_tweetcontrol: "Use TweetControl to listen to specific trigger words from Twitter, and then process a ThingHTTP request."
   help_tweetcontrol_edit: "Select Anonymous TweetControl to allow anyone to trigger your TweetControl or fill in a specfic Twitter Account (don't include the '@' sign)."
   help_tweetcontrol_hashtag: "To trigger a TweetControl, you need to send a Twitter Status Update with at least the hashtag #thingspeak and the trigger word, for example:"

@@ -17,9 +17,9 @@ Thingspeak::Application.routes.draw do
   # for api: login and get token
   match 'users/api_login', :to => 'users#api_login', :via => [:get, :post]
 
-  # devise for authentication
+  # devise for authentication (but don't use devise if $skip_devise == true, necessary for clockworkd to run)
   # override devise controllers and use custom sessions_controller and registrations_controller
-  devise_for :users, :controllers => {:sessions => 'sessions', :registrations => 'registrations'}
+  devise_for :users, :controllers => {:sessions => 'sessions', :registrations => 'registrations'} if $skip_devise != true
 
   resource :pages do
     collection do
@@ -172,6 +172,7 @@ Thingspeak::Application.routes.draw do
     end
     resources :tweetcontrol
     resources :reacts
+    resources :timecontrols
     resources :scheduled_thinghttps
   end
 

@@ -425,7 +425,7 @@ class ChannelsController < ApplicationController
 
     # if no data
     if params[:upload].blank? || params[:upload][:csv].blank?
-      flash[:error] = t(:upload_no_file)
+      flash[:alert] = t(:upload_no_file)
       redirect_to channel_path(channel.id, :anchor => "dataimport") and return
     end
 
@@ -433,10 +433,19 @@ class ChannelsController < ApplicationController
     Time.zone = params[:feed][:time_zone]
     Chronic.time_class = Time.zone
 
-    # read data from uploaded file
-    csv_array = CSV.parse(params[:upload][:csv].read)
+    # make sure uploaded file doesn't cause errors
+    csv_array = nil
+    flash_alert = nil
+    begin
+      # read data from uploaded file
+      csv_array = CSV.parse(params[:upload][:csv].read)
+    rescue CSV::MalformedCSVError
+      flash_alert = t(:upload_incorrect_format)
+    end
+
+    # if no data read, output error message
     if csv_array.nil? || csv_array.blank?
-      flash[:error] = t(:upload_no_data)
+      flash[:alert] = flash_alert || t(:upload_no_data)
       redirect_to channel_path(channel.id, :anchor => "dataimport") and return
     end
 

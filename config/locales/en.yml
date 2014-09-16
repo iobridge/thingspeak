@@ -398,6 +398,7 @@ en:
   twitter_new_api_key: "Regenerate API Key"
   twitter_screen_name: "Twitter Account"
   upload: "Upload"
+  upload_incorrect_format: "Your CSV file is not properly formatted."
   upload_select: "Upload a CSV file to import data into this channel"
   uploading: "uploading file..."
   upload_successful: "Upload successful."

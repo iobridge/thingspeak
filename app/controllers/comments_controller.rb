@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
     if @comment.save
       flash[:notice] = "Thanks for adding a comment!"
     else
-      flash[:error] = "Comment can't be blank!"
+      flash[:alert] = "Comment can't be blank!"
     end
     redirect_to :back
   end

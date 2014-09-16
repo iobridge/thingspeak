@@ -11,6 +11,9 @@ module Thingspeak
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/lib)
 
+    # remove active admin paths if clockwork gem is used
+    config.eager_load_paths -= %W(#{config.root}/app/admin) if $clockwork == true
+
     # fix invalid utf8 characters
     config.middleware.insert_before "Rack::Runtime", Rack::UTF8Sanitizer
 

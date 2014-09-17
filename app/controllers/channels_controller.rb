@@ -577,12 +577,12 @@ class ChannelsController < ApplicationController
       headers = false
 
       # if there are at least 2 rows
-      if (csv_array[0] and csv_array[1])
+      if (csv_array[0].present? && csv_array[1].present?)
         row0_integers = 0
         row1_integers = 0
 
         # if first row, first value contains 'create' or 'date', assume it has headers
-        if (csv_array[0][0].downcase.include?('create') or csv_array[0][0].downcase.include?('date'))
+        if (csv_array[0][0].present? && (csv_array[0][0].downcase.include?('create') || csv_array[0][0].downcase.include?('date')))
           headers = true
         else
           # count integers in row0

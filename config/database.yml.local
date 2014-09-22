@@ -16,6 +16,7 @@
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
 development:
   adapter: mysql2
+  strict: false
   encoding: utf8
   reconnect: false
   database: thingspeak_development
@@ -30,6 +31,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   adapter: mysql2
+  strict: false
   encoding: utf8
   reconnect: false
   database: thingspeak_test
@@ -41,6 +43,7 @@ test:
 
 production:
   adapter: mysql2
+  strict: false
   encoding: utf8
   reconnect: true
   database: thingspeak_production
@@ -48,3 +51,4 @@ production:
   username: root
   password: "notimplemented"
   socket: /var/run/mysqld/mysqld.sock
+

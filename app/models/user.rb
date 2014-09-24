@@ -38,7 +38,6 @@ class User < ActiveRecord::Base
   has_many :thinghttps, :dependent => :destroy
   has_many :tweetcontrols, :dependent => :destroy
   has_many :reacts, :dependent => :destroy
-  has_many :scheduled_thinghttps, :dependent => :destroy
   has_many :talkbacks, :dependent => :destroy
   has_many :timecontrols, :dependent => :destroy
   has_many :plugins, :dependent => :destroy

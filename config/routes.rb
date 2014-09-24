@@ -173,7 +173,6 @@ Thingspeak::Application.routes.draw do
     resources :tweetcontrol
     resources :reacts
     resources :timecontrols
-    resources :scheduled_thinghttps
   end
 
   # talkback api

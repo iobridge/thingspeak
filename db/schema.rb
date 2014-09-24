@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140903095213) do
+ActiveRecord::Schema.define(version: 20140923230924) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -270,23 +270,6 @@ ActiveRecord::Schema.define(version: 20140903095213) do
   add_index "reacts", ["channel_id"], name: "index_reacts_on_channel_id", using: :btree
   add_index "reacts", ["run_interval"], name: "index_reacts_on_run_interval", using: :btree
   add_index "reacts", ["user_id"], name: "index_reacts_on_user_id", using: :btree
-
-  create_table "scheduled_thinghttps", force: true do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.boolean  "activated",    default: true, null: false
-    t.integer  "run_interval"
-    t.integer  "thinghttp_id"
-    t.integer  "channel_id"
-    t.string   "field_name"
-    t.datetime "last_run_at"
-    t.string   "last_result"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "scheduled_thinghttps", ["activated", "run_interval"], name: "index_scheduled_thinghttps_on_activated_and_run_interval", using: :btree
-  add_index "scheduled_thinghttps", ["user_id"], name: "index_scheduled_thinghttps_on_user_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"

@@ -23,6 +23,7 @@ class DocsController < ApplicationController
 
   def errors; ; end
   def tweetcontrol; ; end
+  def timecontrol; ; end
   def plugins; ; end
   def importer; ; end
   def charts; ; end

@@ -45,15 +45,13 @@
         <% end %>
       </div>
 
-      <% if current_admin_user.present? %>
-        <div class="apps">
-          <%= link_to timecontrols_path do %>
-            <%= image_tag 'timecontrol.png', :size => '104x104' %>
-            <br>
-            <%= t(:timecontrol) %>
-          <% end %>
-        </div>
-      <% end %>
+      <div class="apps">
+        <%= link_to timecontrols_path do %>
+          <%= image_tag 'timecontrol.png', :size => '104x104' %>
+          <br>
+          <%= t(:timecontrol) %>
+        <% end %>
+      </div>
 
     </div>
   </div>

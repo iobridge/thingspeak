@@ -319,7 +319,7 @@ class ApplicationController < ActionController::Base
       elsif params[:offset].present?
         Time.zone = set_timezone_from_offset(params[:offset])
       elsif current_user.present?
-        Time.zone = current_user.time_zone
+        Time.zone = current_user.time_zone_or_utc
       else
         Time.zone = 'UTC'
       end

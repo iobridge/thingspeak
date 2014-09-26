@@ -56,6 +56,9 @@ class User < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 50
 
+  # get the user's time zone or UTC time
+  def time_zone_or_utc; time_zone || 'UTC'; end
+
   # true if the user has used the maximum number of available timecontrols
   def max_timecontrols?
     self.timecontrols.roots.count >= Timecontrol::MAX_PER_USER

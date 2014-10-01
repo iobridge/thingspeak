@@ -163,6 +163,7 @@ en:
   message_field: "Message Field"
   metadata: 'metadata'
   minute: 'minute'
+  minutes: 'minutes'
   myaccount: "My Account"
   name: 'name'
   new: "New"
@@ -358,6 +359,7 @@ en:
   timecontrol_delete: "Delete TimeControl"
   timecontrol_delete_message: "Want to delete this TimeControl?"
   timecontrol_error: "There were some problems creating your TimeControl:"
+  timecontrol_fuzzy_time: 'fuzzy time'
   timecontrol_max_message: "You have reached the maximum number of TimeControls available per user. Please delete an existing TimeControl before adding a new one."
   timecontrol_new: "New TimeControl"
   timecontrol_run_at: 'run at'

@@ -1,5 +1,5 @@
 <%= form_tag({:controller => 'pages', :action => 'contact_us', :method => :post}, :class => 'form-horizontal') do %>
-  <input name='userlogin' class='userlogin' />
+  <input type='text' id='userlogin_js' name='userlogin_js' class='userlogin' />
 
   <div class="form-group">
     <label class="col-sm-4 col-xs-3 control-label"><%= t(:email_address).titleize %></label>

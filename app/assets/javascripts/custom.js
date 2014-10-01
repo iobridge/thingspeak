@@ -28,5 +28,8 @@ $(document).on('page:load ready', function() {
   // activate any tablesorters
   $('.tablesorter').tablesorter();
 
+  // set value for userlogin_js, which is used to determine if a form was submitted with javascript enabled
+  $('#userlogin_js').val('6H2W6QYUAJT1Q8EB');
+
 });
 

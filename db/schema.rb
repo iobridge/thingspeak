@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140923230924) do
+ActiveRecord::Schema.define(version: 20140930202952) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -336,6 +336,7 @@ ActiveRecord::Schema.define(version: 20140923230924) do
     t.datetime "updated_at"
     t.string   "name"
     t.datetime "run_at"
+    t.integer  "fuzzy_seconds",               default: 0
   end
 
   add_index "timecontrols", ["frequency", "minute", "hour", "day"], name: "index_timecontrols_on_frequency_and_minute_and_hour_and_day", using: :btree

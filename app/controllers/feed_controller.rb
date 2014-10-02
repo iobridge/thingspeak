@@ -5,7 +5,7 @@ class FeedController < ApplicationController
 
   def index
     feed_factory = FeedFactory.new(params)
-    channel = Channel.find(params[:channel_id])
+    channel = feed_factory.channel
     api_key = ApiKey.find_by_api_key(get_apikey)
     @success = channel_permission?(channel, api_key)
 

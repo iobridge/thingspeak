@@ -18,7 +18,7 @@ class FeedFactory < ApplicationController
   end
 
   # attributes that can be read
-  attr_reader :feeds, :daily_feeds, :limit, :use_daily_feed, :feed_select_options, :cache_feeds
+  attr_reader :feeds, :daily_feeds, :limit, :use_daily_feed, :feed_select_options, :cache_feeds, :channel
 
   # calculate the limit that should be used
   def calculate_limit

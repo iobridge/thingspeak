@@ -185,7 +185,12 @@
             // draw the chart
             var dynamicChart = new Highcharts.Chart(chartOptions);
 
-        }); // end getJSON ajax call
+        // end getJSON success
+        })
+        // chained to getjson, on error
+        .error(function() {
+          $('#chart-container').html('Invalid Channel.');
+        });
 
       }); // end document.ready
 

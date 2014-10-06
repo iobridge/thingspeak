@@ -12,7 +12,7 @@ ActiveAdmin.register Failedlogin do
     column :password
     column :ip_address
     column :created_at
-    default_actions
+    actions
   end
 
 end

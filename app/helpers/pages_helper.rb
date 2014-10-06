@@ -2,7 +2,7 @@ module PagesHelper
   def blog_entries
 		blog = ''
     begin
-			Timeout::timeout(5) do
+			Timeout.timeout(5, Timeout::Error) do
 				# get the blog data
 				blog_url = "http://community.thingspeak.com"
 				doc = Nokogiri::HTML(open(blog_url, "User-Agent" => "Ruby/#{RUBY_VERSION}").read)

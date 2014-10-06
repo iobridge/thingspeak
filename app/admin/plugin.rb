@@ -10,7 +10,7 @@ ActiveAdmin.register Plugin do
     column(:user) { |object| link_to object.user.login, admin_user_path(object.user) if object.user.present? }
     column :name
     column :private_flag
-    default_actions
+    actions
   end
 
   form do |f|

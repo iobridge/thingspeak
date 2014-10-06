@@ -12,7 +12,7 @@ ActiveAdmin.register Channel do
     column(:user) { |channel| link_to channel.user.login, admin_user_path(channel.user) if channel.user.present? }
     column :public_flag
     column :created_at
-    default_actions
+    actions
   end
 
   form do |f|

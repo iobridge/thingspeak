@@ -164,7 +164,7 @@ class FeedController < ApplicationController
       begin
         # add a timeout since this query may be really long if there is a lot of data,
         # but the last instance of the field is very far back
-        Timeout::timeout(5) do
+        Timeout.timeout(5, Timeout::Error) do
           # look for a feed where the value isn't null
           @feed = Feed.where(:channel_id => @channel.id)
             .where("field? is not null", params[:field_id].to_i)

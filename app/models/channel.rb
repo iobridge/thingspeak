@@ -90,6 +90,44 @@ class Channel < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
+  # access a last value by string: channel_1417_field_1
+  def self.value_from_string(channel_string, user)
+    # remove % from the string and create the array
+    channel_array = channel_string.gsub('%', '').split('_')
+    # exit if the string doesn't have 4 parts
+    return nil if channel_array.length != 4
+
+    # get the channel
+    channel = Channel.find(channel_array[1])
+    # exit if the channel is not public or not owned by the user
+    return nil if !(channel.public_flag? || channel.user_id == user.try(:id))
+    # get the field id
+    field_id = channel_array[3].to_i
+
+    # get the feed
+    begin
+      # add a timeout since this query may be really long if there is a lot of data,
+      # but the last instance of the field is very far back
+      Timeout.timeout(5, Timeout::Error) do
+        # look for a feed where the value isn't null
+        @feed = Feed.where(:channel_id => channel.id)
+          .where("field? is not null", field_id)
+          .select("entry_id, field#{field_id}")
+          .order('entry_id desc')
+          .first
+      end
+    rescue Timeout::Error
+    rescue
+    end
+
+    # no feed found
+    return nil if @feed.blank?
+
+    # return the feed value
+    return @feed["field#{field_id}"]
+  end
+
+
   # search for public channels within a certain distance from the origin
   # requires latitude, longitude, and distance to be present as options keys
   # distance is in kilometers

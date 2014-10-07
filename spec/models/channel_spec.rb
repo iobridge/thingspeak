@@ -146,5 +146,34 @@ describe Channel do
       Channel.location_search({latitude: 30.8, longitude: 30.2, distance: 100}).count.should eq(0)
     end
   end
+
+  describe 'value_from_string' do
+    before :each do
+      @user = FactoryGirl.create(:user)
+      @channel = FactoryGirl.create(:channel, public_flag: false, user_id: @user.id)
+      @feed = FactoryGirl.create(:feed, field1: 7, channel_id: @channel.id)
+    end
+
+    it 'should get the last value correctly' do
+      Channel.value_from_string("channel_#{@channel.id}_field_1", @user).should eq('7')
+    end
+
+    it 'has an incorrect user' do
+      Channel.value_from_string("channel_#{@channel.id}_field_1", nil).should eq(nil)
+    end
+
+    it 'has an incorrect user, but channel is public' do
+      @channel.update_column(:public_flag, true)
+      Channel.value_from_string("channel_#{@channel.id}_field_1", nil).should eq('7')
+    end
+
+    it 'has an incorrect string' do
+      Channel.value_from_string("channel_#{@channel.id}_field", @user).should eq(nil)
+    end
+
+    it 'has an incorrect field' do
+      Channel.value_from_string("channel_#{@channel.id}_field_8", @user).should eq(nil)
+    end
+  end
 end
 

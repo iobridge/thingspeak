@@ -44,7 +44,7 @@
                // add location if possible
                if (this.location) { p.name = this.location; }
                // if a numerical value exists add it
-               if (!isNaN(parseInt(v))<% if params[:max] %> && p.y <= <%= params[:max]%><% end %><% if params[:min] %> && p.y >= <%= params[:min]%><% end %>) { chartData.push(p); }
+               if (!isNaN(parseInt(v))<% if params[:max].present? && Feed.numeric?(params[:max]) %> && p.y <= <%= params[:max] %><% end %><% if params[:min].present? && Feed.numeric?(params[:max]) %> && p.y >= <%= params[:min] %><% end %>) { chartData.push(p); }
             });
 
             // specify the chart options
@@ -97,7 +97,7 @@
                               shift = true ;
                             }
                             // if a numerical value exists and it is a new date, add it
-                            if (!isNaN(parseInt(v)) && (p.x != last_date)<% if params[:max] %> && p.y <= <%= params[:max]%><% end %><% if params[:min] %> && p.y >= <%= params[:min]%><% end %>) {
+                            if (!isNaN(parseInt(v)) && (p.x != last_date)<% if params[:max].present? && Feed.numeric?(params[:max]) %> && p.y <= <%= params[:max] %><% end %><% if params[:min].present? && Feed.numeric?(params[:min]) %> && p.y >= <%= params[:min] %><% end %>) {
                               dynamicChart.series[0].addPoint(p, true, shift);
                             }
                             else {

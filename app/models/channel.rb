@@ -90,6 +90,11 @@ class Channel < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
+  # replace channel values: %%channel_1417_field_1%% is replaced with appropriate value
+  def self.replace_values(input, user)
+    return input.gsub(/%%channel_\d+_field_\d+%%/) { |string| Channel.value_from_string(string, user) }
+  end
+
   # access a last value by string: channel_1417_field_1
   def self.value_from_string(channel_string, user)
     # remove % from the string and create the array

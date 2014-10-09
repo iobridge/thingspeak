@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: feeds
+#
+#  id         :integer          not null, primary key
+#  channel_id :integer
+#  field1     :string(255)
+#  field2     :string(255)
+#  field3     :string(255)
+#  field4     :string(255)
+#  field5     :string(255)
+#  field6     :string(255)
+#  field7     :string(255)
+#  field8     :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  entry_id   :integer
+#  status     :string(255)
+#  latitude   :decimal(15, 10)
+#  longitude  :decimal(15, 10)
+#  elevation  :string(255)
+#  location   :string(255)
+#
+
 require 'spec_helper'
 
 describe Feed do

@@ -29,7 +29,7 @@
               </h4>
               <div class="btn-group btn-group-sm">
                 <%= link_to T(:view), plugin_path(p.id), :target => '_blank', class: 'btn btn-default' %>
-                <%= link_to T(:edit), edit_plugin_path(p.id), class: 'btn btn-default' %>
+                <%= link_to T(:edit), edit_plugin_path(p.id), class: 'btn btn-default', 'data-no-turbolink' => 'true' %>
               </div>
             </td>
             <td><%= p.created_at.strftime("%Y-%m-%d") %></td>

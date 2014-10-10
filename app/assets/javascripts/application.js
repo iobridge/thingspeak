@@ -10,7 +10,6 @@
 //= require ./nested_form.js
 //= require ./noapi.js
 //= require ./rest.js
-//= require ./tabby.js
 //= require ./validate.min.js
 //= require ./channels.js
 //= require ./sidebar.js

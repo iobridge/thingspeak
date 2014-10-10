@@ -1,8 +1,24 @@
+<link href="//thingspeak.com/codemirror/codemirror.css" rel="stylesheet" />
+<link href="//thingspeak.com/codemirror/neat.css" rel="stylesheet" />
+<script type="text/javascript" src="//thingspeak.com/codemirror/codemirror.js"></script>
+<script type="text/javascript" src="//thingspeak.com/codemirror/xml.js"></script>
+<script type="text/javascript" src="//thingspeak.com/codemirror/javascript.js"></script>
+<script type="text/javascript" src="//thingspeak.com/codemirror/css.js"></script>
+<script type="text/javascript" src="//thingspeak.com/codemirror/htmlmixed.js"></script>
+
+<style type="text/css">
+  /* codemirror overrides */
+  pre { overflow: inherit !important; }
+  .activeline { background: #e8f2ff !important; }
+  .CodeMirror { border: 1px solid #ccc; }
+  .CodeMirror-scroll { height: 300px; }
+</style>
+
 <div class="col-sm-8 col-xs-8">
 
   <ol class="breadcrumb" data-no-turbolink>
     <li><%= link_to t(:plugins), plugins_path %></li>
-    <li><%= link_to plugin_path(@plugin.id) do %> <%= t(:plugin) %> <%= @plugin.id %><% end %></li>
+    <li><%= link_to plugin_path(@plugin.id) do %><%= t(:plugin) %> <%= @plugin.id %><% end %></li>
     <li class="active"><%= t(:edit) %></li>
   </ol>
 
@@ -56,11 +72,54 @@
 </div>
 
 <script type="text/javascript">
+
   // when document is ready
   $(document).on('page:load ready', function() {
 
-    // allow tabs to work in textareas
-    $("textarea").tabby();
+    // set html codemirror
+    var html_line = '';
+    var html_editor = CodeMirror.fromTextArea(document.getElementById("plugin_html"), {
+      lineNumbers: true,
+      indentUnit: 2,
+      extraKeys: {Tab: function(cm) { cm.replaceSelection("  ", "end"); }},
+      matchBrackets: true,
+      mode: "text/html",
+      height: '300px',
+      onCursorActivity: function() {
+        html_editor.setLineClass(html_line, null, null);
+        html_line = html_editor.setLineClass(html_editor.getCursor().line, null, "activeline");
+      }
+    });
+
+    // set css codemirror
+    var css_line = '';
+    var css_editor = CodeMirror.fromTextArea(document.getElementById("plugin_css"), {
+      lineNumbers: true,
+      indentUnit: 2,
+      extraKeys: {Tab: function(cm) { cm.replaceSelection("  ", "end"); }},
+      matchBrackets: true,
+      mode: "text/html",
+      height: '300px',
+      onCursorActivity: function() {
+        css_editor.setLineClass(css_line, null, null);
+        css_line = css_editor.setLineClass(css_editor.getCursor().line, null, "activeline");
+      }
+    });
+
+    // set js codemirror
+    var js_line = '';
+    var js_editor = CodeMirror.fromTextArea(document.getElementById("plugin_js"), {
+      lineNumbers: true,
+      indentUnit: 2,
+      extraKeys: {Tab: function(cm) { cm.replaceSelection("  ", "end"); }},
+      matchBrackets: true,
+      mode: "text/html",
+      height: '300px',
+      onCursorActivity: function() {
+        js_editor.setLineClass(js_line, null, null);
+        js_line = js_editor.setLineClass(js_editor.getCursor().line, null, "activeline");
+      }
+    });
 
     // clears status message
     function clearStatus() {

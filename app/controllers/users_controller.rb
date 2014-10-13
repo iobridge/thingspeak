@@ -62,6 +62,9 @@ class UsersController < ApplicationController
     # output error if user not found
     render :text => t(:user_not_found) and return if @user.nil?
 
+    # set page title
+    @title = @user.login || nil
+
     # if a json or xml request
     if request.format == :json || request.format == :xml
       # authenticate the user if the user is logged in (can be via token) or api key matches the target user

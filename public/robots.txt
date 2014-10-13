@@ -7,4 +7,6 @@ Disallow: *.xml
 Disallow: *.txt
 Disallow: *.csv
 Disallow: /channels/*/charts
-Disallow: /channels/public/
+Disallow: /channels/*/watch
+Disallow: /channels/*/tags
+

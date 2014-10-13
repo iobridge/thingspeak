@@ -2,8 +2,7 @@ class PagesController < ApplicationController
   layout 'application', :except => [:home, :social_home]
 
   def home
-    @menu = 'home'
-    @title = 'Internet of Things'
+    @menu = 'Internet of Things'
     render layout: 'home'
   end
 

@@ -1,7 +1,7 @@
 <% if notice.present? %>
-  <p class="flash alert alert-success"><%= notice %><span class="dismiss">X</span></p>
+  <p class="flash alert alert-success"><%= raw(notice) %><span class="dismiss">X</span></p>
 <% end %>
 <% if alert.present? %>
-  <p class="flash alert alert-danger"><%= alert %><span class="dismiss">X</span></p>
+  <p class="flash alert alert-danger"><%= raw(alert) %><span class="dismiss">X</span></p>
 <% end %>
 

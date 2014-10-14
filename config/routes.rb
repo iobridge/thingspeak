@@ -75,6 +75,9 @@ Thingspeak::Application.routes.draw do
   get 'channels/:channel_id/maps/channel_show' => 'maps#channel_show'
   get 'channels/:channel_id/status/recent' => 'status#recent'
 
+  # multiple series on a chart demo
+  get 'charts/multiple_series' => 'charts#multiple_series'
+
   # nest the following controllers inside channels
   resources :channels do
     collection do

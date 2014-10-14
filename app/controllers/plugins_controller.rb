@@ -8,13 +8,14 @@ class PluginsController < ApplicationController
     respond_with_error(:error_auth_required) and return if current_user.blank? || (@plugin.user_id != current_user.id)
   end
 
+  def new; ; end
+  def edit; ; end
+
   def index
     @plugins = current_user.plugins
-
   end
 
   def public_plugins
-
     channel_id = params[:channel_id].to_i
     return if channel_id.nil?
     #private page should display all plugins
@@ -24,7 +25,6 @@ class PluginsController < ApplicationController
     plugins.each do |plugin|
       plugin.make_windows channel_id, api_domain #will only make the window the first time
       @plugin_windows = @plugin_windows + plugin.public_dashboard_windows(channel_id)
-
     end
 
     respond_to do |format|
@@ -53,9 +53,21 @@ class PluginsController < ApplicationController
   def create
     # add plugin with defaults
     @plugin = Plugin.new
-    @plugin.html = read_file('app/views/plugins/default.html')
-    @plugin.css = read_file('app/views/plugins/default.css')
-    @plugin.js = read_file('app/views/plugins/default.js')
+
+    # set default template
+    template = 'default'
+
+    # use case statement to set template, since user input is untrusted
+    case params[:template]
+    when 'gauge' then template = 'gauge'
+    when 'chart' then template = 'chart'
+    end
+
+    # set template dynamically
+    @plugin.html = read_file("app/views/plugins/templates/#{template}.html")
+    @plugin.css = read_file("app/views/plugins/templates/#{template}.css")
+    @plugin.js = read_file("app/views/plugins/templates/#{template}.js")
+
     @plugin.user_id = current_user.id
     @plugin.private_flag = true
     @plugin.save
@@ -82,7 +94,6 @@ class PluginsController < ApplicationController
   end
 
   def show_public
-
     @plugin = Plugin.find(params[:id])
     @output = @plugin.html.sub('%%PLUGIN_CSS%%', @plugin.css).sub('%%PLUGIN_JAVASCRIPT%%', @plugin.js)
     if @plugin.private?
@@ -100,9 +111,6 @@ class PluginsController < ApplicationController
     end
   end
 
-  def edit
-  end
-
   def update
     @plugin.update_attribute(:name, params[:plugin][:name])
     @plugin.update_attribute(:private_flag, params[:plugin][:private_flag])
@@ -111,11 +119,9 @@ class PluginsController < ApplicationController
     @plugin.update_attribute(:html,params[:plugin][:html])
 
     if @plugin.save
-
       @plugin.update_all_windows
       redirect_to plugins_path and return
     end
-
   end
 
   def ajax_update

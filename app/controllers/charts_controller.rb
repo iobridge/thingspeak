@@ -1,5 +1,6 @@
 class ChartsController < ApplicationController
   before_filter :require_user, :only => [:edit]
+
   def edit
     # params[:id] is the windows ID
     @channel = current_user.channels.find(params[:channel_id])
@@ -22,7 +23,6 @@ class ChartsController < ApplicationController
   end
 
   def index
-
     set_channels_menu
     @channel = Channel.find(params[:channel_id])
     @channel_id = params[:channel_id]
@@ -35,8 +35,12 @@ class ChartsController < ApplicationController
     check_permissions(@channel)
   end
 
-  def show
+  # show a chart with multiple series
+  def multiple_series
+    render :layout => false
+  end
 
+  def show
     # allow these parameters when creating feed querystring
     feed_params = ['key', 'api_key', 'apikey', 'days','start','end','round','timescale','average','median','sum','results','location','status','timezone']
 
@@ -65,7 +69,6 @@ class ChartsController < ApplicationController
     @results = params[:results]
     render :layout => false
   end
-
 
   # save chart options
   def update

@@ -3,11 +3,8 @@
 
     <h4 class='breadcrumb'><%= t(:plugins) %></h4>
 
-    <%= form_for :plugin do |p| %>
-      <input name='userlogin' class='userlogin' />
-      <%= p.submit t(:plugin_create), :class => 'btn btn-primary' %>
-    <% end %>
-    <br>
+    <%= link_to t(:plugin_new), new_plugin_path, class: 'btn btn-primary' %>
+    <br><br>
 
     <% if @plugins.length > 0 %>
       <table class="table table-striped table-bordered tablesorter">

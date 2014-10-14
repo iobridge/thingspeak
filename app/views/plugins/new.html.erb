@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6">
+
+    <ol class="breadcrumb">
+      <li><%= link_to t(:plugins), plugins_path %></li>
+      <li class="active"><%= t(:new) %></li>
+    </ol>
+
+    <h3><%= t(:plugin_new) %></h3>
+    <br>
+    <div><%= t(:plugin_new_message) %></div>
+    <br>
+
+    <%= form_for Plugin.new, :html => {:class => 'form-horizontal'} do |f| %>
+      <div class="form-group">
+        <label class="col-sm-3 col-xs-12 control-label"><%= t(:plugin_template) %></label>
+        <div class="col-sm-9 col-xs-12">
+          <div class="radio">
+            <label>
+              <%= radio_button_tag :template, 'default', :checked => 'checked' %> <%= T(:default) %>
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <%= radio_button_tag :template, 'gauge' %> Google Gauge
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <%= radio_button_tag :template, 'chart' %> <%= t(:plugin_chart) %>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <p class="form-control-static">
+            <%= f.submit t(:plugin_create), :class => 'btn btn-primary' %>
+          </p>
+        </div>
+      </div>
+    <% end %>
+    <br>
+
+
+  </div>
+
+  <div id="sidebar" class="col-xs-12 col-sm-6">
+    <h4 class="breadcrumb"><%= t(:help) %></h4>
+
+    <div class="col-pad">
+      <%= t(:help_plugins) %>
+      <ul>
+        <li><a href="http://community.thingspeak.com/tutorials/google/display-a-google-gauge-visualization-using-thingspeak-plugins/" target="_blank">Google Gauge Tutorial</a></li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+

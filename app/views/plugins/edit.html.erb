@@ -18,24 +18,12 @@
 
   <ol class="breadcrumb" data-no-turbolink>
     <li><%= link_to t(:plugins), plugins_path %></li>
-    <li><%= link_to plugin_path(@plugin.id) do %><%= t(:plugin) %> <%= @plugin.id %><% end %></li>
+    <li><%= link_to plugin_path(@plugin.id), target: '_blank' do %><%= t(:plugin) %> <%= @plugin.id %><% end %></li>
     <li class="active"><%= t(:edit) %></li>
   </ol>
 
   <%= form_for @plugin, :html => {:method => 'put', :class => 'form-horizontal'} do |c| %>
     <%= error_messages_for 'plugin', :header_message => t(:try_again), :message => t(:plugin_error) %>
-    <input name='userlogin' class='userlogin' />
-
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10 col-xs-12">
-        <div class="checkbox">
-          <label>
-            <%= c.check_box :private_flag %>
-            <%= t(:plugin_private_flag) %>
-          </label>
-        </div>
-      </div>
-    </div>
 
     <div class="form-group">
       <label class="col-sm-2 col-xs-12 control-label"><%= t(:plugin_name) %></label>
@@ -55,6 +43,17 @@
     <div class="form-group">
       <label class="col-sm-2 col-xs-12 control-label"><%= t(:plugin_js) %></label>
       <div class="col-sm-10 col-xs-12"><%= c.text_area :js, :class => 'form-control', :rows => 14 %></div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10 col-xs-12">
+        <div class="checkbox">
+          <label>
+            <%= c.check_box :private_flag %>
+            <b><%= t(:plugin_private_flag) %></b>
+          </label>
+        </div>
+      </div>
     </div>
 
     <div class="form-group">

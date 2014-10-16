@@ -3,40 +3,43 @@
 
     <h4 class='breadcrumb'><%= t(:plugins) %></h4>
 
-    <%= link_to t(:plugin_new), new_plugin_path, class: 'btn btn-primary' %>
-    <br><br>
+    <div class="col-pad">
 
-    <% if @plugins.length > 0 %>
-      <table class="table table-striped table-bordered tablesorter">
-        <thead>
-          <tr>
-            <th><%= t(:plugin_name) %> <i class="fa fa-unsorted"></i></th>
-              <th><%= t(:created) %> <i class="fa fa-unsorted"></i></td>
-          </tr>
-        </thead>
-        <tbody>
-          <% @plugins.each do |p| %>
-          <tr>
-            <td>
-              <h4 style="margin-top: 0;">
-                <a href="<%= plugin_path(p.id) %>" target="_blank">
-                  <i class="fa fa-<%= 'un' if p.private_flag != true %>lock fa-fw"></i>
-                  <%= p.name %>
-                </a>
-              </h4>
-              <div class="btn-group btn-group-sm">
-                <%= link_to T(:view), plugin_path(p.id), :target => '_blank', class: 'btn btn-default' %>
-                <%= link_to T(:edit), edit_plugin_path(p.id), class: 'btn btn-default', 'data-no-turbolink' => 'true' %>
-              </div>
-            </td>
-            <td><%= p.created_at.strftime("%Y-%m-%d") %></td>
-          </tr>
-          <% end %>
-        </tbody>
+      <%= link_to t(:plugin_new), new_plugin_path, class: 'btn btn-primary' %>
+      <br><br>
 
-      </table>
-    <% end %>
+      <% if @plugins.length > 0 %>
+        <table class="table table-striped table-bordered tablesorter">
+          <thead>
+            <tr>
+              <th><%= t(:plugin_name) %> <i class="fa fa-unsorted"></i></th>
+                <th><%= t(:created) %> <i class="fa fa-unsorted"></i></td>
+            </tr>
+          </thead>
+          <tbody>
+            <% @plugins.each do |p| %>
+            <tr>
+              <td>
+                <h4 style="margin-top: 0;">
+                  <a href="<%= plugin_path(p.id) %>" target="_blank">
+                    <i class="fa fa-<%= 'un' if p.private_flag != true %>lock fa-fw"></i>
+                    <%= p.name %>
+                  </a>
+                </h4>
+                <div class="btn-group btn-group-sm">
+                  <%= link_to T(:view), plugin_path(p.id), :target => '_blank', class: 'btn btn-default' %>
+                  <%= link_to T(:edit), edit_plugin_path(p.id), class: 'btn btn-default', 'data-no-turbolink' => 'true' %>
+                </div>
+              </td>
+              <td><%= p.created_at.strftime("%Y-%m-%d") %></td>
+            </tr>
+            <% end %>
+          </tbody>
 
+        </table>
+      <% end %>
+
+    </div>
   </div>
 
   <div id="sidebar" class="col-xs-12 col-sm-6">

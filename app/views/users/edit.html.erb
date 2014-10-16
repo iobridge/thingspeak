@@ -6,45 +6,47 @@
       <li class="active"><%= t(:account_edit) %></li>
     </ol>
 
-    <%= form_for @user, :url => account_path, :html => {:class => 'form-horizontal'} do |f| %>
-      <%= error_messages_for 'user', :header_message => t(:try_again), :message => t(:account_error_edit) %>
-      <input name='userlogin' class='userlogin' />
+    <div class="col-pad">
+      <%= form_for @user, :url => account_path, :html => {:class => 'form-horizontal'} do |f| %>
+        <%= error_messages_for 'user', :header_message => t(:try_again), :message => t(:account_error_edit) %>
+        <input name='userlogin' class='userlogin' />
 
-      <div class="form-group">
-        <label class="col-sm-4 col-xs-4 control-label"><%= t(:userid) %></label>
-        <div class="col-sm-8 col-xs-8"><%= f.text_field :login, :class => 'form-control' %></div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-4 col-xs-4 control-label"><%= t(:email) %></label>
-        <div class="col-sm-8 col-xs-8"><%= f.text_field :email, :class => 'form-control' %></div>
-      </div>
-
-      <div class="form-group">
-        <label class="col-sm-4 col-xs-4 control-label"><%= t(:time_zone) %></label>
-        <div class="col-sm-8 col-xs-8">
-          <p class="form-control-static">
-            <%= time_zone_select 'user', 'time_zone', nil, {:default => 'Eastern Time (US & Canada)'}, {:class => 'form-control'} %>
-          </p>
+        <div class="form-group">
+          <label class="col-sm-4 col-xs-4 control-label"><%= t(:userid) %></label>
+          <div class="col-sm-8 col-xs-8"><%= f.text_field :login, :class => 'form-control' %></div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label class="col-sm-4 col-xs-4 control-label"><%= t(:password_change) %></label>
-        <div class="col-sm-8 col-xs-8"><%= f.password_field :password, :class => 'form-control' %></div>
-      </div>
+        <div class="form-group">
+          <label class="col-sm-4 col-xs-4 control-label"><%= t(:email) %></label>
+          <div class="col-sm-8 col-xs-8"><%= f.text_field :email, :class => 'form-control' %></div>
+        </div>
 
-      <div class="form-group">
-        <label class="col-sm-4 col-xs-4 control-label"><%= t(:password_current) %></label>
-        <div class="col-sm-8 col-xs-8"><%= f.password_field :password_current, :class => 'form-control' %></div>
-      </div>
+        <div class="form-group">
+          <label class="col-sm-4 col-xs-4 control-label"><%= t(:time_zone) %></label>
+          <div class="col-sm-8 col-xs-8">
+            <p class="form-control-static">
+              <%= time_zone_select 'user', 'time_zone', nil, {:default => 'Eastern Time (US & Canada)'}, {:class => 'form-control'} %>
+            </p>
+          </div>
+        </div>
 
-      <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-8 col-xs-offset-4 col-xs-8"><p class="form-control-static"><%= f.submit t(:account_update), :class => 'btn btn-primary' %></p></div>
-      </div>
+        <div class="form-group">
+          <label class="col-sm-4 col-xs-4 control-label"><%= t(:password_change) %></label>
+          <div class="col-sm-8 col-xs-8"><%= f.password_field :password, :class => 'form-control' %></div>
+        </div>
 
-    <% end %>
+        <div class="form-group">
+          <label class="col-sm-4 col-xs-4 control-label"><%= t(:password_current) %></label>
+          <div class="col-sm-8 col-xs-8"><%= f.password_field :password_current, :class => 'form-control' %></div>
+        </div>
 
+        <div class="form-group">
+          <div class="col-sm-offset-4 col-sm-8 col-xs-offset-4 col-xs-8"><p class="form-control-static"><%= f.submit t(:account_update), :class => 'btn btn-primary' %></p></div>
+        </div>
+
+      <% end %>
+
+    </div>
   </div>
 </div>
 

@@ -4,9 +4,11 @@
     <h4 class="breadcrumb"><%= t(:watched_channels) %></h4>
 
     <% if @channels.empty? %>
-      <%= t(:watched_empty) %>
-      <br><br>
-      <%= link_to t(:watched_find), public_channels_path %>
+      <div class="col-pad">
+        <%= t(:watched_empty) %>
+        <br><br>
+        <%= link_to t(:watched_find), public_channels_path %>
+      </div>
     <% else %>
       <%= render :partial => 'list' %>
     <% end %>

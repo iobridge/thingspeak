@@ -7,7 +7,7 @@
     </ol>
 
     <div class="col-pad">
-      <h3><%= t(:plugin_new) %></h3>
+      <h3><%= t(:new_model, model: 'Plugin') %></h3>
       <br>
       <div><%= t(:plugin_new_message) %></div>
       <br>
@@ -37,7 +37,7 @@
         <div class="form-group">
           <div class="col-sm-offset-3 col-sm-9">
             <p class="form-control-static">
-              <%= f.submit t(:plugin_create), :class => 'btn btn-primary' %>
+              <%= f.submit t(:create_model, model: 'Plugin'), :class => 'btn btn-primary' %>
             </p>
           </div>
         </div>

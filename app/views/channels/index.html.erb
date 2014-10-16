@@ -5,7 +5,7 @@
 
     <div class="col-pad" data-no-turbolink>
 
-      <%= button_to t(:channel_create), channels_path, :method => :post, :class => 'btn btn-primary' %><br>
+      <%= button_to t(:new_model, model: 'Channel'), channels_path, :method => :post, :class => 'btn btn-primary' %><br>
 
       <% if @channels.length > 0 %>
 

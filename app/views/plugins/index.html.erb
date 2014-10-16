@@ -5,7 +5,7 @@
 
     <div class="col-pad">
 
-      <%= link_to t(:plugin_new), new_plugin_path, class: 'btn btn-primary' %>
+      <%= link_to t(:new_model, model: 'Plugin'), new_plugin_path, class: 'btn btn-primary' %>
       <br><br>
 
       <% if @plugins.length > 0 %>

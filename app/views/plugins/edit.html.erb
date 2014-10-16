@@ -58,7 +58,7 @@
 
     <div class="form-group">
       <label class="col-sm-2 control-label"></label>
-      <div class="col-sm-10"><p class="form-control-static"><%= c.submit t(:plugin_save), :class => 'btn btn-primary' %></p></div>
+      <div class="col-sm-10"><p class="form-control-static"><%= c.submit t(:save_model, model: 'Plugin'), :class => 'btn btn-primary' %></p></div>
     </div>
 
   <% end %>
@@ -66,7 +66,7 @@
   <br><br>
 
   <h3><%= t(:plugin_delete_message) %></h3>
-  <%= button_to t(:plugin_delete), plugin_path(@plugin.id), :method => 'delete', :data => { :confirm => t(:confirm_plugin_delete) }, :class => 'btn btn-danger' %>
+  <%= button_to t(:delete_model, model: 'Plugin'), plugin_path(@plugin.id), :method => 'delete', :data => { :confirm => t(:confirm_plugin_delete) }, :class => 'btn btn-danger' %>
 
 </div>
 

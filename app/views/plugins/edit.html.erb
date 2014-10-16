@@ -49,8 +49,8 @@
       <div class="col-sm-offset-2 col-sm-10 col-xs-12">
         <div class="checkbox">
           <label>
-            <%= c.check_box :private_flag %>
-            <b><%= t(:plugin_private_flag) %></b>
+            <%= c.check_box :public_flag %>
+            <b><%= t(:plugin_public_flag) %></b>
           </label>
         </div>
       </div>
@@ -139,7 +139,7 @@
           plugin:
           {
               name: $('#plugin_name').val(),
-              private_flag: $('#plugin_private_flag').is(':checked'),
+              public_flag: $('#plugin_public_flag').is(':checked'),
               html: $('#plugin_html').val(),
               css: $('#plugin_css').val(),
               js: $('#plugin_js').val()

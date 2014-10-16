@@ -22,7 +22,7 @@
               <td>
                 <h4 style="margin-top: 0;">
                   <a href="<%= plugin_path(p.id) %>" target="_blank">
-                    <i class="fa fa-<%= 'un' if p.private_flag != true %>lock fa-fw"></i>
+                    <i class="fa fa-<%= 'un' if p.public? %>lock fa-fw"></i>
                     <%= p.name %>
                   </a>
                 </h4>

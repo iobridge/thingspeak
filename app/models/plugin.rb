@@ -2,15 +2,15 @@
 #
 # Table name: plugins
 #
-#  id           :integer          not null, primary key
-#  name         :string(255)
-#  user_id      :integer
-#  html         :text
-#  css          :text
-#  js           :text
-#  created_at   :datetime
-#  updated_at   :datetime
-#  private_flag :boolean          default(TRUE)
+#  id          :integer          not null, primary key
+#  name        :string(255)
+#  user_id     :integer
+#  html        :text
+#  css         :text
+#  js          :text
+#  created_at  :datetime
+#  updated_at  :datetime
+#  public_flag :boolean          default(FALSE)
 #
 
 class Plugin < ActiveRecord::Base
@@ -23,13 +23,8 @@ class Plugin < ActiveRecord::Base
     Window.delete(window_id)
   end
 
-  def private?
-    private_flag
-  end
-
-  def public?
-    !private_flag
-  end
+  def public?; public_flag == true; end
+  def private?; public_flag == false; end
 
   def has_private_windows(channel_id)
     has_private_windows = false

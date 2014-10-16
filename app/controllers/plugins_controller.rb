@@ -18,8 +18,6 @@ class PluginsController < ApplicationController
   def public_plugins
     channel_id = params[:channel_id].to_i
     return if channel_id.nil?
-    #private page should display all plugins
-    #plugins = current_user.plugins.where("private_flag = true")
     @plugin_windows = []
     plugins = current_user.plugins
     plugins.each do |plugin|
@@ -69,7 +67,7 @@ class PluginsController < ApplicationController
     @plugin.js = read_file("app/views/plugins/templates/#{template}.js")
 
     @plugin.user_id = current_user.id
-    @plugin.private_flag = true
+    @plugin.public_flag = false
     @plugin.save
 
     # now that the plugin is saved, we can create the default name
@@ -84,7 +82,7 @@ class PluginsController < ApplicationController
     @plugin = Plugin.find(params[:id])
 
     # make sure the user can access this plugin
-    if (@plugin.private_flag == true)
+    if (@plugin.private?)
       respond_with_error(:error_auth_required) and return if current_user.blank? || (@plugin.user_id != current_user.id)
     end
 
@@ -113,7 +111,7 @@ class PluginsController < ApplicationController
 
   def update
     @plugin.update_attribute(:name, params[:plugin][:name])
-    @plugin.update_attribute(:private_flag, params[:plugin][:private_flag])
+    @plugin.update_attribute(:public_flag, params[:plugin][:public_flag])
     @plugin.update_attribute(:css, params[:plugin][:css])
     @plugin.update_attribute(:js, params[:plugin][:js])
     @plugin.update_attribute(:html,params[:plugin][:html])
@@ -127,7 +125,7 @@ class PluginsController < ApplicationController
   def ajax_update
     status = 0
     @plugin.update_attribute(:name, params[:plugin][:name])
-    @plugin.update_attribute(:private_flag, params[:plugin][:private_flag])
+    @plugin.update_attribute(:public_flag, params[:plugin][:public_flag])
     @plugin.update_attribute(:css, params[:plugin][:css])
     @plugin.update_attribute(:js, params[:plugin][:js])
     @plugin.update_attribute(:html, params[:plugin][:html])

@@ -5,7 +5,7 @@ FactoryGirl.define do
     html = "<html/>"
     css = "<style/>"
     js = "<script/>"
-    private_flag = true
-    # association :user
+    public_flag = false
   end
 end
+

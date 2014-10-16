@@ -202,7 +202,7 @@ en:
   plugin_save: "Save Plugin"
   plugin_template: "Plugin Template"
   plugins: "Plugins"
-  plugin_private_flag: "Private?"
+  plugin_public_flag: "Make Public?"
   profile_bio: "Bio"
   profile_edit: "Edit Public Profile"
   profile_for: "Profile for"

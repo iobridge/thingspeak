@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141007195311) do
+ActiveRecord::Schema.define(version: 20141016143645) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -236,7 +236,7 @@ ActiveRecord::Schema.define(version: 20141007195311) do
     t.text     "js"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "private_flag", default: true
+    t.boolean  "public_flag", default: false
   end
 
   add_index "plugins", ["user_id"], name: "index_plugins_on_user_id", using: :btree

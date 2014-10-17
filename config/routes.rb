@@ -127,6 +127,7 @@ Thingspeak::Application.routes.draw do
     collection do
       get 'private_plugins'
       get 'public_plugins'
+      get 'public'
     end
   end
 

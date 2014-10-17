@@ -39,6 +39,9 @@ class ChannelsController < ApplicationController
 
   # list public channels
   def public
+    # error if page 0
+    respond_with_error(:error_resource_not_found) and return if params[:page] == '0'
+
     @domain = domain
     # default blank response
     @channels = Channel.where(:id => 0).paginate :page => params[:page]
@@ -63,7 +66,6 @@ class ChannelsController < ApplicationController
     # normal channel list
     else
       @header = t(:featured_channels)
-      respond_with_error(:error_resource_not_found) and return if params[:page] == '0'
       @channels = Channel.public_viewable.active.order('ranking desc, updated_at DESC').paginate :page => params[:page]
     end
 

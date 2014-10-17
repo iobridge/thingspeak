@@ -4,10 +4,10 @@
     <div class="panel panel-primary">
 
       <div class="panel-heading">
-        <%= link_to channel_path(channel.id), :id => "showsite_#{channel.id}", class: 'link-no-hover' do %>
+        <%= link_to channel_path(channel.id), class: 'link-no-hover' do %>
           <i class="fa fa-bar-chart-o"></i>
         <% end %>
-        <%= link_to channel_path(channel.id), :id => "showsite_#{channel.id}" do %>
+        <%= link_to channel_path(channel.id) do %>
           <%= truncate(channel.name, length: 23) %>
         <% end %>
       </div>

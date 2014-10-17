@@ -1,0 +1,182 @@
+<div>
+  <%= render 'response' %>
+  <h2 id="index">List Public Plugins</h2>
+</div>
+
+<br>
+To view a list of public plugins, send an HTTP GET to
+<br>
+<code><%= @ssl_api_domain %>plugins/public<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>page</b> (integer) Page number to retrieve (optional)</li>
+</ul>
+
+<br>
+Example GET:
+
+<pre>GET <span class="str"><%= @ssl_api_domain %>plugins/public<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span></pre>
+
+<br>
+
+<div class="format format-block-xxl format-text">
+  The response will be a webpage with a <a href="/plugins/public">list of public plugins</a>.
+</div>
+
+<div class="format format-block-xxl format-json">
+  The response will be a JSON object of public plugins, for example:
+
+<pre class="prettyprint">
+{
+  "pagination":
+  {
+    "current_page": 1,
+    "per_page":15,
+    "total_entries": 2
+  },
+  "plugins":
+  [
+    {
+      "id": 8,
+      "name": "google gauge",
+      "created_at": "2014-01-05T16:35:26-05:00",
+      "public_flag": true,
+      "username": "hans",
+      "url": "https://thingspeak.com/plugins/8"
+    },
+    {
+      "id": 13,
+      "name": "Plugin 13",
+      "created_at": "2014-10-09T14:45:31-04:00",
+      "public_flag": true,
+      "username": "hans",
+      "url": "https://thingspeak.com/plugins/13"
+    }
+  ]
+}
+</pre>
+
+</div>
+
+<div class="format format-block-xxl format-xml">
+  The response will be an XML object of public plugins, for example:
+
+<pre class="prettyprint">
+&lt;response>
+  &lt;pagination>
+    &lt;current-page type="WillPaginate::PageNumber">1&lt;/current-page>
+    &lt;per-page type="integer">15&lt;/per-page>
+    &lt;total-entries type="integer">2&lt;/total-entries>
+  &lt;/pagination>
+  &lt;plugins type="array">
+    &lt;plugin>
+      &lt;id type="integer">8&lt;/id>
+      &lt;name>google gauge&lt;/name>
+      &lt;created-at type="dateTime">2014-01-05T16:35:26-05:00&lt;/created-at>
+      &lt;public-flag type="boolean">true&lt;/public-flag>
+      &lt;username>hans&lt;/username>
+      &lt;url>https://thingspeak.com/plugins/8&lt;/url>
+    &lt;/plugin>
+    &lt;plugin>
+      &lt;id type="integer">13&lt;/id>
+      &lt;name>Plugin 13&lt;/name>
+      &lt;created-at type="dateTime">2014-10-09T14:45:31-04:00&lt;/created-at>
+      &lt;public-flag type="boolean">true&lt;/public-flag>
+      &lt;username>hans&lt;/username>
+      &lt;url>https://thingspeak.com/plugins/13&lt;/url>
+    &lt;/plugin>
+  &lt;/plugins>
+&lt;/response>
+</pre>
+
+</div>
+
+<div>
+  <%= render 'response' %>
+  <h2>List My Plugins</h2>
+</div>
+
+<br>
+To view a list of your plugins, send an HTTP GET to
+<br>
+<code><%= @ssl_api_domain %>plugins<span class="format format-json">.json</span><span class="format format-xml">.xml</span></code> .
+
+<br><br>
+Valid parameters:
+<ul>
+  <li><b>api_key</b> (string) - Your Account API Key, which can be found in your Account settings. (required)</li>
+</ul>
+
+
+<br>
+Example GET:
+
+<pre>GET <span class="str"><%= @ssl_api_domain %>plugins<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span></pre>
+
+<br>
+
+<div class="format format-block-xxl format-text">
+  The response will be a webpage with a <a href="/plugins">list of your plugins</a>.
+</div>
+
+<div class="format format-block-xxl format-json">
+  The response will be a JSON object of your plugins, for example:
+
+<pre class="prettyprint">
+[
+    {
+      "id": 8,
+      "name": "google gauge",
+      "created_at": "2014-01-05T16:35:26-05:00",
+      "public_flag": false,
+      "username": "hans",
+      "url": "https://thingspeak.com/plugins/8"
+    },
+    {
+      "id": 13,
+      "name": "Plugin 13",
+      "created_at": "2014-10-09T14:45:31-04:00",
+      "public_flag": false,
+      "username": "hans",
+      "url": "https://thingspeak.com/plugins/13"
+    }
+  ]
+</pre>
+
+</div>
+
+<div class="format format-block-xxl format-xml">
+  The response will be an XML object of your plugins, for example:
+
+<pre class="prettyprint">
+&lt;response>
+  &lt;pagination>
+    &lt;current-page type="WillPaginate::PageNumber">1&lt;/current-page>
+    &lt;per-page type="integer">15&lt;/per-page>
+    &lt;total-entries type="integer">2&lt;/total-entries>
+  &lt;/pagination>
+  &lt;plugins type="array">
+    &lt;plugin>
+      &lt;id type="integer">8&lt;/id>
+      &lt;name>google gauge&lt;/name>
+      &lt;created-at type="dateTime">2014-01-05T16:35:26-05:00&lt;/created-at>
+      &lt;public-flag type="boolean">false&lt;/public-flag>
+      &lt;username>hans&lt;/username>
+      &lt;url>https://thingspeak.com/plugins/8&lt;/url>
+    &lt;/plugin>
+    &lt;plugin>
+      &lt;id type="integer">13&lt;/id>
+      &lt;name>Plugin 13&lt;/name>
+      &lt;created-at type="dateTime">2014-10-09T14:45:31-04:00&lt;/created-at>
+      &lt;public-flag type="boolean">false&lt;/public-flag>
+      &lt;username>hans&lt;/username>
+      &lt;url>https://thingspeak.com/plugins/13&lt;/url>
+    &lt;/plugin>
+  &lt;/plugins>
+&lt;/response>
+</pre>
+
+</div>
+

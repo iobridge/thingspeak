@@ -1,0 +1,34 @@
+<div class="row">
+
+  <div class="col-xs-12 col-sm-9">
+    <h4 class="breadcrumb">Plugins</h4>
+
+    <% @plugins.each do |plugin| %>
+      <div class="col-md-4 col-sm-6 col-xs-12">
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <%= link_to plugin_path(plugin.id), class: 'link-no-hover' do %>
+              <i class="fa fa-plug"></i>
+            <% end %>
+            <%= link_to plugin_path(plugin.id) do %>
+              <%= truncate(plugin.name, length: 23) %>
+            <% end %>
+          </div>
+
+          <div class="panel-body">
+            <p class="small">by <%= link_to(plugin.user.login, user_profile_path(plugin.user.login)) if plugin.user.present? %></p>
+          </div>
+        </div>
+
+      </div>
+    <% end %>
+
+    <div class="clearfix"></div>
+    <div class="col-pad">
+      <%= will_paginate @plugins, renderer: BootstrapPagination::Rails %>
+    </div>
+  </div>
+
+</div>
+

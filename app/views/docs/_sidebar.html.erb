@@ -46,7 +46,14 @@
     <li><a href="/docs/users">Users</a></li>
   <% end %>
 
-  <li class="<%= 'active' if params[:action] == 'plugins' %>"><a href="/docs/plugins">Plugins</a></li>
+  <% if params[:action] == 'plugins' %>
+    <li><a href="#plugins">Plugins</a></li>
+    <li class="subitem"><a href="#example">Example</a></li>
+    <li class="subitem"><a href="#index">List Plugins</a></li>
+  <% else %>
+    <li><a href="/docs/plugins">Plugins</a></li>
+  <% end %>
+
   <li class="<%= 'active' if params[:action] == 'tutorials' %>"><a href="/docs/tutorials">Tutorials</a></li>
   <li class="<%= 'active' if params[:action] == 'errors' %>"><a href="/docs/errors">Error Codes</a></li>
 </ul>

@@ -20,23 +20,23 @@ describe PluginsController do
   end
 
   describe "Not Logged In" do
-    it "should display public plugins" do
-      get :public
-      response.should render_template('public')
-    end
+    #it "should display public plugins" do
+    #  get :public
+    #  response.should render_template('public')
+    #end
 
-    it "should show paginated list of public plugins as json" do
-      @plugin.update_column(:public_flag, true)
-      get :public, :format => :json
-      JSON.parse(response.body).keys.include?('pagination').should be_true
-      JSON.parse(response.body)['plugins'].length.should eq(1)
-    end
+    #it "should show paginated list of public plugins as json" do
+    #  @plugin.update_column(:public_flag, true)
+    #  get :public, :format => :json
+    #  JSON.parse(response.body).keys.include?('pagination').should be_true
+    #  JSON.parse(response.body)['plugins'].length.should eq(1)
+    #end
 
-    it "should not show private plugins" do
-      @plugin.update_column(:public_flag, false)
-      get :public, :format => :json
-      JSON.parse(response.body)['plugins'].length.should eq(0)
-    end
+    #it "should not show private plugins" do
+    #  @plugin.update_column(:public_flag, false)
+    #  get :public, :format => :json
+    #  JSON.parse(response.body)['plugins'].length.should eq(0)
+    #end
   end
 
   describe "API" do

@@ -8,7 +8,7 @@
   <h2><%= t(:profile_for) %> <%= @user.login %></h2>
   <%= t(:member_since) %> <%= @user.created_at.strftime('%B %-d, %Y') %>
   <br><br>
-  <%= t(:profile_website) %>: <%= link_to @user.website, @user.website %>
+  <%= t(:profile_website) %>: <%= link_to @user.website, @user.display_website, target: '_blank' %>
   <br><br>
   <%= t(:profile_bio) %>: <%= @user.bio %>
   <br><br>

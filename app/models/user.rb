@@ -56,6 +56,13 @@ class User < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 50
 
+  # display the user's website correctly
+  def display_website
+    output = self.website
+    output = "http://#{website}" if output.present? && output.index('http') != 0
+    return output
+  end
+
   # get the user's time zone or UTC time
   def time_zone_or_utc; time_zone || 'UTC'; end
 

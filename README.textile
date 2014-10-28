@@ -36,6 +36,13 @@ h2. (Optional) Email Setup
 
 Set your domain, user_name, and password in config/environment.rb
 
+h2. (Optional) Admin Setup
+
+Open a rails console: <code>rails console</code> or <code>RAILS_ENV=production rails console</code>, depending on your environment
+Add the admin user: <code>AdminUser.create!(email: 'YOUR_ADMIN_EMAIL@EXAMPLE.COM', password: 'YOUR_PASSWORD', password_confirmation: 'YOUR_PASSWORD')</code>
+Exit the rails console: <code>exit</code>
+Login via the admin web interface at: "http://YOUR_DOMAIN.COM/admin"
+
 h1. Installation on clean install of Ubuntu 12.04 LTS
 
 <code>sudo apt-get upgrade</code>

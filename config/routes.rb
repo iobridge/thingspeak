@@ -24,7 +24,6 @@ Thingspeak::Application.routes.draw do
   resource :pages do
     collection do
       get :home
-      get :features
       get :about
       get :headers
       get :social_home

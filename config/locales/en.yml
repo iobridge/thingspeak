@@ -223,7 +223,7 @@ en:
   react_invalid_condition_type_error: "%{value} is not a valid condition type"
   react_twitter_account_required: "You need to add a twitter account to enable tweeting"
   react_add_twitter_account: "Add a twitter account"
-  react_thinghttp_required: "You need to add a ThingHTTP request "
+  react_thinghttp_required: "You need to add a ThingHTTP request"
   react_add_thinghttp_req: "Add ThingHTTP request"
   react_tweet_cant_be_blank: "The tweet can't be blank"
   react_type_string: "String"
@@ -319,6 +319,7 @@ en:
   talkback_name: "Name"
   talkback_new_api_key: "Regenerate API Key"
   talkback_permission: "This TalkBack doesn't belong to you."
+  talkback_required: "You need to add a TalkBack"
   thinghttp: "ThingHTTP"
   thinghttp_auth_name: "HTTP Auth Username"
   thinghttp_auth_pass: "HTTP Auth Password"
@@ -347,6 +348,9 @@ en:
   thingtweet_back: "Back to ThingTweet"
   timecontrol: "TimeControl"
   timecontrols: "TimeControls"
+  timecontrol_action_talkback_command: "then add command"
+  timecontrol_action_talkback_command_position: "at position"
+  timecontrol_action_talkback_prefix: "to TalkBack"
   timecontrol_date: 'date'
   timecontrol_days: 'days'
   timecontrol_delete_message: "Want to delete this TimeControl?"
@@ -356,8 +360,10 @@ en:
   timecontrol_permission: "You don't have permission to view that TimeControl!"
   timecontrol_run_at: 'run at'
   timecontrol_time: 'time'
+  timecontrol_talkback_delete_warning1: "Cannot delete this TalkBack as it is used by %{timecontrols_count}: %{timecontrols_list}"
+  timecontrol_talkback_delete_warning2: "Please delete or modify this TimeControl before unlinking this TalkBack."
   timecontrol_twitter_delete_warning1: "Cannot delete this Twitter account as it is used by %{timecontrols_count}: %{timecontrols_list}"
-  timecontrol_twitter_delete_warning2: "Please delete or modify this TimeConrol before unlinking this Twitter account."
+  timecontrol_twitter_delete_warning2: "Please delete or modify this TimeControl before unlinking this Twitter account."
   timecontrol_thinghttp_delete_warning1: "Cannot delete this ThingHTTP as it is used by %{timecontrols_count}: %{timecontrols_list}"
   timecontrol_thinghttp_delete_warning2: "Please delete or modify this TimeControl before unlinking this ThingHTTP."
   timescale: "Timescale"
@@ -452,7 +458,7 @@ en:
   help_thinghttp_example: "This will send your HTTP GET request to Google Finance and parse the response for an element having an ID of ref_626307_c, which corresponds to the S&P 500 current price change for the day."
   help_thinghttp_show: "You can now send your ThingHTTP request and view the response using the following URL:"
   help_thingtweet: "ThingTweet acts as a proxy to Twitter so that your devices can update Twitter statuses without having to implement Open Authentication (OAuth)."
-  help_timecontrol_index: "Create a TimeControl to automatically execute ThingHTTP or ThingTweet requests at predetermined times."
+  help_timecontrol_index: "Create a TimeControl to automatically execute ThingHTTP requests, udpate ThingTweet statuses, or add TalkBack commands at predetermined times."
   help_timecontrol_show: "Your TimeControl will be automatically executed at the indicated time."
   help_tweetcontrol: "Use TweetControl to listen to specific trigger words from Twitter, and then process a ThingHTTP request."
   help_tweetcontrol_edit: "Select Anonymous TweetControl to allow anyone to trigger your TweetControl or fill in a specfic Twitter Account (don't include the '@' sign)."

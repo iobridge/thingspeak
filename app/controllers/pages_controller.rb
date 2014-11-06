@@ -8,10 +8,6 @@ class PagesController < ApplicationController
 
   def social_home; ; end
 
-  def features
-    @menu = 'features'
-  end
-
   def about
     @menu = 'about'
   end

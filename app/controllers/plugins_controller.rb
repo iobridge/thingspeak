@@ -142,7 +142,8 @@ class PluginsController < ApplicationController
 
     if @plugin.save
       @plugin.update_all_windows
-      redirect_to plugins_path and return
+      flash[:notice] = I18n.t(:plugin_save_message)
+      redirect_to edit_plugin_path(@plugin) and return
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016143645) do
+ActiveRecord::Schema.define(version: 20141024161555) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -324,11 +324,11 @@ ActiveRecord::Schema.define(version: 20141016143645) do
   create_table "timecontrols", force: true do |t|
     t.integer  "user_id"
     t.integer  "schedulable_id"
-    t.string   "schedulable_type",  limit: 50
-    t.string   "frequency",         limit: 20
-    t.integer  "day",               limit: 1
-    t.integer  "hour",              limit: 1
-    t.integer  "minute",            limit: 1
+    t.string   "schedulable_type",     limit: 50
+    t.string   "frequency",            limit: 20
+    t.integer  "day",                  limit: 1
+    t.integer  "hour",                 limit: 1
+    t.integer  "minute",               limit: 1
     t.integer  "parent_id"
     t.datetime "last_event_at"
     t.text     "last_response"
@@ -336,8 +336,9 @@ ActiveRecord::Schema.define(version: 20141016143645) do
     t.datetime "updated_at"
     t.string   "name"
     t.datetime "run_at"
-    t.integer  "fuzzy_seconds",                default: 0
+    t.integer  "fuzzy_seconds",                   default: 0
     t.string   "schedulable_value"
+    t.integer  "schedulable_position"
   end
 
   add_index "timecontrols", ["frequency", "minute", "hour", "day"], name: "index_timecontrols_on_frequency_and_minute_and_hour_and_day", using: :btree

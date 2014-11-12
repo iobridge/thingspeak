@@ -198,6 +198,7 @@ en:
   plugin_js: "JavaScript"
   plugin_name: "Name"
   plugin_new_message: "Please select a template to use with your new plugin."
+  plugin_save_message: "Your plugin has been saved."
   plugin_template: "Plugin Template"
   plugins: "Plugins"
   plugin_public_flag: "Make Public?"

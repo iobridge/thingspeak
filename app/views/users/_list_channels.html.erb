@@ -1,7 +1,7 @@
 <h3><%= t(:user_public_channels) %> <%= @user.login %></h3>
 
 <% if @channels.present? && @channels.count > 0 %>
-  <table class="table table-striped table-bordered  tablesorter">
+  <table class="table table-striped table-bordered  tablesorter" data-no-turbolink>
     <thead>
       <tr>
         <th class="col-sm-5 col-xs-5"><%= t(:channel_name) %> <i class="fa fa-unsorted"></i></th>

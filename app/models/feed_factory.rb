@@ -20,6 +20,15 @@ class FeedFactory < ApplicationController
   # attributes that can be read
   attr_reader :feeds, :daily_feeds, :limit, :use_daily_feed, :feed_select_options, :cache_feeds, :channel
 
+  # range for entry_ids
+  def entry_id_range
+    # set start and end id
+    start_id = @options[:start_entry_id].present? ? @options[:start_entry_id].to_i : 1
+    end_id = @options[:end_entry_id].present? ? @options[:end_entry_id].to_i : @channel.last_entry_id
+    # return the range
+    return start_id..end_id
+  end
+
   # calculate the limit that should be used
   def calculate_limit
     limit = 100
@@ -88,10 +97,18 @@ class FeedFactory < ApplicationController
 
   # get feeds
   def get_feeds
+    # get feeds based on entry ids
+    if @options[:start_entry_id].present? || @options[:end_entry_id].present?
+      @feeds = Feed.from("feeds FORCE INDEX (index_feeds_on_channel_id_and_entry_id)")
+        .where(:channel_id => @channel.id, :entry_id => entry_id_range)
     # get feed based on conditions
-    @feeds = Feed.from("feeds FORCE INDEX (index_feeds_on_channel_id_and_created_at)")
-      .where(:channel_id => @channel.id, :created_at => @date_range)
-      .select(@feed_select_options)
+    else
+      @feeds = Feed.from("feeds FORCE INDEX (index_feeds_on_channel_id_and_created_at)")
+        .where(:channel_id => @channel.id, :created_at => @date_range)
+    end
+
+    # apply filters and load the feeds
+    @feeds = @feeds.select(@feed_select_options)
       .order('created_at desc')
       .limit(@limit)
       .load

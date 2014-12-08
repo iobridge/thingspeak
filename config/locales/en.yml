@@ -467,7 +467,7 @@ en:
   help_tweetcontrol_thinghttp: "Select a ThingHTTP request to use with this TweetControl. The ThingHTTP request will be executed when the TweetControl is triggered."
   help_tweetcontrol_trigger: "Fill in a trigger to listen for."
   help_options: "more help"
-  help_react: "React allow you to trigger a ThingHTTP request or send a tweet using ThingTweet when your ThingSpeak Channel meets a certain condition. "
+  help_react: "React allows you to trigger a ThingHTTP request or send a tweet using ThingTweet when your ThingSpeak Channel meets a certain condition. "
   help_react_edit: "Update your React condition here."
   help_react_edit1: "Select a condition type to correspond with the type of data you wish to check and set your condition values."
   help_react_edit2: "Use the Test Frequency setting to choose to test your condition on every insert or on a periodic basis."

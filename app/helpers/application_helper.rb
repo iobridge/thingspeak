@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def is_a_number?(s)
-    s.to_s.gsub(/,/, '.').match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
+    s.to_s.strip.gsub(/,/, '.').match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
   end
 
   def parsefloat(number)

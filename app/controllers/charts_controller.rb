@@ -42,7 +42,7 @@ class ChartsController < ApplicationController
 
   def show
     # allow these parameters when creating feed querystring
-    feed_params = ['key', 'api_key', 'apikey', 'days','start','end','round','timescale','average','median','sum','results','location','status','timezone']
+    feed_params = ['key', 'api_key', 'apikey', 'days','start','end','round','timescale','average','median','sum','results','location','status','timezone','offset','min','max']
 
     # set chart size
     width = params[:width].present? ? params[:width] : Chart.default_width

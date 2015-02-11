@@ -258,8 +258,8 @@ var uiEditClick = function (channel_id) {
 
 var uiViewClick = function (channel_id) {
     return function() {
-    var x =  $( this ).parents( ".portlet:first" ).find( ".portlet-content" ).offset().left;
-    var y =  $( this ).parents( ".portlet:first" ).find( ".portlet-content" ).offset().top;
+    var x =  $( this ).parents( ".portlet:first" ).offset().left;
+    var y =  $( this ).parents( ".portlet:first" ).offset().top;
     var id =  $( this ).parents( ".portlet:first" ).attr("id").substring(8);
 
     $("body").append('<div id="iframepopup'+id+'" style="display:none">' +

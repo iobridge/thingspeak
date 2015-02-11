@@ -1,14 +1,5 @@
 <%= render :partial => "devinfo" %>
-
-<div class="col-xs-12 col-sm-6">
-
-  <ol class="breadcrumb">
-    <li><%= link_to t(:channels), auth_channels_path %></li>
-    <li class="active"><%= t(:channel) %> <%= @channel.id %></li>
-  </ol>
-
-</div>
-
+<%= render :partial => "breadcrumb" %>
 <%= render :partial=>"socialbuttons" %>
 
 <div id="maincontent_nowidth" class="col-xs-12 col-sm-12">
@@ -87,4 +78,3 @@ $(document).on('page:load ready', function() {
 
       });
 </script>
-

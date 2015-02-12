@@ -76,7 +76,7 @@ class Channel < ActiveRecord::Base
 
   before_destroy :delete_feeds
 
-  validates :video_type, :presence => true, :if => lambda{ |channel| channel.video_id.present? }
+  validates :video_type, :presence => { :message => I18n.t(:channel_video_type_blank) }, :if => lambda{ |channel| channel.video_id.present? }
 
   scope :public_viewable, lambda { where("public_flag = true AND social != true") }
   scope :not_social, lambda { where("social != true") }

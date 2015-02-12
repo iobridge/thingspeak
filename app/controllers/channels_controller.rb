@@ -178,10 +178,8 @@ class ChannelsController < ApplicationController
       format.html do
         if @mychannel
           render "private_show"
-          session[:errors] = nil
         else
           render "public_show"
-          session[:errors] = nil
         end
       end
       format.json { render :json => @channel.as_json(options) }
@@ -201,18 +199,14 @@ class ChannelsController < ApplicationController
     # make updating attributes easier for updates via api
     params[:channel] = params if params[:channel].blank?
 
-    if params["channel"]["video_type"].blank? && !params["channel"]["video_id"].blank?
-      @channel.errors.add(:base, t(:channel_video_type_blank))
-    end
-
-    if @channel.errors.count <= 0
+    if @channel.valid?
       @channel.save_tags(params[:tags][:name]) if params[:tags].present?
       @channel.assign_attributes(channel_params)
       @channel.set_windows
       @channel.save
       @channel.set_ranking
     else
-      session[:errors] = @channel.errors
+      flash[:alert] = @channel.errors.full_messages.join(', ')
       redirect_to channel_path(@channel.id, :anchor => "channelsettings") and return
     end
 
@@ -606,4 +600,3 @@ class ChannelsController < ApplicationController
     end
 
 end
-

@@ -49,7 +49,9 @@ class ApplicationController < ActionController::Base
     if resource.is_a?(AdminUser)
       admin_dashboard_path
     else
-      channels_path
+      # make sure https is specified in the redirect url if we're in the production environment
+      url = @ssl ? "#{domain}channels" : "#{domain}channels"
+      return url
     end
   end
 

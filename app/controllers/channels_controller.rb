@@ -195,21 +195,17 @@ class ChannelsController < ApplicationController
     # get the current user or find the user via their api key
     @user = current_user || User.find_by_api_key(get_apikey)
     @channel = @user.channels.find(params[:id])
+    @channel.assign_attributes(channel_params)
 
-    # make updating attributes easier for updates via api
-    params[:channel] = params if params[:channel].blank?
-
-    if @channel.valid?
-      @channel.save_tags(params[:tags][:name]) if params[:tags].present?
-      @channel.assign_attributes(channel_params)
-      @channel.set_windows
-      @channel.save
-      @channel.set_ranking
-    else
+    if !@channel.valid?
       flash[:alert] = @channel.errors.full_messages.join(', ')
       redirect_to channel_path(@channel.id, :anchor => "channelsettings") and return
     end
 
+    @channel.save_tags(params[:tags][:name]) if params[:tags].present?
+    @channel.set_windows
+    @channel.save
+    @channel.set_ranking
     flash[:notice] = t(:channel_update_success)
     respond_to do |format|
       format.json { render :json => @channel.to_json(Channel.private_options) }

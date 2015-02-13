@@ -195,6 +195,10 @@ class ChannelsController < ApplicationController
     # get the current user or find the user via their api key
     @user = current_user || User.find_by_api_key(get_apikey)
     @channel = @user.channels.find(params[:id])
+
+    # make updating attributes easier for updates via api
+    params[:channel] = params if params[:channel].blank?
+
     @channel.assign_attributes(channel_params)
 
     if !@channel.valid?
@@ -596,3 +600,4 @@ class ChannelsController < ApplicationController
     end
 
 end
+

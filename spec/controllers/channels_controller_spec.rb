@@ -26,12 +26,20 @@ describe ChannelsController do
       channel.windows.where(window_type: 'chart').count.should eq(2)
     end
 
+    it 'should not allow channel to be updated with invalid parameters' do
+      @channel.update_attributes({video_type: nil, video_id: nil})
+      put :update, id: @channel, channel: {video_id: 'invalid_id'}
+      flash[:alert].should match /#{I18n.t(:channel_video_type_blank)}/
+    end
+
+
     it "should allow a channel to be edited" do
       @channel.public_flag = true
       put :update, id: @channel, channel: {name: 'new name'}, tags: FactoryGirl.attributes_for(:tag)
       @channel.reload
       @channel.name.should eq('new name')
       response.should redirect_to channel_path(@channel.id)
+      flash[:notice].should eq(I18n.t(:channel_update_success))
     end
 
     it "should allow a channel to be deleted " do

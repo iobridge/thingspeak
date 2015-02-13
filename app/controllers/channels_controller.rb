@@ -202,7 +202,8 @@ class ChannelsController < ApplicationController
     @channel.assign_attributes(channel_params)
 
     if !@channel.valid?
-      flash[:alert] = @channel.errors.full_messages.join(', ')
+      @channel.errors.add(:base, t(:channel_video_type_blank))
+      flash[:alert] = @channel.errors.full_messages.join('. ')
       redirect_to channel_path(@channel.id, :anchor => "channelsettings") and return
     end
 

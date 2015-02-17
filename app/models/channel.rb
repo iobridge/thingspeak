@@ -435,7 +435,7 @@ class Channel < ActiveRecord::Base
   def remove_tags(tags)
     tag_array = tags.split(',')
     # remove white space
-    tag_array = tag_array.collect {|t| t.strip }
+    tag_array = tag_array.collect {|t| t.strip.downcase }
 
     # get all taggings for this channel
     taggings = Tagging.where(channel_id: self.id).includes(:tag)
@@ -443,7 +443,7 @@ class Channel < ActiveRecord::Base
     # check for existence
     taggings.each do |tagging|
       # if tagging is not in list
-      if !tag_array.include?(tagging.tag.name)
+      if !tag_array.include?(tagging.tag.name.downcase)
         # delete tagging
         tagging.delete
       end

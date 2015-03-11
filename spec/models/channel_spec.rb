@@ -49,6 +49,7 @@
 #  user_agent                :string(255)
 #  realtime_io_serial_number :string(36)
 #  metadata                  :text
+#  last_write_at             :datetime
 #
 
 require 'spec_helper'

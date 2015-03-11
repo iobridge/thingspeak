@@ -312,7 +312,7 @@ class ChannelsController < ApplicationController
       talkback_key = params[:talkback_key] || false;
 
       # rate limit posts if channel is not social and timespan is smaller than the allowed window
-      render :text => '0' and return if (RATE_LIMIT && !tstream && !talkback_key && !channel.social && Time.now < channel.updated_at + RATE_LIMIT_FREQUENCY.to_i.seconds)
+      render :text => '0' and return if (RATE_LIMIT && !tstream && !talkback_key && !channel.social && channel.last_write_at.present? && Time.now < (channel.last_write_at + RATE_LIMIT_FREQUENCY.to_i.seconds))
 
       # if social channel, latitude MUST be present
       render :text => '0' and return if (channel.social && params[:latitude].blank?)
@@ -323,6 +323,8 @@ class ChannelsController < ApplicationController
       feed.entry_id = entry_id
       # set user agent
       channel.user_agent = get_header_value('USER_AGENT')
+      # set the last write at time
+      channel.last_write_at = Time.now
 
       # try to get created_at datetime if appropriate
       if params[:created_at].present?

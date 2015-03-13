@@ -369,6 +369,12 @@ class ChannelsController < ApplicationController
       if channel.save && feed.save
         status = entry_id
 
+        # queue reacts, but don't cause an error
+        begin
+          channel.queue_react
+        rescue
+        end
+
         # check for tweet
         if params[:twitter] && params[:tweet]
           # check username
@@ -603,4 +609,3 @@ class ChannelsController < ApplicationController
     end
 
 end
-

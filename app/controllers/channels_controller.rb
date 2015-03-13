@@ -154,7 +154,13 @@ class ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find(params[:id]) if params[:id]
+    @channel = Channel.find_by_id(params[:id])
+
+    # show the public show page if no channel found
+    if @channel.blank?
+      @channel = Channel.new(public_flag: false, name: "Channel #{params[:id]}", id: params[:id])
+      render "public_show" and return
+    end
 
     @title = @channel.name
     @domain = domain
@@ -609,3 +615,4 @@ class ChannelsController < ApplicationController
     end
 
 end
+

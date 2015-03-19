@@ -26,9 +26,6 @@ class Feed < ActiveRecord::Base
   extend FeedHelper
   belongs_to :channel
 
-  after_commit :queue_react
-  delegate :queue_react, :to => :channel
-
   self.include_root_in_json = false
 
   attr_readonly :created_at
@@ -156,4 +153,3 @@ class Feed < ActiveRecord::Base
   end
 
 end
-

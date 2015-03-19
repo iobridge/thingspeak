@@ -2,6 +2,7 @@
   <ol class="breadcrumb">
     <%# g1199258 %>
     <li><%= link_to t(:channels), auth_channels_path %></li>
-    <li class="active"><%= @channel.name %></li>
+    <li class="active"><%= @channel.public? ? @channel.name : "Channel #{@channel.id}" %></li>
   </ol>
 </div>
+

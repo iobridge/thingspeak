@@ -16,8 +16,8 @@ ActiveRecord::Schema.define(version: 20150311201046) do
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
-    t.string   "resource_id",   null: false
-    t.string   "resource_type", null: false
+    t.string   "resource_id",   limit: 50, null: false
+    t.string   "resource_type", limit: 50, null: false
     t.integer  "author_id"
     t.string   "author_type"
     t.datetime "created_at"
@@ -167,15 +167,6 @@ ActiveRecord::Schema.define(version: 20150311201046) do
   add_index "devices", ["mac_address"], name: "index_devices_on_mac_address", using: :btree
   add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
 
-  create_table "events", force: true do |t|
-    t.integer  "timecontrol_id"
-    t.datetime "run_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "events", ["run_at"], name: "index_events_on_run_at", using: :btree
-
   create_table "failedlogins", force: true do |t|
     t.string   "login"
     t.string   "password"
@@ -272,6 +263,23 @@ ActiveRecord::Schema.define(version: 20150311201046) do
   add_index "reacts", ["run_interval"], name: "index_reacts_on_run_interval", using: :btree
   add_index "reacts", ["user_id"], name: "index_reacts_on_user_id", using: :btree
 
+  create_table "scheduled_thinghttps", force: true do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.boolean  "activated",    default: true, null: false
+    t.integer  "run_interval"
+    t.integer  "thinghttp_id"
+    t.integer  "channel_id"
+    t.string   "field_name"
+    t.datetime "last_run_at"
+    t.string   "last_result"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scheduled_thinghttps", ["activated", "run_interval"], name: "index_scheduled_thinghttps_on_activated_and_run_interval", using: :btree
+  add_index "scheduled_thinghttps", ["user_id"], name: "index_scheduled_thinghttps_on_user_id", using: :btree
+
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
     t.integer  "channel_id"
@@ -321,32 +329,6 @@ ActiveRecord::Schema.define(version: 20150311201046) do
 
   add_index "thinghttps", ["api_key"], name: "index_thinghttps_on_api_key", using: :btree
   add_index "thinghttps", ["user_id"], name: "index_thinghttps_on_user_id", using: :btree
-
-  create_table "timecontrols", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "schedulable_id"
-    t.string   "schedulable_type",     limit: 50
-    t.string   "frequency",            limit: 20
-    t.integer  "day",                  limit: 1
-    t.integer  "hour",                 limit: 1
-    t.integer  "minute",               limit: 1
-    t.integer  "parent_id"
-    t.datetime "last_event_at"
-    t.text     "last_response"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
-    t.datetime "run_at"
-    t.integer  "fuzzy_seconds",                   default: 0
-    t.string   "schedulable_value"
-    t.integer  "schedulable_position"
-  end
-
-  add_index "timecontrols", ["frequency", "minute", "hour", "day"], name: "index_timecontrols_on_frequency_and_minute_and_hour_and_day", using: :btree
-  add_index "timecontrols", ["parent_id"], name: "index_timecontrols_on_parent_id", using: :btree
-  add_index "timecontrols", ["run_at"], name: "index_timecontrols_on_run_at", using: :btree
-  add_index "timecontrols", ["schedulable_id", "schedulable_type"], name: "index_timecontrols_on_schedulable_id_and_schedulable_type", using: :btree
-  add_index "timecontrols", ["user_id"], name: "index_timecontrols_on_user_id", using: :btree
 
   create_table "tweetcontrols", force: true do |t|
     t.string   "screen_name"
@@ -398,7 +380,6 @@ ActiveRecord::Schema.define(version: 20150311201046) do
     t.datetime "remember_created_at"
     t.integer  "sign_in_count",                     default: 0,     null: false
     t.string   "authentication_token"
-    t.datetime "terms_agreed_at"
   end
 
   add_index "users", ["api_key"], name: "index_users_on_api_key", using: :btree

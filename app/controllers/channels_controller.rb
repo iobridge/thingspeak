@@ -154,7 +154,13 @@ class ChannelsController < ApplicationController
   end
 
   def show
-    @channel = Channel.find(params[:id]) if params[:id]
+    @channel = Channel.find_by_id(params[:id])
+
+    # show the public show page if no channel found
+    if @channel.blank?
+      @channel = Channel.new(public_flag: false, name: "Channel #{params[:id]}", id: params[:id])
+      render "public_show" and return
+    end
 
     @title = @channel.name
     @domain = domain
@@ -368,6 +374,12 @@ class ChannelsController < ApplicationController
       # if the saves were successful
       if channel.save && feed.save
         status = entry_id
+
+        # queue reacts, but don't cause an error
+        begin
+          channel.queue_react
+        rescue
+        end
 
         # check for tweet
         if params[:twitter] && params[:tweet]

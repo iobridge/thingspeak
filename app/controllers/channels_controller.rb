@@ -369,7 +369,6 @@ class ChannelsController < ApplicationController
       feed.longitude = params[:long] if params[:long]
       feed.longitude = params[:longitude] if params[:longitude]
       feed.elevation = params[:elevation] if params[:elevation]
-      feed.location = params[:location] if params[:location]
 
       # if the saves were successful
       if channel.save && feed.save

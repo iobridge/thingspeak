@@ -1,0 +1,69 @@
+<div class="row">
+
+  <div class="col-sm-offset-1 col-sm-3 col-xs-12" id="leftcol">
+    <%= render 'docs/sidebar' %>
+  </div>
+
+  <div class="col-sm-7 col-xs-12">
+
+    <h1 id="thingtweet">ThingTweet</h1>
+
+    The ThingTweet App allows you to update a Twitter status via ThingSpeak. Twitter requires Open Authentication (OAuth) which is difficult for a low level device to interface with. ThingTweet acts a Twitter proxy, so the device can use Twitter by making simple API calls.
+
+    <br><br>
+
+    <hr />
+    <h2 id="setup">App Setup</h2>
+
+    Sign in to <a href="https://thingspeak.com/login">ThingSpeak</a>, select Apps from the menu, and then click on <a href="https://thingspeak.com/apps/thingtweet">ThingTweet</a>.
+    <br><br>
+    Under the ThingTweet App, select "Link new Twitter account". This will redirect you to Twitter to see if you want the app to have the ability to access your account. You can Allow or Deny the process. Once you have confirmed the right Twitter account, Twitter will send you back to ThingSpeak.
+    <br><br>
+    The app generates a ThingTweet API Key for you to use. If you send an HTTP POST with your ThingTweet API Key, then the message will be relayed to Twitter. All of the parameters from the Twitter API (<a href="https://dev.twitter.com/rest/reference/post/statuses/update">statuses/update</a>) are possible including geolocation.
+    <br><br>
+
+    <hr />
+    <h2 id="update">Update Twitter Status</h2>
+
+    To update your Twitter status send an HTTP POST to <code><%= @ssl_api_domain %>apps/thingtweet/1/statuses/update</code> and include your ThingTweet API key and message.
+    <br><br>
+    Example POST:
+
+    <pre>
+POST <span class="str"><%= @ssl_api_domain %>apps/thingtweet/1/statuses/update</span>
+     api_key=<span class="customcode"><%= @thingtweet_api_key %></span>
+     status=<span class="customcode">I just posted this from my thing!</span></pre>
+
+  <br>
+  The response will be <code>1</code> if the update was successful, and <code>-1</code> if there was an error.
+  <br><br>
+
+  <h4>Channel Values</h4>
+  You can retrieve the last value from a Channel field by including the following in the ThingTweet status:
+  <br><br>
+  <code>%%channel_<span class="customcode">CHANNEL_ID</span>_field_<span class="customcode">FIELD_NUMBER</span>%%</code>
+  <br><br>
+  For example, you can send a Tweet that includes the last value from Channel 1417, field 1:
+  <br><br>
+  <code>status=The current CheerLights color is %%channel_<span class="customcode">1417</span>_field_<span class="customcode">1</span>%%.</code>
+
+  <br><br>
+  <hr />
+  <h2>Update Channel Feed and Twitter Status</h2>
+  Your Twitter status can also be updated when a <a href="/docs/channels#update">Channel feed is updated</a> by specifying the <i>twitter</i> and <i>tweet</i> parameters.
+  <br><br>
+  Example Channel feed update that also updates a Twitter status:
+
+<pre>
+POST <span class="str"><%= @ssl_api_domain %>update<span class="format format-json">.json</span><span class="format format-xml">.xml</span></span>
+     api_key=<span class="customcode">XXXXXXXXXXXXXXXX</span>
+     field1=<span class="customcode">73</span>
+     twitter=<span class="customcode">thingspeaktest</span>
+     tweet=<span class="customcode">I just posted this from my thing!</span>
+</pre>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+  </div>
+</div>
+

@@ -15,16 +15,13 @@
 
   // add click handler
   $(document).on('click', '.ioplugin', function() {
-
           var plugins = $(".plugin");
           var addPlugin = $(this);
           var ids = addPlugin.attr('id').split("-");
-          var channelId  = <%= params[:channel_id] %>;
-          var windowId =ids[1];
-      //Need to add data to this request to identify it as a plugin request
-          var data = {plugin:true, visibility_flag:"<%= @visibility %>"};
-          $.update("/channels/" + channelId + "/windows/"+ windowId + "/display" , data,
-                    function(response) {
+          var channelId = <%= params[:channel_id] %>;
+          var windowId = ids[1];
+
+          $.update("/channels/" + channelId + "/windows/"+ windowId + "/display", {}, function(response) {
 
                        var window = response.window;
                        var window_type = window.window_type;
@@ -79,7 +76,7 @@
 <div id="tabs">
   <ul>
     <li><a href="#tabs-1">Windows</a></li>
-    <% if @visibility =="private" %>
+    <% if @visibility == "private" %>
     <li><a href="/plugins/private_plugins?channel_id=<%= params[:channel_id] %>">Plugins</a></li>
     <% else %>
     <li><a href="/plugins/public_plugins?channel_id=<%= params[:channel_id] %>">Plugins</a></li>

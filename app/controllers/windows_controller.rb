@@ -1,6 +1,7 @@
 class WindowsController < ApplicationController
   before_filter :require_user, :except => [:index, :html, :iframe]
 
+  # hides a window, returns the window id if successful or '-1' if failure
   def hide
     window = Window.find(params[:id])
     window.show_flag = false
@@ -11,60 +12,36 @@ class WindowsController < ApplicationController
     end
   end
 
-  # Call WindowsController.display when we want to display a window on the dashboard
-  #  params[:visibility_flag] is whether it is the private or public dashboard
-  #  params[:plugin] is for displaying a plugin, instead of a window
-  #  params[:id] is the window ID for conventional windows, but the plugin_id for plugins
-  #  params[:channel_id] is the channel_id
+  # displays a window on the dashboard
   def display
-    @visibility = params[:visibility_flag]
-
     window = Window.find(params[:id])
-    window = Window.new if window.nil?
     window.show_flag = true
-    #Just save this change, then modify the object before rendering the JSON
-    savedWindow = window.save
+    # save this change
+    saved_window = window.save
 
-    config_window window
+    # modify the object before rendering the JSON
+    window.set_title_for_display!
+    window.set_html_for_display!
 
-    @mychannel = current_user && current_user.id == window.channel.user_id
-
-    if savedWindow
+    # if the window was saved successfully
+    if saved_window
       render :json => window.to_json
     else
       render :json => 'An error occurred'.to_json
     end
   end
 
-  def config_window(window)
-    if window.window_type == "plugin"
-      pluginName = Plugin.find(window.content_id).name
-      window.title = t(window.title, {:name => pluginName})
-    elsif window.window_type == "chart"
-      window.title = t(window.title, {:field_number => window.content_id})
-      options = window.options if !window.nil?
-      options ||= ""
-      window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
-    else
-      window.title = t(window.title)
-    end
-  end
-
   def html
     window = Window.find(params[:id])
-    options = window.options unless window.nil? || window.window_type != "chart"
-    window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
-    html = window.html
-
-    render :text => html
+    window.set_html_for_display!
+    render :text => window.html
   end
 
   def iframe
     window = Window.find(params[:id])
-    options = window.options unless window.nil? || window.window_type != "chart"
-    window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
+    window.set_html_for_display!
     iframe_html = window.html
-
+    # set the domain correctly
     iframe_html = iframe_html.gsub(/src=\"[\/.]/, 'src="' + api_domain);
     render :text => iframe_html
   end
@@ -73,26 +50,16 @@ class WindowsController < ApplicationController
     channel = Channel.find(params[:channel_id])
     windows = channel.public_windows(true).order(:position) unless params[:channel_id].nil?
 
-    if channel.recent_statuses.nil? || channel.recent_statuses.size <= 0
+    if channel.recent_statuses.blank?
       @windows = windows.delete_if { |w| w.window_type == "status"  }
     else
       @windows = windows
     end
 
     @windows.each do |window|
-
-      if window.window_type == "plugin"
-        pluginName = Plugin.find(window.content_id).name
-        window.title = t(window.title, {:name => pluginName})
-      elsif window.window_type == "chart"
-        window.title = t(window.title, {:field_number => window.content_id})
-        options = window.options if !window.nil?
-        options ||= ""
-        window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
-      else
-        window.title = t(window.title)
-      end
-
+      # modify the object before rendering the JSON
+      window.set_title_for_display!
+      window.set_html_for_display!
     end
 
     respond_to do |format|
@@ -108,21 +75,15 @@ class WindowsController < ApplicationController
     channel = Channel.find(params[:channel_id])
 
     if @visibility == "private"
-      @windows = channel.private_windows(false) unless channel.nil?
+      @windows = channel.private_windows(false)
     else
-      @windows = channel.public_windows(false) unless channel.nil?
+      @windows = channel.public_windows(false)
     end
     @windows.reject! { |window| window.window_type == "plugin" }
     @windows.each do |window|
-      if window.window_type == "plugin"
-      elsif window.window_type == "chart"
-        window.title = t(window.title, {:field_number => window.content_id})
-        options = window.options unless window.nil?
-        options ||= ""
-        window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
-      else
-        window.title = t(window.title)
-      end
+      # modify the object before rendering the JSON
+      window.set_title_for_display!
+      window.set_html_for_display!
     end
 
     respond_to do |format|
@@ -133,26 +94,18 @@ class WindowsController < ApplicationController
 
   def private_windows
     channel = Channel.find(params[:channel_id])
-    windows = channel.private_windows(true).order(:position) unless params[:channel_id].nil?
+    windows = channel.private_windows(true).order(:position)
 
-    if channel.recent_statuses.nil? || channel.recent_statuses.size <= 0
+    if channel.recent_statuses.blank?
       @windows = windows.delete_if { |w| w.window_type == "status" }
     else
       @windows = windows
     end
 
     @windows.each do |window|
-      if window.window_type == "plugin"
-        pluginName = Plugin.find(window.content_id).name
-        window.title = t(window.title, {:name => pluginName})
-      elsif window.window_type == "chart"
-        window.title = t(window.title, {:field_number => window.content_id})
-        options = window.options unless window.nil?
-        options ||= ""
-        window.html["::OPTIONS::"] = options unless window.html.nil? || window.html.index("::OPTIONS::").nil?
-      else
-        window.title = t(window.title)
-      end
+      # modify the object before rendering the JSON
+      window.set_title_for_display!
+      window.set_html_for_display!
     end
 
     respond_to do |format|
@@ -163,7 +116,6 @@ class WindowsController < ApplicationController
 
 
   def update
-    logger.info "We're trying to update the windows with " + params.to_s
     #params for this put are going to look like
     #  page"=>"{\"col\":0,\"positions\":[1,2,3]}"
     #So.. the position values are Windows.id  They should get updated with the ordinal value based
@@ -177,21 +129,20 @@ class WindowsController < ApplicationController
     values = JSON(params[:page])
 
     # .. then find each window and update with new ordinal position and col.
-    logger.info "Channel id = " + params[:channel_id].to_s
     @channel = current_user.channels.find(params[:channel_id])
     col = values["col"]
     saved = true
-    values["positions"].each_with_index do |p,i|
-      windows = @channel.windows.where({:id => p}) unless p.nil?
-      unless windows.nil? || windows.empty?
-        w = windows[0]
-        w.position = i
-        w.col = col
-        if !w.save
+    values["positions"].each_with_index do |p, index|
+      window = @channel.windows.where({:id => p}).first unless p.nil?
+      if window.present?
+        window.position = index
+        window.col = col
+        if !window.save
           saved = false
         end
       end
     end
+    # if the windows were saved successfully
     if saved
       render :text => '0'
     else

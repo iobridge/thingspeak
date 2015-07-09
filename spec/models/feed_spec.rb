@@ -26,6 +26,11 @@ require 'spec_helper'
 
 describe Feed do
 
+  it "should not include location in feed.to_json" do
+    feed = Feed.new
+    JSON.parse(feed.to_json).keys.include?('location').should eq(false)
+  end
+
   it "should close the connection when an exception is raised" do
     # use a single connection for both queries
     connection = ActiveRecord::Base.connection

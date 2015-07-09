@@ -43,5 +43,29 @@ class Window < ActiveRecord::Base
     window if window.save
   end
 
+  # set the title for display to user; don't save after calling this method
+  def set_title_for_display!
+    # if this is a plugin
+    if window_type == "plugin"
+      plugin_name = Plugin.find(content_id).name
+      self.title = I18n.t(title, {:name => plugin_name})
+    # else if this is a chart
+    elsif window_type == "chart"
+      self.title = I18n.t(title, {:field_number => content_id})
+    # else set title for other window types, for example: I18n.t('window_map') = 'Channel Location'
+    else
+      self.title = I18n.t(title)
+    end
+  end
+
+  # set the html for display to user; don't save after calling this method
+  def set_html_for_display!
+    if window_type == "chart"
+      html_options = options || ''
+      # replace '::OPTIONS::' if present
+      self.html['::OPTIONS::'] = html_options if html.present? && html.index("::OPTIONS::").present?
+    end
+  end
+
 end
 

@@ -48,7 +48,7 @@ class Feed < ActiveRecord::Base
   # for to_xml, return only the public attributes
   def self.public_options
     {
-      :except => [:id, :updated_at]
+      :except => [:id, :updated_at, :location]
     }
   end
 
@@ -70,7 +70,6 @@ class Feed < ActiveRecord::Base
       only += [:latitude]
       only += [:longitude]
       only += [:elevation]
-      only += [:location]
     end
 
     # add status if necessary

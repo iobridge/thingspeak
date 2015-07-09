@@ -369,7 +369,6 @@ class ChannelsController < ApplicationController
       feed.longitude = params[:long] if params[:long]
       feed.longitude = params[:longitude] if params[:longitude]
       feed.elevation = params[:elevation] if params[:elevation]
-      feed.location = params[:location] if params[:location]
 
       # if the saves were successful
       if channel.save && feed.save
@@ -518,6 +517,14 @@ class ChannelsController < ApplicationController
       if !row.blank?
         feed = Feed.new
 
+        # set location and status then delete the rows
+        # these 5 deletes must be performed in the proper (reverse) order
+        feed.status = row.delete_at(status_column) if status_column > 0
+        feed.location = row.delete_at(location_column) if location_column > 0
+        feed.elevation = row.delete_at(elevation_column) if elevation_column > 0
+        feed.longitude = row.delete_at(longitude_column) if longitude_column > 0
+        feed.latitude = row.delete_at(latitude_column) if latitude_column > 0
+
         # add the fields if they are from named columns, using reverse order
         feed.field8 = row.delete_at(field8_column) if field8_column != -1
         feed.field7 = row.delete_at(field7_column) if field7_column != -1
@@ -527,14 +534,6 @@ class ChannelsController < ApplicationController
         feed.field3 = row.delete_at(field3_column) if field3_column != -1
         feed.field2 = row.delete_at(field2_column) if field2_column != -1
         feed.field1 = row.delete_at(field1_column) if field1_column != -1
-
-        # set location and status then delete the rows
-        # these 5 deletes must be performed in the proper (reverse) order
-        feed.status = row.delete_at(status_column) if status_column > 0
-        feed.location = row.delete_at(location_column) if location_column > 0
-        feed.elevation = row.delete_at(elevation_column) if elevation_column > 0
-        feed.longitude = row.delete_at(longitude_column) if longitude_column > 0
-        feed.latitude = row.delete_at(latitude_column) if latitude_column > 0
 
         # remove entry_id column if necessary
         row.delete_at(entry_id_column) if entry_id_column > 0
@@ -557,6 +556,10 @@ class ChannelsController < ApplicationController
         feed.field6 = row[6] if feed.field6.blank?
         feed.field7 = row[7] if feed.field7.blank?
         feed.field8 = row[8] if feed.field8.blank?
+        feed.latitude = row[9] if feed.latitude.blank?
+        feed.longitude = row[10] if feed.longitude.blank?
+        feed.elevation = row[11] if feed.elevation.blank?
+        feed.status = row[12] if feed.status.blank?
 
         # save channel and feed
         feed.save
@@ -615,4 +618,3 @@ class ChannelsController < ApplicationController
     end
 
 end
-

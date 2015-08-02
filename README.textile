@@ -48,6 +48,7 @@ h1. Installation on clean install of Ubuntu 12.04 LTS
 <code>sudo apt-get upgrade</code>
 <code>sudo apt-get -y install build-essential mysql-server mysql-client libmysqlclient-dev libxml2-dev libxslt-dev git-core curl rubygems</code>
 <code>\curl -sSL https://get.rvm.io | bash -s stable</code>
+<code>source /etc/profile.d/rvm.sh</code>
 <code>rvm install 2.1</code>
 <code>git clone https://github.com/iobridge/thingspeak.git</code>
 <code>cd thingspeak</code>

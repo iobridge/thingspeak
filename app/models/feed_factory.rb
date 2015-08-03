@@ -205,6 +205,9 @@ class FeedFactory < ApplicationController
       elsif timeparam_valid?(@options[:median])
         feeds = feeds_into_medians(feeds, @options)
         @rounded = true
+      elsif timeparam_valid?(@options[:count])
+        feeds = feeds_into_counts(feeds, @options)
+        @rounded = true
       end
     end
 

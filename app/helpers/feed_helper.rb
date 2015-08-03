@@ -356,6 +356,73 @@ module FeedHelper
 
     return timeslices
   end
+  
+    # slice feed into sums
+  def feeds_into_counts(feeds, params)
+    # convert timescale (minutes) into seconds
+    seconds = params[:count].to_i * 60
+    # get floored time ranges
+    start_time = get_floored_time(feeds.first.created_at, seconds)
+    end_time = get_floored_time(feeds.last.created_at, seconds)
+
+    # create empty array with appropriate size
+    timeslices = Array.new((((end_time - start_time) / seconds).abs).floor)
+
+    # create a blank clone of the first feed so that we only get the necessary attributes
+    empty_feed = create_empty_clone(feeds.first)
+
+    # add feeds to array
+    feeds.each do |f|
+      i = ((f.created_at - start_time) / seconds).floor
+      f.created_at = start_time + i * seconds
+      # create multidimensional array
+      timeslices[i] = [] if timeslices[i].nil?
+      timeslices[i].push(f)
+    end
+
+    # keep track of whether numbers use commas as decimals
+    comma_flag = false
+
+    # fill in array
+    timeslices.each_index do |i|
+      # insert empty values
+      if timeslices[i].nil?
+        current_feed = empty_feed.dup
+        current_feed.created_at = (start_time + (i * seconds))
+        timeslices[i] = current_feed
+        # else sum the inner array
+      else
+        sum_feed = empty_feed.dup
+        sum_feed.created_at = timeslices[i].first.created_at
+        # for each feed
+        timeslices[i].each do |f|
+          # for each attribute, add to sum_feed so that we have the total
+          sum_feed.attribute_names.each do |attr|
+            # only add non-null integer fields
+            if attr.index('field') and !f[attr].nil? and is_a_number?(f[attr])
+
+              # set comma_flag once if we find a number with a comma
+              comma_flag = true if !comma_flag and f[attr].to_s.index(',')
+
+              # set initial data
+              if sum_feed[attr].nil?
+                sum_feed[attr] = 0
+                # add data
+              elsif f[attr]
+                sum_feed[attr] = sum_feed[attr] + 1
+              end
+
+            end
+          end
+        end
+
+        # set to the summed feed
+        timeslices[i] = object_sum(sum_feed, comma_flag, params[:round])
+      end
+    end
+
+    return timeslices
+  end
 
   # checks for valid timescale
   def timeparam_valid?(timeparam)

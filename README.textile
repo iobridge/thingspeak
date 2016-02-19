@@ -11,20 +11,20 @@ Support for ThingSpeak is available on the "ThingSpeak Community":http://communi
 h3. Before You Begin
 
 1. Install Ruby 2, RubyGems, Rails 4, git, and a database like MySQL
-2. Download the application using git: git clone git@github.com:iobridge/thingspeak.git
-3. Change to the thingspeak directory and install the appropriate gems: sudo bundle install
+2. Download the application using git: <code>git clone git@github.com:iobridge/thingspeak.git</code>
+3. Change to the thingspeak directory and install the appropriate gems: <code>sudo bundle install</code>
 
 h3. Configuration
 
 1. Set your database configuration file at config/database.yml (see config/database.yml.example for an example)
-2. Create the database: rake db:create
-3. Create the database tables: rake db:schema:load
+2. Create the database: <code>rake db:create</code>
+3. Create the database tables: <code>rake db:schema:load</code>
 
 h3. Run The Application
 
-1. Start the server: rails server
+1. Start the server: <code>rails server</code>
 
-Your application will now be running at http://localhost:3000/
+Your application will now be running at "localhost:3000":http://localhost:3000/
 
 h2. Changing Application Text
 
@@ -64,4 +64,3 @@ h2. Upgrading existing installations
 <code>rake db:migrate</code>
 If your server is active you can restart it by going to the active terminal, hitting Ctrl-c, and then typing:
 <code>rails server</code>
-

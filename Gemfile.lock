@@ -390,7 +390,7 @@ DEPENDENCIES
   jquery-rails (= 3.0.4)
   json_spec
   kgio
-  mysql2
+  mysql2 (= 0.3.16)
   nested_form
   newrelic_rpm
   nokogiri
@@ -417,3 +417,6 @@ DEPENDENCIES
   webrat
   will_paginate (~> 3.0.pre2)
   will_paginate-bootstrap
+
+BUNDLED WITH
+   1.11.2

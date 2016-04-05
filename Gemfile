@@ -3,7 +3,7 @@ source 'http://rubygems.org'
 gem 'rails', '4.0.5'
 gem 'jquery-rails', '3.0.4'
 gem 'rails_autolink'
-gem 'mysql2'
+gem 'mysql2', '0.3.16'
 gem 'devise'
 gem 'twitter_oauth', git: 'git://github.com/moomerman/twitter_oauth.git'
 gem 'therubyracer'
@@ -67,4 +67,3 @@ group :test do
   gem 'ZenTest'
   gem 'database_cleaner', '~> 1.2.0'
 end
-

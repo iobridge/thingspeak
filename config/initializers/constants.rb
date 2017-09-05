@@ -6,7 +6,7 @@ GET_SUPPORT = true
 RATE_LIMIT = false
 
 # number of seconds to wait before a channel can be updated again
-RATE_LIMIT_FREQUENCY = '15'
+RATE_LIMIT_FREQUENCY = '1'
 
 # main production server to handle all requests (can be a proxy)
 APPLICATION_IP_ADDRESS = '127.0.0.1'

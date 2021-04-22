@@ -211,7 +211,7 @@ GEM
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     non-stupid-digest-assets (1.0.4)
-    oauth (0.4.7)
+    oauth (0.5.6)
     orm_adapter (0.5.0)
     polyamorous (1.1.0)
       activerecord (>= 3.0)

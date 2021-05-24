@@ -64,7 +64,8 @@ GEM
       activerecord (>= 3.0)
     acts_as_tree (2.1.0)
       activerecord (>= 3.0.0)
-    addressable (2.3.6)
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     annotate (2.6.5)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
@@ -98,7 +99,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
-    cookiejar (0.3.2)
+    cookiejar (0.3.3)
     daemons (1.1.9)
     dalli (2.7.2)
     database_cleaner (1.2.0)
@@ -115,13 +116,13 @@ GEM
       json
       thread
       thread_safe
-    em-http-request (1.1.2)
+    em-http-request (1.1.7)
       addressable (>= 2.3.4)
-      cookiejar
+      cookiejar (!= 0.3.1)
       em-socksify (>= 0.3)
       eventmachine (>= 1.0.3)
       http_parser.rb (>= 0.6.0)
-    em-socksify (0.3.0)
+    em-socksify (0.3.2)
       eventmachine (>= 1.0.0.beta.4)
     em-twitter (0.3.3)
       buftok (~> 0.2)
@@ -130,7 +131,7 @@ GEM
       simple_oauth (~> 0.2)
     equalizer (0.0.9)
     erubis (2.7.0)
-    eventmachine (1.0.3)
+    eventmachine (1.2.7)
     exception_notification (4.0.1)
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
@@ -216,6 +217,7 @@ GEM
     polyamorous (1.1.0)
       activerecord (>= 3.0)
     polyglot (0.3.5)
+    public_suffix (4.0.6)
     puma (2.9.1)
       rack (>= 1.1, < 2.0)
     quiet_assets (1.0.3)
